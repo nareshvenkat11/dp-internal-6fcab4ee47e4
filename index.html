@@ -84,6 +84,27 @@ a{color:inherit;text-decoration:none}
 .acc-open{border:1px solid #e8e8e8;border-radius:8px;margin-bottom:8px;overflow:hidden}
 .acc-heading{padding:12px 16px;font-size:14px;font-weight:600;color:#242424;background:#fafafa;border-bottom:1px solid #e8e8e8}
 .acc-body{padding:12px 16px 16px}
+
+/* Roadmap tree */
+.roadmap{padding:8px 0}
+.rm-root{display:flex;align-items:center;gap:14px;margin-bottom:0}
+.rm-node{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 20px;cursor:pointer;transition:box-shadow 0.2s,border-color 0.2s;position:relative}
+.rm-node:hover{border-color:#c0c0c0;box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+.rm-node h3{font-size:14px;font-weight:600;color:#242424;margin:0 0 3px;display:flex;align-items:center;gap:8px}
+.rm-node p{font-size:12px;color:#616161;margin:0;line-height:1.4}
+.rm-node .card-tag{margin-bottom:0;margin-right:4px}
+.rm-master{border-left:3px solid #0f6cbd;background:linear-gradient(135deg,#f8fbff 0%,#fff 100%)}
+.rm-master h3{font-size:16px}
+.rm-trunk{display:flex;flex-direction:column;margin-left:36px;position:relative}
+.rm-trunk::before{content:'';position:absolute;left:0;top:0;bottom:24px;width:2px;background:#d0d8e0}
+.rm-branch{display:flex;align-items:center;padding:16px 0;position:relative}
+.rm-branch::before{content:'';position:absolute;left:0;top:50%;width:28px;height:2px;background:#d0d8e0}
+.rm-branch .rm-node{margin-left:36px}
+.rm-dot{position:absolute;left:-5px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;border:2px solid #fff;z-index:1}
+.rm-dot.shipped{background:#1a7f37}
+.rm-dot.active{background:#0f6cbd;box-shadow:0 0 0 3px rgba(15,108,189,0.2)}
+.rm-dot.planned{background:#d0d0d0}
+.rm-date{position:absolute;left:-5px;top:50%;transform:translate(-100%,-50%);padding-right:16px;font-size:11px;font-weight:600;color:#616161;white-space:nowrap;letter-spacing:0.3px}
 </style>
 </head>
 <body>
@@ -123,19 +144,35 @@ a{color:inherit;text-decoration:none}
     </div>
   </div>
 
-  <!-- SPECS -->
+  <!-- SPECS & ROADMAP -->
   <div class="section">
-    <div class="section-label">Specs & PRDs</div>
-    <div class="cards">
-      <div class="card" onclick="openModal('prd')">
-        <span class="card-tag tag-spec">SPEC</span>
-        <h3>DataProjects PRD (v1.5)</h3>
-        <p>Complete Product Requirements Document. Architecture, two-orchestrator model, design decisions, user journey, milestones, API interface, assumptions, and roadmap.</p>
+    <div class="section-label">Specs & PRD Roadmap</div>
+    <div class="roadmap">
+      <!-- Master PRD -->
+      <div class="rm-root">
+        <div class="rm-node rm-master" onclick="openModal('prd')">
+          <h3><span class="card-tag tag-spec">SPEC</span> DataProjects PRD (v1.5)</h3>
+          <p>Master specification — architecture, milestones, two-orchestrator model, user journey, API interface, governance</p>
+        </div>
       </div>
-      <div class="card" onclick="openModal('skillsprd')">
-        <span class="card-tag tag-spec">SPEC</span>
-        <h3>DataProjects Skills PRD</h3>
-        <p>Full specifications for ETL Pipeline, Data Quality, and Databricks Migration skills. Capabilities, phases, inputs/outputs, and integration with the DataProjects agent.</p>
+      <!-- Branches -->
+      <div class="rm-trunk">
+        <div class="rm-branch">
+          <span class="rm-date">Mar 2026</span>
+          <span class="rm-dot active"></span>
+          <div class="rm-node" onclick="openModal('epocprd')">
+            <h3><span class="card-tag tag-spec">SPEC</span> EPOC PRD (v1.2)</h3>
+            <p>Earliest proof of concept — CLI skill-only, implicit plan, one-way activity stream, all-or-nothing commit</p>
+          </div>
+        </div>
+        <div class="rm-branch">
+          <span class="rm-date">Apr 2026</span>
+          <span class="rm-dot planned"></span>
+          <div class="rm-node" onclick="openModal('skillsprd')">
+            <h3><span class="card-tag tag-skill">SKILL</span> Skills PRD</h3>
+            <p>ETL Pipeline, Data Quality, and Databricks Migration skills — capabilities, phases, inputs/outputs</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -856,6 +893,139 @@ const content = {
 </table>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><em>Document Classification: Microsoft Confidential</em></p></div></div>
 
+  `,
+  epocprd: `
+    <span class="card-tag tag-spec">SPEC</span>
+    <h2>EPOC Milestone PRD (v1.2)</h2>
+    <p style="margin-bottom:4px"><em>Authored by Naresh Venkat &amp; Vijay Sarad — March 10, 2026</em></p>
+    <p style="margin-bottom:16px;font-size:13px;color:#616161">Earliest Proof of Concept — CLI skill-only, Daily/DXT builds, internal only</p>
+    <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjects_EPOC/Fabric_DataProjects_EPOC_PRD.md" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
+
+    <div class="acc-open"><div class="acc-heading">1. Executive Summary</div><div class="acc-body">
+    <p style="font-size:12.5px;line-height:1.6;margin:4px 0">This PRD defines the EPOC (earliest proof of concept) milestone for DataProjects, scoped to a <strong>skill-only</strong> experience delivered through the <strong>GitHub Copilot CLI</strong> via the existing FabricSkills plugin. There is no Fabric UI and no AI Taskhub UX in this milestone. All interaction happens in the terminal.</p>
+    <p style="font-size:12.5px;line-height:1.6;margin:4px 0">EPOC proves the end-to-end loop: a user invokes the DataProjects skill, creates a DataProject bound to a specific lakehouse with text instructions, the Osmos Engine (OE) builds an implicit plan surfaced as a to-do list (no approval gate), executes autonomously with a one-way activity stream, presents a text summary of changes for review, and gates on final commit approval before writing anything to production.</p>
+    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">What Ships</h4>
+    <ul style="padding-left:18px;margin:4px 0;font-size:12.5px;line-height:1.7">
+      <li>DataProjects surfaced as a <strong>skill</strong> (not an agent) within FabricSkills</li>
+      <li>DataProject creation bound to a lakehouse, with text instruction, relative path references, and file uploads</li>
+      <li>Implicit plan mode surfaced as a to-do list (no user approval required on the plan)</li>
+      <li>One-way conversation stream (model to user) with summarized activity</li>
+      <li>Text-based change summary for review</li>
+      <li>All-or-nothing commit with explicit user approval</li>
+      <li>Lightweight cross-terminal status queries</li>
+      <li>DataProjects execute OBO the creating user; admins can kill jobs from Fabric Monitor</li>
+    </ul>
+    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">What Does Not Ship</h4>
+    <ul style="padding-left:18px;margin:4px 0;font-size:12.5px;line-height:1.7;color:#616161">
+      <li>No Fabric UI / AI Taskhub UX (all interaction is CLI)</li>
+      <li>No agent registration (skill only)</li>
+      <li>No user interjection during execution</li>
+      <li>No rich visual diffs (code side-by-side, schema viz)</li>
+      <li>No Team Projects or multi-user collaboration</li>
+      <li>No resource picker UI (user types relative paths manually)</li>
+    </ul>
+    </div></div>
+
+    <div class="acc-open"><div class="acc-heading">2. Scope and Constraints</div><div class="acc-body">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left;width:140px">Dimension</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">EPOC Decision</th></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Surface</td><td style="padding:5px 8px;border:1px solid #e8e8e8">GitHub Copilot CLI only (via FabricSkills plugin)</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Registration</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Skill, not agent. Invoked mid-conversation or as a starting prompt.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Distribution</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Daily and/or DXT builds only</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Audience</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Naresh and Vijay for demos. Cannot be handed to non-Fabric people.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Binding</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Every DataProject is bound to exactly one lakehouse.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Plan mode</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Implicit. OE always builds a plan and surfaces a to-do list. No approval gate.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Conversation</td><td style="padding:5px 8px;border:1px solid #e8e8e8">One-way stream: model reports progress. User does not send messages during execution.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Diffs</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Text summary only. No side-by-side code diffs, no visual schema diffs.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Commit</td><td style="padding:5px 8px;border:1px solid #e8e8e8">All-or-nothing. User commits or rejects the entire change set.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Collaboration</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Single-user only. User sees only their own DataProjects.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Permissions</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject inherits creating user's permissions (OBO).</td></tr>
+    </table>
+    </div></div>
+
+    <div class="acc-open"><div class="acc-heading">3. How the Skill Is Used</div><div class="acc-body">
+    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">DataProject Creation</h4>
+    <p style="font-size:12.5px;line-height:1.6;margin:4px 0">The user invokes the DataProjects skill and provides a text instruction. Every DataProject is <strong>bound to a lakehouse</strong> specified at creation time. The user can type the project instruction as plain text, reference lakehouse items by relative paths (e.g., <code>Tables/sales_raw</code>, <code>Files/lookups/region_map.csv</code>), and upload supplemental files.</p>
+    <pre style="background:#f5f5f5;border:1px solid #e0e0e0;border-radius:6px;padding:12px;font-size:11.5px;overflow-x:auto;margin:12px 0;line-height:1.6">User: Build an ETL pipeline that ingests data from Tables/landing/sales_raw
+      into a medallion architecture. Use the mapping rules in the attached
+      file. Deduplicate on [order_id, line_item] in Silver, and create a
+      daily_sales_summary aggregate in Gold.
+
+      Lakehouse: sales-lakehouse
+      [attached: transformation_rules.xlsx]</pre>
+
+    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Workflow: Four Phases</h4>
+    <pre style="background:#f5f5f5;border:1px solid #e0e0e0;border-radius:6px;padding:12px;font-size:11.5px;overflow-x:auto;margin:12px 0;line-height:1.5">┌──────────────┐     ┌──────────────┐     ┌─────────────┐     ┌──────────────────┐
+│ 1. Create    │────&gt;│ 2. Plan      │────&gt;│ 3. Execute  │────&gt;│ 4. Review +      │
+│  DataProject │     │  (implicit)  │     │  (one-way)  │     │    Commit (GATE) │
+└──────────────┘     └──────────────┘     └─────────────┘     └──────────────────┘
+   user submits       no approval          no interject         user approves
+                      gate; to-do                               or rejects
+                      list shown</pre>
+
+    <p style="font-size:12.5px;line-height:1.6;margin:8px 0"><strong>Phase 1 — Create:</strong> User provides instruction, references, uploads. DataProject added to project list in "In progress" status.</p>
+    <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Phase 2 — Implicit Plan:</strong> OE builds an internal plan, surfaces an up-leveled to-do list. No pause for approval. Execution begins immediately.</p>
+    <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Phase 3 — Execute:</strong> OE makes temp copies of all assets, executes on staging copies. One-way activity stream shows summarized progress. User cannot interject.</p>
+    <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Phase 4 — Review &amp; Commit:</strong> Text summary of all changes (validation results, code, schema, data). All-or-nothing commit. On commit: artifacts written to production. On reject: all staging discarded.</p>
+    </div></div>
+
+    <div class="acc-open"><div class="acc-heading">4. Multi-Terminal Behavior</div><div class="acc-body">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">EPOC Rule</th></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Live activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Only in the originating terminal</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Project list query</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Any terminal (read-only)</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Open project details</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Any terminal</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Commit approval</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Any terminal (whichever the user responds from)</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Context leakage</td><td style="padding:5px 8px;border:1px solid #e8e8e8">None. Terminal 2 never polluted by Terminal 1's project output.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Concurrent DataProjects</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Supported. Each runs independently.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Terminal closes</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject continues server-side. User reconnects from any new terminal.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Admin kill</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Admin can kill from Fabric Monitor. Status changes to Cancelled.</td></tr>
+    </table>
+    </div></div>
+
+    <div class="acc-open"><div class="acc-heading">5. Requirements (Traceability)</div><div class="acc-body">
+    <p style="font-size:12px;color:#616161;margin-bottom:8px">Original requirement IDs preserved from AI TaskHub spec. "Task" maps to "DataProject."</p>
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left;width:50px">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">1000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Each lakehouse has exactly one AI TaskHub. User sees only their own DataProjects.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">1020</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Spark notebooks run OBO the creating user.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">1040</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Admin can kill jobs from Fabric Monitor.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">4000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject created via text entry, not chat.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">4030</td><td style="padding:5px 8px;border:1px solid #e8e8e8">User references items by relative paths. No resource picker in EPOC.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">4070</td><td style="padding:5px 8px;border:1px solid #e8e8e8">User can upload supplemental files (stored non-user-visible).</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">5010</td><td style="padding:5px 8px;border:1px solid #e8e8e8">OE always plans (implicit). To-do list shown without approval gate.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">6000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">OE makes temp copies of all assets before modifying anything.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">7000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Text summary for review. Status shows "input needed."</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">7020</td><td style="padding:5px 8px;border:1px solid #e8e8e8">All-or-nothing commit. OE decides commit order.</td></tr>
+    </table>
+    </div></div>
+
+    <div class="acc-open"><div class="acc-heading">6. Non-Goals (EPOC)</div><div class="acc-body">
+    <ul style="padding-left:18px;margin:4px 0;font-size:12.5px;line-height:1.7;color:#616161">
+      <li>Fabric UI / AI Taskhub UX</li>
+      <li>Agent registration (skill only)</li>
+      <li>User interjection during execution</li>
+      <li>Rich/visual diffs</li>
+      <li>Team Projects or multi-user collaboration</li>
+      <li>Multiple milestones per DataProject (single-pass)</li>
+      <li>Selective commit</li>
+      <li>Production monitors post-deployment</li>
+      <li>Execution mode selection (Normal / Deep Plan / Deep Plan + Auto-Approval)</li>
+    </ul>
+    </div></div>
+
+    <div class="acc-open"><div class="acc-heading">7. Success Criteria</div><div class="acc-body">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Criteria</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Measure</th></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">End-to-end loop</td><td style="padding:5px 8px;border:1px solid #e8e8e8">User creates DataProject, sees to-do list and activity stream, reviews text summary, commits. Artifacts appear in lakehouse.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Lakehouse binding</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject bound to single lakehouse. All data references resolve within it.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Staging model</td><td style="padding:5px 8px;border:1px solid #e8e8e8">OE operates on temp copies. Production untouched until explicit commit.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Commit gate</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Nothing written to production without explicit user approval.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Terminal isolation</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Running a DataProject in Terminal 1 produces zero output in Terminal 2 unless queried.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Cross-terminal status</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Project list from Terminal 2 returns accurate info about Terminal 1's DataProjects.</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Demo-ready</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Naresh and Vijay can run a convincing demo from the CLI.</td></tr>
+    </table>
+    </div></div>
   `,
   skillsprd: `
     <span class="card-tag tag-spec">SPEC</span>
