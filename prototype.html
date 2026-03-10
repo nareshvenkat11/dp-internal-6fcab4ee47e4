@@ -1,407 +1,1017 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Copilot - DataProjects POC</title>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    @font-face { font-family: 'Segoe UI Variable'; src: local('Segoe UI Variable'), local('Segoe UI'); }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI Variable', 'Segoe UI', -apple-system, system-ui, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #242424; }
-    button { font-family: inherit; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DataProjects - Interactive Prototype</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI Variable','Segoe UI',-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#242424}
+button{font-family:inherit;cursor:pointer}
 
-    .page { display: flex; height: 100vh; }
+.page{display:flex;height:100vh}
 
-    /* === SIDEBAR === */
-    .sidebar {
-      display: flex; flex-direction: column; justify-content: space-between;
-      width: 68px; background: #f3f3f3; border-right: 1px solid #e0e0e0;
-      padding: 4px 0 8px; overflow-y: auto; flex-shrink: 0;
-    }
-    .sb-top, .sb-bot { display: flex; flex-direction: column; align-items: center; }
-    .sb-item {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1px; padding: 7px 0 5px; width: 60px; border-radius: 8px;
-      cursor: pointer; border: none; background: none; text-decoration: none; position: relative;
-    }
-    .sb-item:hover { background: rgba(0,0,0,0.04); }
-    .sb-item.active { background: rgba(0,0,0,0.06); }
-    .sb-item.active::before {
-      content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-      width: 3px; height: 16px; background: #0f6cbd; border-radius: 0 4px 4px 0;
-    }
-    .sb-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
-    .sb-icon svg { width: 20px; height: 20px; }
-    .sb-label { font-size: 10px; color: #424242; line-height: 1.1; text-align: center; max-width: 58px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; }
-    .sb-dots { padding: 10px; color: #616161; cursor: pointer; font-size: 20px; text-align: center; letter-spacing: 2px; }
+/* Sidebar */
+.sb{display:flex;flex-direction:column;justify-content:space-between;width:68px;background:#f3f3f3;border-right:1px solid #e0e0e0;padding:4px 0 8px;flex-shrink:0}
+.sb-top,.sb-bot{display:flex;flex-direction:column;align-items:center}
+.sb-i{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 0 5px;width:60px;border-radius:8px;border:none;background:none;position:relative}
+.sb-i:hover{background:rgba(0,0,0,0.04)}
+.sb-i.act{background:rgba(0,0,0,0.06)}
+.sb-i.act::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:#0f6cbd;border-radius:0 4px 4px 0}
+.sb-i svg{width:20px;height:20px}
+.sb-lbl{font-size:10px;color:#424242;text-align:center;max-width:58px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-    /* Copilot gradient icon */
-    .copilot-icon-wrap { width: 24px; height: 24px; }
+/* Main */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff}
 
-    /* === MAIN === */
-    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; }
+/* Header */
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:0 16px;min-height:40px;border-bottom:1px solid #f0f0f0;background:#fff}
+.hdr-tabs{display:flex;gap:0}
+.hdr-tab{padding:10px 16px;font-size:13px;color:#616161;border:none;background:none;border-bottom:2px solid transparent}
+.hdr-tab:hover{color:#242424}
+.hdr-tab.active{color:#242424;font-weight:600;border-bottom-color:#0f6cbd}
+.hdr-right{display:flex;align-items:center;gap:12px;font-size:13px;color:#616161}
+.hdr-right button{background:none;border:none;color:#616161;font-size:13px}
+.hdr-right button:hover{color:#242424}
 
-    /* === HEADER === */
-    .hdr {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 8px 20px; min-height: 44px;
-      border-bottom: 1px solid #f0f0f0; background: #fff;
-    }
-    .hdr-left { display: flex; align-items: center; gap: 8px; }
-    .hdr-title { font-size: 14px; font-weight: 600; color: #242424; }
-    .hdr-badge { font-size: 11px; color: #707070; background: #f5f5f5; padding: 1px 7px; border-radius: 3px; border: 1px solid #e0e0e0; font-weight: 400; }
-    .hdr-right { display: flex; align-items: center; gap: 14px; }
-    .hdr-btn { display: flex; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: #707070; font-size: 13px; font-family: inherit; }
-    .hdr-btn:hover { color: #424242; }
-    .hdr-btn svg { width: 16px; height: 16px; fill: currentColor; }
+/* Content */
+.content{flex:1;display:flex;flex-direction:column;overflow-y:auto;background:#fafafa}
 
-    /* === CONTENT === */
-    .content {
-      flex: 1; display: flex; flex-direction: column; align-items: center;
-      padding: 36px 32px 24px; overflow-y: auto; background: #fafafa;
-    }
+/* Chat area */
+.chat{flex:1;display:flex;flex-direction:column;padding:24px 32px;gap:16px;overflow-y:auto;justify-content:center;align-items:center}
 
-    /* === MODE TOGGLE === */
-    .toggle-wrap { margin-bottom: 28px; }
-    .toggle {
-      display: inline-flex; background: #ebebeb; border-radius: 8px; padding: 3px;
-    }
-    .toggle-btn {
-      font-size: 13px; font-weight: 600; color: #616161; background: transparent;
-      border: none; border-radius: 6px; padding: 6px 18px; cursor: pointer;
-      transition: all 0.2s; display: flex; align-items: center; gap: 6px;
-    }
-    .toggle-btn:hover:not(.t-active) { color: #424242; background: rgba(255,255,255,0.5); }
-    .t-active { background: #fff; color: #242424; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-    .toggle-btn svg { width: 16px; height: 16px; fill: currentColor; }
+/* Messages */
+.msg{max-width:720px;width:100%}
+.msg-user{align-self:flex-end;background:#e8f0fe;border-radius:12px 12px 4px 12px;padding:12px 16px;font-size:14px;line-height:1.6;color:#242424;white-space:pre-wrap}
+.msg-bot{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:16px 20px}
+.msg-bot-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.msg-bot-avatar{width:28px;height:28px;border-radius:50%;background:#0f6cbd;display:flex;align-items:center;justify-content:center}
+.msg-bot-avatar svg{width:16px;height:16px;fill:#fff}
+.msg-bot-name{font-size:13px;font-weight:600;color:#242424}
+.msg-bot p{font-size:14px;line-height:1.7;color:#424242;margin:6px 0}
 
-    /* === CONVERSATION GREETING === */
-    .c-greeting { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
-    .c-greeting h1 { font-size: 28px; font-weight: 700; color: #242424; letter-spacing: -0.3px; }
-    .c-sub { font-size: 14px; color: #616161; margin-bottom: 36px; font-weight: 400; }
+/* Research/loading */
+.research{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px}
+.spinner{width:20px;height:20px;border:2.5px solid #e0e0e0;border-top-color:#0f6cbd;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.research-text{font-size:14px;color:#616161}
 
-    /* === DP GREETING === */
-    .dp-logo-img { width: 52px; height: 52px; object-fit: contain; margin-bottom: 4px; }
-    .dp-name { font-size: 14px; font-weight: 600; color: #616161; margin-bottom: 16px; }
-    .dp-h1 { font-size: 26px; font-weight: 600; color: #242424; text-align: center; max-width: 540px; line-height: 1.35; margin-bottom: 10px; letter-spacing: -0.2px; }
-    .dp-desc { font-size: 13px; color: #616161; text-align: center; max-width: 500px; line-height: 1.6; margin-bottom: 30px; font-weight: 400; }
+/* Plan card */
+.plan{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
+.plan-header{padding:16px 20px;border-bottom:1px solid #f0f0f0}
+.plan-header h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.plan-header p{font-size:13px;color:#616161}
+.plan-section{padding:14px 20px;border-bottom:1px solid #f0f0f0}
+.plan-section h4{font-size:13px;font-weight:600;color:#0f6cbd;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.plan-section p,.plan-section li{font-size:13px;line-height:1.65;color:#424242}
+.plan-section ul{padding-left:18px;margin:4px 0}
+.plan-section li{margin:3px 0}
+.plan-milestone{display:flex;align-items:flex-start;gap:10px;padding:10px 0}
+.ms-num{width:24px;height:24px;border-radius:50%;background:#0f6cbd;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ms-num.done{background:#1a7f37}
+.ms-num.active{background:#0f6cbd;box-shadow:0 0 0 3px rgba(15,108,189,0.2)}
+.ms-num.pending{background:#d0d0d0}
+.ms-content h5{font-size:13px;font-weight:600;color:#242424;margin-bottom:2px}
+.ms-content p{font-size:12px;color:#616161}
+.plan-actions{display:flex;gap:8px;padding:14px 20px;justify-content:flex-end;flex-wrap:wrap}
+.btn{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #d0d0d0;background:#fff;color:#242424;transition:all 0.15s}
+.btn:hover{background:#f5f5f5}
+.btn-primary{background:#0f6cbd;color:#fff;border-color:#0f6cbd}
+.btn-primary:hover{background:#115ea3}
 
-    /* === INPUT === */
-    .input-area { width: 100%; max-width: 680px; margin-bottom: 20px; }
-    .input-box {
-      background: #fff; border: 1px solid #d1d1d1; border-radius: 12px;
-      padding: 10px 14px 6px; transition: border-color 0.15s;
-    }
-    .input-box:focus-within { border-color: #0f6cbd; box-shadow: 0 0 0 1px #0f6cbd; }
-    textarea {
-      width: 100%; border: none; outline: none; resize: none;
-      font-family: inherit; font-size: 14px; line-height: 1.5; color: #242424;
-      background: transparent; min-height: 20px;
-    }
-    textarea::placeholder { color: #a0a0a0; }
+/* Progress bar */
+.progress-bar{height:3px;background:#e0e0e0;border-radius:2px;margin:8px 0}
+.progress-fill{height:100%;background:#0f6cbd;border-radius:2px;transition:width 0.5s ease}
 
-    /* Chips */
-    .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
-    .chip {
-      display: inline-flex; align-items: center; gap: 4px;
-      background: #e8f0fe; border-radius: 4px; padding: 2px 6px 2px 8px;
-      font-size: 12px; font-weight: 500; color: #0f6cbd;
-    }
-    .chip-x {
-      background: none; border: none; cursor: pointer; color: #0f6cbd;
-      font-size: 14px; line-height: 1; padding: 0 1px; opacity: 0.6;
-    }
-    .chip-x:hover { opacity: 1; }
+/* Commit review */
+.commit{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
+.commit-header{padding:16px 20px;border-bottom:1px solid #f0f0f0}
+.commit-header h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.commit-header p{font-size:13px;color:#616161}
+.commit-stats{display:flex;gap:24px;padding:14px 20px;border-bottom:1px solid #f0f0f0}
+.stat-box{display:flex;flex-direction:column;gap:2px}
+.stat-icon{font-size:18px}
+.stat-num{font-size:20px;font-weight:700;color:#242424}
+.stat-label{font-size:11px;color:#616161}
+.file-list{padding:0}
+.file-item{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid #f0f0f0;font-size:13px;cursor:pointer}
+.file-item:hover{background:#f9f9f9}
+.file-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+.file-badge.mod{background:#fff3e0;color:#c77700}
+.file-badge.new{background:#e6f5ec;color:#1a7f37}
+.file-name{color:#242424;font-weight:500}
+.diff-panel{padding:16px 20px;border-bottom:1px solid #f0f0f0}
+.diff-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;font-weight:600;color:#242424}
+.diff-desc{font-size:12px;color:#616161;margin-bottom:12px}
+.diff-view{display:flex;gap:0;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;font-family:'Cascadia Code','Consolas',monospace;font-size:11px}
+.diff-side{flex:1;overflow-x:auto}
+.diff-line{display:flex;padding:1px 8px;min-height:20px;white-space:pre}
+.diff-ln{width:28px;text-align:right;color:#a0a0a0;padding-right:8px;flex-shrink:0;user-select:none}
+.diff-old{background:#ffeef0}
+.diff-new{background:#e6ffec}
+.diff-normal{background:#fff}
 
-    /* Footer */
-    .input-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
-    .foot-left { display: flex; align-items: center; gap: 2px; }
-    .f-btn {
-      display: flex; align-items: center; justify-content: center;
-      background: none; border: none; cursor: pointer; padding: 5px;
-      color: #616161; border-radius: 4px;
-    }
-    .f-btn:hover { background: #f5f5f5; color: #424242; }
-    .f-btn svg { width: 18px; height: 18px; fill: currentColor; }
-    .f-mode {
-      display: flex; align-items: center; gap: 4px;
-      background: none; border: none; cursor: pointer; padding: 3px 8px;
-      color: #616161; border-radius: 4px; font-size: 12px; font-family: inherit; font-weight: 400;
-    }
-    .f-mode:hover { background: #f5f5f5; color: #424242; }
-    .f-mode svg { width: 16px; height: 16px; fill: currentColor; }
-    .send {
-      display: flex; align-items: center; justify-content: center;
-      background: #0f6cbd; color: #fff; border: none; border-radius: 50%;
-      width: 28px; height: 28px; cursor: pointer; transition: background 0.15s;
-    }
-    .send:hover { background: #115ea3; }
-    .send:disabled { background: #c7c7c7; cursor: default; }
-    .send svg { width: 14px; height: 14px; fill: #fff; }
+/* Input area */
+.input-area{padding:16px 24px 24px;border-top:1px solid #e0e0e0;background:#fff;box-shadow:0 -4px 12px rgba(0,0,0,0.04)}
+.input-box{background:#fff;border:1px solid #d0d0d0;border-radius:12px;padding:10px 14px 6px;max-width:720px;margin:0 auto}
+.input-box:focus-within{border-color:#0f6cbd;box-shadow:0 0 0 1px #0f6cbd}
+.input-box textarea{width:100%;border:none;outline:none;resize:none;font-family:inherit;font-size:14px;line-height:1.5;color:#242424;background:transparent;min-height:20px}
+.input-box textarea::placeholder{color:#a0a0a0}
+.input-foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.foot-left{display:flex;align-items:center;gap:2px}
+.f-btn{display:flex;align-items:center;background:none;border:none;padding:5px;color:#616161;border-radius:4px;font-size:14px}
+.f-btn:hover{background:#f5f5f5;color:#424242}
+.f-mode{display:flex;align-items:center;gap:4px;background:none;border:none;padding:3px 8px;color:#616161;border-radius:4px;font-size:12px}
+.f-mode:hover{background:#f5f5f5;color:#424242}
+.send{display:flex;align-items:center;justify-content:center;background:#0f6cbd;color:#fff;border:none;border-radius:50%;width:28px;height:28px}
+.send:disabled{background:#c7c7c7}
 
-    /* Dropdown */
-    .dd-wrap { position: relative; }
-    .dd {
-      position: absolute; bottom: 100%; left: 0; margin-bottom: 4px;
-      background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.14); min-width: 190px; padding: 4px; z-index: 100;
-    }
-    .dd-item {
-      display: flex; align-items: center; gap: 10px; width: 100%;
-      background: none; border: none; cursor: pointer; padding: 8px 12px;
-      font-family: inherit; font-size: 13px; color: #242424; border-radius: 4px; text-align: start;
-    }
-    .dd-item:hover { background: #f5f5f5; }
-    .dd-item svg { width: 18px; height: 18px; fill: #424242; }
+/* Chips */
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.chip{display:inline-flex;align-items:center;gap:4px;background:#e8f0fe;border-radius:4px;padding:2px 6px 2px 8px;font-size:12px;font-weight:500;color:#0f6cbd;cursor:default}
+.chip-perm{font-size:10px;font-weight:600;padding:1px 5px;border-radius:3px;cursor:pointer;border:none;margin-left:2px;transition:background 0.15s}
+.chip-perm.ro{background:#e0e0e0;color:#616161}
+.chip-perm.rw{background:#e6f5ec;color:#1a7f37}
+.chip-perm:hover{filter:brightness(0.92)}
+.chip-x{background:none;border:none;color:#0f6cbd;font-size:14px;padding:0 1px;opacity:0.6}
+.chip-x:hover{opacity:1}
 
-    /* === SUGGESTIONS === */
-    .sugs { display: flex; gap: 12px; width: 100%; max-width: 680px; margin-bottom: 6px; }
-    .sug {
-      display: flex; flex-direction: column; gap: 12px; flex: 1;
-      padding: 14px 16px; background: #fff; border: 1px solid #e8e8e8;
-      border-radius: 12px; cursor: pointer; text-align: start; font-family: inherit;
-      font-size: 13px; font-weight: 600; color: #242424; line-height: 1.4;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .sug:hover { border-color: #d0d0d0; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .sug em { color: #0f6cbd; font-style: normal; font-weight: 600; }
-    .sug-ic { width: 20px; height: 20px; }
-    .see-m {
-      display: flex; align-items: center; gap: 3px;
-      align-self: flex-end; max-width: 680px; width: 100%; justify-content: flex-end;
-      background: none; border: none; cursor: pointer; font-family: inherit;
-      font-size: 13px; color: #616161; padding: 4px 0;
-    }
-    .see-m:hover { color: #424242; }
-    .see-m svg { width: 12px; height: 12px; fill: currentColor; }
+/* Dropdown */
+.dd-wrap{position:relative}
+.dd{position:absolute;bottom:100%;left:0;margin-bottom:4px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.14);min-width:190px;padding:4px;z-index:100}
+.dd-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;padding:8px 12px;font-size:13px;color:#242424;border-radius:4px;text-align:start}
+.dd-item:hover{background:#f5f5f5}
 
-    .fade { animation: fadeIn 0.2s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .col { display: flex; flex-direction: column; align-items: center; width: 100%; }
-  </style>
+/* Mode toggle */
+.toggle{display:inline-flex;background:#ebebeb;border-radius:8px;padding:3px;margin-bottom:20px}
+.t-btn{font-size:13px;font-weight:600;color:#616161;background:transparent;border:none;border-radius:6px;padding:6px 18px;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.t-btn:hover:not(.t-act){color:#424242;background:rgba(255,255,255,0.5)}
+.t-act{background:#fff;color:#242424;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+
+/* Greeting */
+.greet{display:flex;flex-direction:column;align-items:center;margin-bottom:8px}
+.greet h1{font-size:28px;font-weight:700;letter-spacing:-0.3px}
+.greet-row{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.greet-sub{font-size:14px;color:#616161;margin-bottom:36px}
+.dp-logo{width:52px;height:52px;object-fit:contain;margin-bottom:4px}
+.dp-name{font-size:14px;font-weight:600;color:#616161;margin-bottom:16px}
+.dp-h1{font-size:26px;font-weight:600;text-align:center;max-width:540px;line-height:1.35;margin-bottom:10px;letter-spacing:-0.2px}
+.dp-desc{font-size:13px;color:#616161;text-align:center;max-width:500px;line-height:1.6;margin-bottom:30px}
+
+/* Suggestions */
+.sugs{display:flex;gap:12px;width:100%;max-width:680px;margin-bottom:6px}
+.sug{display:flex;flex-direction:column;gap:12px;flex:1;padding:14px 16px;background:#fff;border:1px solid #e8e8e8;border-radius:12px;text-align:start;font-size:13px;font-weight:600;color:#242424;line-height:1.4;transition:border-color 0.15s,box-shadow 0.15s}
+.sug:hover{border-color:#d0d0d0;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+.sug em{color:#0f6cbd;font-style:normal}
+
+.fade{animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.col{display:flex;flex-direction:column;align-items:center;width:100%}
+
+/* Active projects banner */
+.active-banner{display:flex;align-items:center;gap:10px;padding:8px 16px;background:linear-gradient(90deg,#f0f6ff 0%,#f8f4ff 100%);border-bottom:1px solid #e0e8f0;font-size:13px;color:#424242;cursor:pointer;transition:background 0.15s}
+.active-banner:hover{background:linear-gradient(90deg,#e6effc 0%,#f0eaf8 100%)}
+.ab-dot{width:8px;height:8px;border-radius:50%;background:#0f6cbd;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+.ab-count{font-weight:600;color:#0f6cbd}
+.ab-arrow{margin-left:auto;color:#616161;font-size:16px}
+
+/* Input glow for DP mode */
+.input-box.dp-glow{border-color:#6264A7;box-shadow:0 0 0 2px rgba(98,100,167,0.15),0 0 12px rgba(98,100,167,0.08)}
+.input-box.dp-glow:focus-within{border-color:#6264A7;box-shadow:0 0 0 2px rgba(98,100,167,0.25),0 0 16px rgba(98,100,167,0.12)}
+.dp-input-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;color:#6264A7;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
+.dp-input-label .dp-il-left{display:flex;align-items:center;gap:6px}
+.dp-input-label .dp-il-dot{width:6px;height:6px;border-radius:50%;background:#6264A7;animation:pulse 2s ease-in-out infinite}
+.scope-toggle{display:inline-flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0}
+.scope-label{font-size:11px;font-weight:600;color:#616161;cursor:default}
+.scope-label.scope-act{color:#242424}
+.scope-switch{position:relative;width:36px;height:20px;background:#c7c7c7;border-radius:10px;border:none;cursor:pointer;transition:background 0.2s;padding:0;flex-shrink:0}
+.scope-switch.on{background:#0f6cbd}
+.scope-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
+.scope-switch.on .scope-knob{transform:translateX(16px)}
+
+/* Projects panel overlay */
+.projects-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:200;display:flex;justify-content:flex-end;animation:fadeIn 0.2s ease}
+.projects-panel{width:520px;height:100%;background:#fff;box-shadow:-8px 0 32px rgba(0,0,0,0.12);display:flex;flex-direction:column;animation:slideIn 0.25s ease}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.pp-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e8e8e8}
+.pp-header h2{font-size:18px;font-weight:600;color:#242424}
+.pp-close{background:none;border:none;font-size:22px;color:#616161;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.pp-close:hover{background:#f5f5f5;color:#242424}
+.pp-tabs{display:flex;gap:0;padding:0 20px;border-bottom:1px solid #e8e8e8}
+.pp-tab{padding:10px 16px;font-size:13px;color:#616161;border:none;background:none;border-bottom:2px solid transparent}
+.pp-tab:hover{color:#242424}
+.pp-tab.pp-active{color:#242424;font-weight:600;border-bottom-color:#0f6cbd}
+.pp-body{flex:1;overflow-y:auto;padding:12px 20px}
+.pp-card{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.pp-card:hover{border-color:#c8c8c8;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.pp-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.pp-card-title{font-size:14px;font-weight:600;color:#242424;line-height:1.3}
+.pp-status{font-size:11px;font-weight:600;padding:3px 8px;border-radius:12px;white-space:nowrap}
+.pp-status.running{background:#e6f0ff;color:#0f6cbd}
+.pp-status.review{background:#fff4e6;color:#c77700}
+.pp-status.done{background:#e6f5ec;color:#1a7f37}
+.pp-status.queued{background:#f0f0f0;color:#616161}
+.pp-card-desc{font-size:12px;color:#616161;line-height:1.5;margin-bottom:10px}
+.pp-card-meta{display:flex;gap:16px;font-size:11px;color:#a0a0a0}
+.pp-card-meta span{display:flex;align-items:center;gap:4px}
+.pp-card-progress{height:3px;background:#e8e8e8;border-radius:2px;margin-top:10px;overflow:hidden}
+.pp-card-progress-fill{height:100%;border-radius:2px;transition:width 0.3s ease}
+.pp-empty{text-align:center;padding:40px 20px;color:#a0a0a0;font-size:14px}
+
+/* Execution log */
+.exec-log{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
+.exec-heading{font-size:16px;font-weight:600;padding:16px 20px 12px;color:#242424}
+.exec-status{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;margin:0 16px 12px;background:#f5f5f5;border-radius:8px;font-size:13px;font-weight:600;color:#424242}
+.exec-status button{background:none;border:none;color:#616161;font-size:15px;cursor:pointer;padding:2px 4px;border-radius:4px}
+.exec-status button:hover{background:#e8e8e8}
+.exec-entries{padding:4px 20px 16px;font-family:'Cascadia Code','Consolas','SF Mono',monospace;font-size:12.5px;line-height:1.8}
+.exec-entry{margin-bottom:14px;animation:fadeIn 0.4s ease}
+.exec-tool{color:#0f6cbd;font-weight:700}
+.exec-action{color:#242424}
+.exec-detail{color:#008080;padding-left:24px}
+.exec-result{color:#1a7f37;padding-left:24px;font-weight:500}
+.exec-running{color:#616161;padding-left:24px;display:inline-flex;align-items:center;gap:6px}
+.mini-spin{width:12px;height:12px;border:2px solid #e0e0e0;border-top-color:#0f6cbd;border-radius:50%;animation:spin 0.8s linear infinite;display:inline-block;flex-shrink:0}
+.resources-bar{display:flex;align-items:center;gap:10px;padding:10px 20px;border-top:1px solid #f0f0f0;font-size:13px;color:#616161}
+.r-icons{display:flex;gap:6px}
+.r-icon{width:26px;height:26px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:background 0.15s}
+.r-icon:hover{background:#e0e0e0}
+.r-arrow{color:#616161;cursor:pointer;font-size:16px;margin-left:2px}
+.exec-feedback{display:flex;align-items:center;gap:12px;padding:10px 20px;border-top:1px solid #f0f0f0;font-size:16px;color:#a0a0a0}
+.exec-feedback button{background:none;border:none;color:#a0a0a0;font-size:16px;cursor:pointer;padding:4px;border-radius:4px}
+.exec-feedback button:hover{color:#424242;background:#f5f5f5}
+
+/* Recap / Done body */
+.recap{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
+.recap-header{display:flex;align-items:flex-start;gap:12px;padding:20px 20px 16px}
+.recap-check{width:24px;height:24px;border-radius:50%;background:#1a7f37;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px}
+.recap-title{font-size:16px;font-weight:600;color:#242424;margin-bottom:4px}
+.recap-subtitle{font-size:13px;color:#616161;line-height:1.5}
+.recap-duration{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:#424242}
+.dur-badge{background:#f0f0f0;border-radius:4px;padding:3px 8px;font-size:11px;font-weight:600;color:#616161;text-transform:uppercase;letter-spacing:0.5px}
+.recap-stats{display:flex;gap:0;margin:0 20px 16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.recap-stat{flex:1;padding:14px 16px;border-right:1px solid #e8e8e8}
+.recap-stat:last-child{border-right:none}
+.rs-num{font-size:20px;font-weight:700;color:#242424;display:flex;align-items:center;gap:6px}
+.rs-label{font-size:12px;color:#616161;margin-top:2px}
+.rs-sub{font-size:11px;color:#a0a0a0;margin-top:1px}
+.recap-section{margin:0 20px 16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.recap-section-title{display:flex;align-items:center;gap:8px;padding:12px 16px;font-size:14px;font-weight:600;color:#242424;border-bottom:1px solid #f0f0f0}
+.recap-row{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px}
+.recap-row:last-child{border-bottom:none}
+.recap-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;text-transform:uppercase;min-width:68px;text-align:center;flex-shrink:0}
+.recap-badge.mod{background:#fff3e0;color:#c77700}
+.recap-badge.new{background:#e6f5ec;color:#1a7f37}
+.recap-badge.loaded{background:#e6f0ff;color:#0f6cbd}
+.recap-row-name{flex:1;margin-left:12px;color:#424242}
+.recap-row-stat{color:#424242;font-weight:500;margin-right:10px;white-space:nowrap}
+.recap-row-link{color:#0f6cbd;cursor:pointer;font-size:15px;text-decoration:none;display:flex;align-items:center}
+.recap-row-link:hover{color:#115ea3}
+.recap-passed{color:#1a7f37;font-weight:600;font-size:12px;display:flex;align-items:center;gap:4px;margin-left:auto;white-space:nowrap}
+.recap-actions{display:flex;gap:8px;padding:16px 20px;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid #f0f0f0}
+.recap-action{padding:8px 16px;border-radius:6px;font-size:13px;border:1px solid #d0d0d0;background:#fff;color:#242424;cursor:pointer;transition:background 0.15s}
+.recap-action:hover{background:#f5f5f5}
+
+/* Toast notifications */
+.toasts{position:fixed;top:16px;right:16px;z-index:300;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.12);min-width:300px;max-width:380px;animation:toastIn 0.35s ease;pointer-events:auto}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+.toast-top{display:flex;align-items:flex-start;gap:10px}
+.toast-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
+.toast-icon.info{background:#e6f0ff;color:#0f6cbd}
+.toast-icon.success{background:#e6f5ec;color:#1a7f37}
+.toast-text{flex:1}
+.toast-title{font-size:14px;font-weight:600;color:#242424;margin-bottom:2px}
+.toast-body{font-size:13px;color:#616161;line-height:1.5}
+.toast-close{background:none;border:none;color:#a0a0a0;font-size:18px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.toast-close:hover{color:#424242}
+.toast-actions{display:flex;gap:14px;margin-top:8px;padding-left:32px}
+.toast-actions button{background:none;border:none;color:#0f6cbd;font-size:13px;font-weight:600;cursor:pointer;padding:0}
+.toast-actions button:hover{text-decoration:underline}
+.toast-source{font-size:11px;color:#a0a0a0;margin-top:6px;padding-left:32px}
+
+/* Mode dropdown - styled with icons + descriptions (slide 5) */
+.mode-dd{position:absolute;bottom:100%;left:0;margin-bottom:6px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.14);width:320px;padding:6px;z-index:100}
+.mode-item{display:flex;align-items:flex-start;gap:12px;width:100%;background:none;border:none;padding:12px 14px;color:#242424;border-radius:8px;text-align:start;cursor:pointer;transition:background 0.15s}
+.mode-item:hover{background:#f5f5f5}
+.mode-item.mode-sel{background:#f0f6ff}
+.mode-icon{width:32px;height:32px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px}
+.mode-item.mode-sel .mode-icon{background:#e6f0ff}
+.mode-title{font-size:13px;font-weight:600;margin-bottom:2px}
+.mode-desc{font-size:12px;color:#616161;line-height:1.4}
+
+/* Resource chip type icons (slide 4) */
+.chip-type{width:20px;height:20px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.chip-type.lh{background:#e6f5ec;color:#1a7f37}
+.chip-type.fld{background:#fff3e0;color:#c77700}
+.chip-type.tbl{background:#e6f0ff;color:#0f6cbd}
+.chip-type.fl{background:#f0e6ff;color:#8764b8}
+
+/* Permission dropdown on chip (slide 4) */
+.chip-perm-wrap{position:relative;display:inline-flex}
+.perm-toggle{display:inline-flex;align-items:center;gap:2px;background:none;border:none;padding:2px 4px;border-radius:3px;cursor:pointer;font-size:13px;color:#616161;transition:background 0.15s}
+.perm-toggle:hover{background:rgba(0,0,0,0.06)}
+.perm-dd-menu{position:absolute;top:100%;right:0;margin-top:4px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);min-width:170px;padding:4px;z-index:110}
+.perm-opt{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:8px 12px;font-size:13px;color:#242424;border-radius:6px;cursor:pointer;text-align:start}
+.perm-opt:hover{background:#f5f5f5}
+.perm-chk{width:16px;text-align:center;color:#0f6cbd;font-size:12px;font-weight:700}
+
+/* Overflow badge (slide 4) */
+.chip-overflow{display:inline-flex;align-items:center;justify-content:center;background:#f0f0f0;border-radius:4px;padding:4px 10px;font-size:12px;font-weight:600;color:#616161;cursor:pointer;border:none;transition:background 0.15s}
+.chip-overflow:hover{background:#e0e0e0}
+
+/* Health indicators in projects panel (PRD §7.3, R-2040) */
+.health-dots{display:flex;gap:3px;align-items:center}
+.health-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.health-dot.h-green{background:#1a7f37}
+.health-dot.h-yellow{background:#c77700}
+.health-dot.h-red{background:#d32f2f}
+.health-dot.h-gray{background:#d0d0d0}
+
+/* Data diffs in commit review (PRD §7.6) */
+.data-diff{padding:16px 20px;border-bottom:1px solid #f0f0f0}
+.data-diff-title{font-size:13px;font-weight:600;color:#242424;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.schema-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:16px}
+.schema-tbl th{background:#f5f5f5;padding:6px 10px;text-align:left;font-weight:600;color:#616161;border-bottom:1px solid #e0e0e0;font-size:11px}
+.schema-tbl td{padding:6px 10px;border-bottom:1px solid #f0f0f0;color:#424242}
+.schema-add td{background:#e6f5ec}
+.schema-mod td{background:#fff3e0}
+.row-counts{display:flex;gap:12px;flex-wrap:wrap}
+.row-ct{display:flex;flex-direction:column;gap:2px;font-size:12px;color:#424242;padding:8px 12px;background:#f9f9f9;border-radius:6px;min-width:100px}
+.row-ct strong{font-size:15px;color:#242424}
+.row-ct small{color:#1a7f37;font-weight:600;font-size:11px}
+
+/* Project ID badge */
+.proj-id{font-size:10px;font-weight:500;color:#a0a0a0;font-family:'Cascadia Code','Consolas',monospace;letter-spacing:0.3px}
+</style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useCallback, useRef } = React;
+const {useState,useCallback,useRef,useEffect} = React;
 
-/* Inline SVG icons matching Fluent style */
-const I = {
-  home: <svg viewBox="0 0 20 20"><path d="M10.45 2.15a.75.75 0 00-.9 0l-6.25 4.8A.75.75 0 003 7.6V16a1 1 0 001 1h3.25a.75.75 0 00.75-.75v-4.5a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v4.5c0 .414.336.75.75.75H16a1 1 0 001-1V7.6a.75.75 0 00-.3-.65l-6.25-4.8z" fill="#424242"/></svg>,
-  create: <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.5"/><path d="M10 7v6M7 10h6" stroke="#424242" strokeWidth="1.5" strokeLinecap="round"/></svg>,
-  browse: <svg viewBox="0 0 20 20"><path d="M2 5.5A1.5 1.5 0 013.5 4h3.59a1.5 1.5 0 011.06.44L9.56 5.85a.5.5 0 00.35.15H16.5A1.5 1.5 0 0118 7.5v7a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 14.5v-9z" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>,
-  catalog: <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.3"/><circle cx="10" cy="10" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2" stroke="#424242" strokeWidth="1.3"/></svg>,
-  apps: <svg viewBox="0 0 20 20"><rect x="3" y="3" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/><rect x="11" y="3" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/><rect x="3" y="11" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/><rect x="11" y="11" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>,
-  scores: <svg viewBox="0 0 20 20"><path d="M4 14V8M8 14V6M12 14V4M16 14v-4" stroke="#424242" strokeWidth="1.5" strokeLinecap="round"/><path d="M2 16h16" stroke="#424242" strokeWidth="1.3"/></svg>,
-  db: <svg viewBox="0 0 20 20"><ellipse cx="10" cy="5" rx="6" ry="2.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M4 5v10c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5V5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M4 10c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>,
-  monitor: <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M10 6v4l2.5 2.5" stroke="#424242" strokeWidth="1.3" strokeLinecap="round"/></svg>,
-  workspace: <svg viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="12" rx="1.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M3 8h14" stroke="#424242" strokeWidth="1.3"/></svg>,
-  people: <svg viewBox="0 0 20 20"><circle cx="8" cy="7" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M2 16c0-2.76 2.69-5 6-5s6 2.24 6 5" fill="none" stroke="#424242" strokeWidth="1.3"/><circle cx="14" cy="6" r="2" fill="none" stroke="#424242" strokeWidth="1.2"/><path d="M15 11c2.21.56 3.5 2.1 3.5 4" fill="none" stroke="#424242" strokeWidth="1.2"/></svg>,
-  lake: <svg viewBox="0 0 20 20"><rect x="4" y="3" width="12" height="14" rx="1.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M7 7h6M7 10h4" stroke="#424242" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-  plus: <svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>,
-  settings: <svg viewBox="0 0 20 20"><path d="M3.5 5h13M3.5 10h13M3.5 15h13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/><circle cx="7" cy="5" r="1.5" fill="#fff" stroke="currentColor" strokeWidth="1.2"/><circle cx="13" cy="10" r="1.5" fill="#fff" stroke="currentColor" strokeWidth="1.2"/><circle cx="9" cy="15" r="1.5" fill="#fff" stroke="currentColor" strokeWidth="1.2"/></svg>,
-  chevDown: <svg viewBox="0 0 12 12"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>,
-  arrowR: <svg viewBox="0 0 16 16"><path d="M3 8h9M8.5 4.5L12 8l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>,
-  database: <svg viewBox="0 0 20 20"><ellipse cx="10" cy="5" rx="6" ry="2.5" fill="none" stroke="currentColor" strokeWidth="1.3"/><path d="M4 5v10c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5V5" fill="none" stroke="currentColor" strokeWidth="1.3"/></svg>,
-  upload: <svg viewBox="0 0 20 20"><path d="M10 13V4M7 6.5L10 3.5l3 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/><path d="M4 13v2.5A1.5 1.5 0 005.5 17h9a1.5 1.5 0 001.5-1.5V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none"/></svg>,
-  doc: <svg viewBox="0 0 20 20"><path d="M6 2.5h5.5L15 6v11a1.5 1.5 0 01-1.5 1.5h-7A1.5 1.5 0 015 17V4A1.5 1.5 0 016 2.5z" fill="none" stroke="currentColor" strokeWidth="1.2"/><path d="M11 2.5V6h3.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><path d="M7.5 10h5M7.5 13h3" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/></svg>,
-  sparkle: <svg viewBox="0 0 20 20"><path d="M10 2l1.5 5.5L17 9l-5.5 1.5L10 16l-1.5-5.5L3 9l5.5-1.5z" fill="currentColor"/></svg>,
-  chat: <svg viewBox="0 0 16 16"><path d="M2 3.5A1.5 1.5 0 013.5 2h9A1.5 1.5 0 0114 3.5v6a1.5 1.5 0 01-1.5 1.5H6L3 14v-3H3.5A1.5 1.5 0 012 9.5v-6z" fill="currentColor"/></svg>,
-  project: <svg viewBox="0 0 16 16"><path d="M2 3h12v2H2zM2 7h8v2H2zM2 11h10v2H2z" fill="currentColor"/><circle cx="13" cy="12" r="2" fill="currentColor"/></svg>,
-  scissors: <svg viewBox="0 0 16 16"><path d="M5.5 3.5a2 2 0 10-1.42 3.41L7.17 8l-3.09 1.09A2 2 0 105.5 12.5L8 10.83l2.5 1.67a2 2 0 101.42-3.41L8.83 8l3.09-1.09A2 2 0 1010.5 3.5L8 5.17z" fill="none" stroke="currentColor" strokeWidth="1.2"/></svg>,
+const STEPS = {
+  START: 'start',
+  SUBMITTED: 'submitted',
+  RESEARCHING: 'researching',
+  PLAN: 'plan',
+  EXECUTING: 'executing',
+  REVIEW: 'review',
+  DONE: 'done',
 };
 
-const CopilotLogo = ({size=40}) => (
-  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
-    <path d="M20 6L9 12.5v5.5l11 6.5 11-6.5v-5.5L20 6z" fill="#6264A7" opacity=".85"/>
-    <path d="M20 18L9 11.5V18l11 6.5V18z" fill="#E74856" opacity=".85"/>
-    <path d="M20 18l11-6.5V18l-11 6.5V18z" fill="#05A6F0" opacity=".85"/>
-    <path d="M20 6l11 6.5L20 18 9 12.5 20 6z" fill="#FFB900" opacity=".9"/>
-    <path d="M20 24.5l11-6.5v5l-11 6.5v-5z" fill="#05A6F0" opacity=".6"/>
-    <path d="M20 24.5L9 18v5l11 6.5v-5z" fill="#E74856" opacity=".6"/>
-  </svg>
-);
+const DEFAULT_TEXT = "I uploaded a dump from SAP R3 into #SAP_R3\nImport that into #Vendors #PurchaseOrders #Invoices #Payments tables in this lakehouse.\nIf you think we need to write data to any other table, put it in the plan for my approval.";
 
-const CopilotSmall = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-    <path d="M10 3L4.5 6.5v3L10 13l5.5-3.5v-3L10 3z" fill="#6264A7" opacity=".85"/>
-    <path d="M10 9.5L4.5 6v3.5L10 13V9.5z" fill="#E74856" opacity=".85"/>
-    <path d="M10 9.5l5.5-3.5v3.5L10 13V9.5z" fill="#05A6F0" opacity=".85"/>
-    <path d="M10 3l5.5 3.5L10 9.5 4.5 6.5 10 3z" fill="#FFB900" opacity=".9"/>
-  </svg>
-);
+const RESOURCES = [
+  {id:'1',name:'ERP_Dump',type:'lakehouse',perm:'ro'},
+  {id:'2',name:'SAP_R3',type:'folder',perm:'ro'},
+  {id:'3',name:'Vendors',type:'table',perm:'rw'},
+  {id:'4',name:'PurchaseOrders',type:'table',perm:'rw'},
+  {id:'5',name:'Invoices',type:'table',perm:'rw'},
+  {id:'6',name:'Payments',type:'table',perm:'rw'},
+];
+
+const MAX_VISIBLE = 4;
+const TYPE_ICONS = {lakehouse:'⬡',folder:'📂',table:'⊞',file:'📄'};
+const TYPE_CSS = {lakehouse:'lh',folder:'fld',table:'tbl',file:'fl'};
+
+const SAMPLE_PROJECTS = [
+  {id:'p1',name:'SAP P2P Silver Ingestion',status:'running',statusLabel:'Executing',desc:'Migrating SAP R3 P2P data into Silver lakehouse tables with quality checks and production monitors.',progress:65,milestones:'2/3',started:'Mar 9, 2:15 PM',updated:'2 min ago',projId:'DP-20260309-001',health:['green','green','gray']},
+  {id:'p2',name:'Teradata Migration – Finance',status:'review',statusLabel:'Awaiting Review',desc:'Migrating 847 Teradata tables to Fabric lakehouse. Milestone 4 of 6 ready for review.',progress:67,milestones:'4/6',started:'Mar 7, 10:30 AM',updated:'1 hr ago',projId:'DP-20260307-002',health:['green','green','green','yellow']},
+  {id:'p3',name:'Data Quality Assessment',status:'queued',statusLabel:'Queued',desc:'Full quality scan of 500+ tables: null rates, schema drift, freshness SLA, referential integrity.',progress:0,milestones:'0/4',started:'Mar 9, 3:00 PM',updated:'Pending',projId:'DP-20260309-003',health:[]},
+  {id:'p4',name:'ERP Consolidation – Phase 1',status:'done',statusLabel:'Completed',desc:'Consolidated 130 ERP sources into unified Bronze lakehouse. All monitors healthy.',progress:100,milestones:'5/5',started:'Feb 28, 9:00 AM',updated:'Mar 5, 4:22 PM',projId:'DP-20260228-001',health:['green','green','green','green','green']},
+];
+
+const EXEC_STEPS = [
+  {tool:'read_file', action:'Reading P2P Business Rules.xlsx', detail:null, result:'Extracted 28 transformation rules, 30 validation rules, 3 lookup tables'},
+  {tool:'edit_notebook', action:'Modify sap_mm_transformations.pynb', detail:'Adding transformations for EKKO, EKPO, RSEG, BSEG', result:'+147 lines added'},
+  {tool:'edit_notebook', action:'Update data_quality_checks.pynb', detail:'Adding null checks, range validations, referential integrity', result:'+64 lines added'},
+  {tool:'edit_notebook', action:'Configure silver_table_writer.pynb', detail:'Setting merge keys for incremental loads', result:'+23 lines modified'},
+  {tool:'create_notebook', action:'Create p2p_invoice_matching.pynb', detail:'Three-way match logic with 2% tolerance threshold', result:'+89 lines added'},
+  {tool:'create_notebook', action:'Create p2p_orchestrator.pynb', detail:'Chaining: Bronze → Transform → Match → DQ → Silver', result:'+56 lines added'},
+  {tool:'execute_pipeline', action:'Execute pipeline', detail:'Loading data into Silver tables...', result:'4 Silver tables loaded — 273,713 total rows'},
+];
 
 function App() {
-  const [mode, setMode] = useState("conversation");
-  const [text, setText] = useState("");
+  const [mode, setMode] = useState('conversation');
+  const [step, setStep] = useState(STEPS.START);
+  const [text, setText] = useState('');
   const [resources, setResources] = useState([]);
   const [addOpen, setAddOpen] = useState(false);
   const [modeOpen, setModeOpen] = useState(false);
-  const [planMode, setPlanMode] = useState("default");
+  const [projectScope, setProjectScope] = useState('my');
+  const [planMode, setPlanMode] = useState('default');
+  const [execStep, setExecStep] = useState(-1);
+  const [showProjects, setShowProjects] = useState(false);
+  const [projectsTab, setProjectsTab] = useState('active');
+  const [toasts, setToasts] = useState([]);
   const ref = useRef(null);
+  const chatRef = useRef(null);
+  const toastId = useRef(0);
+  const [permDropdownId, setPermDropdownId] = useState(null);
 
-  const planModes = {default: "Default mode", deep: "Deep plan mode", auto: "Deep plan (auto approve)"};
+  const addToast = (toast) => {
+    const id = ++toastId.current;
+    setToasts(prev => [...prev, {...toast, id}]);
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 8000);
+  };
+  const removeToast = (id) => setToasts(prev => prev.filter(t => t.id !== id));
 
   const switchMode = (m) => {
-    setMode(m); setText(m==="dp" ? "I uploaded a dump from SAP R3 into #SAP_R3\nImport that into #Vendors #PurchaseOrders #Invoices #Payments tables in this lakehouse.\nIf you think we need to write data to any other table, put it in the plan for my approval." : "");
-    setResources(m === "dp" ? [{id:"1",name:"ERP_Dump"},{id:"2",name:"SAP_R3"},{id:"3",name:"Vendors"},{id:"4",name:"PurchaseOrders"}] : []);
-    setPlanMode(m === "dp" ? "deep" : "default");
+    setMode(m);
+    setStep(STEPS.START);
+    setText(m === 'dp' ? DEFAULT_TEXT : '');
+    setResources(m === 'dp' ? RESOURCES.map(r=>({...r})) : []);
+    setPlanMode(m === 'dp' ? 'deep' : 'default');
   };
-  const onInput = (e) => { setText(e.target.value); e.target.style.height="auto"; e.target.style.height=e.target.scrollHeight+"px"; };
-  const fill = (t) => { setText(t); ref.current?.focus(); };
-  const isDP = mode === "dp";
+
+  const setPerm = (id, perm) => {
+    setResources(prev => prev.map(r => r.id === id ? {...r, perm} : r));
+    setPermDropdownId(null);
+  };
+
+  const submit = () => {
+    if (!text.trim()) return;
+    setStep(STEPS.SUBMITTED);
+    setTimeout(() => setStep(STEPS.RESEARCHING), 800);
+    setTimeout(() => setStep(STEPS.PLAN), 3000);
+  };
+
+  const executePlan = () => {
+    setStep(STEPS.EXECUTING);
+    setExecStep(0);
+    for (let i = 1; i <= EXEC_STEPS.length; i++) {
+      setTimeout(() => {
+        setExecStep(i);
+        if (i === EXEC_STEPS.length) {
+          addToast({type:'info', title:'Draft ready for review', body:'Review changes for SAP_R3 → Silver pipeline', actions:['Review conversation'], source:'Lakehouse'});
+          setTimeout(() => setStep(STEPS.REVIEW), 1200);
+        }
+      }, i * 1800);
+    }
+  };
+
+  const commitChanges = () => {
+    addToast({type:'success', title:'Conversation complete!', body:'Execution finished. Notebooks, diffs, and tables ready for review.', actions:['Review','Dismiss'], source:'Lakehouse'});
+    setStep(STEPS.DONE);
+  };
+
+  useEffect(() => {
+    if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [step, execStep]);
+
+  const isDP = mode === 'dp';
+  const planModes = {default:'Normal',deep:'Deep plan mode',auto:'Deep plan (automatic)'};
 
   return (
     <div className="page">
-      <nav className="sidebar">
+      {/* Sidebar */}
+      <nav className="sb">
         <div className="sb-top">
-          <button className="sb-item" style={{padding:"10px 0 8px"}}><span className="sb-icon" style={{fontSize:16,color:"#424242"}}>⊞</span></button>
-          <SB icon={I.home} label="Home" />
-          <SB icon={<CopilotSmall/>} label="Copilot" active raw />
-          <SB icon={I.create} label="Create" />
-          <SB icon={I.browse} label="Browse" />
-          <SB icon={I.catalog} label="OneLake catalog" />
-          <SB icon={I.apps} label="Apps" />
-          <SB icon={I.scores} label="Scorecards" />
-          <SB icon={I.db} label="Databases" />
-          <SB icon={I.monitor} label="Monitor" />
-          <SB icon={I.workspace} label="Workspaces" />
+          <button className="sb-i" style={{padding:'10px 0 8px'}}><span style={{fontSize:16,color:'#424242'}}>⊞</span></button>
+          <SB label="Home" icon={<svg viewBox="0 0 20 20"><path d="M10.45 2.15a.75.75 0 00-.9 0l-6.25 4.8A.75.75 0 003 7.6V16a1 1 0 001 1h3.25a.75.75 0 00.75-.75v-4.5a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v4.5c0 .414.336.75.75.75H16a1 1 0 001-1V7.6a.75.75 0 00-.3-.65l-6.25-4.8z" fill="#424242"/></svg>}/>
+          <SB label="Copilot" active icon={<CopilotSmall/>}/>
+          <SB label="Create" icon={<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.5"/><path d="M10 7v6M7 10h6" stroke="#424242" strokeWidth="1.5" strokeLinecap="round"/></svg>}/>
+          <SB label="Browse" icon={<svg viewBox="0 0 20 20"><path d="M2 5.5A1.5 1.5 0 013.5 4h3.59a1.5 1.5 0 011.06.44L9.56 5.85a.5.5 0 00.35.15H16.5A1.5 1.5 0 0118 7.5v7a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 14.5v-9z" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>}/>
+          <SB label="OneLake" icon={<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.3"/><circle cx="10" cy="10" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>}/>
+          <SB label="Workspaces" icon={<svg viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="12" rx="1.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M3 8h14" stroke="#424242" strokeWidth="1.3"/></svg>}/>
         </div>
         <div className="sb-bot">
-          <SB icon={I.people} label="Naresh-Osmos" />
-          <SB icon={I.lake} label="naresh_daily_lh2" />
-          <div className="sb-dots">···</div>
+          <SB label="Naresh-Osmos" icon={<svg viewBox="0 0 20 20"><circle cx="8" cy="7" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M2 16c0-2.76 2.69-5 6-5s6 2.24 6 5" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>}/>
+          <div style={{padding:10,color:'#616161',fontSize:20,textAlign:'center',letterSpacing:2,cursor:'pointer'}}>···</div>
         </div>
       </nav>
 
       <div className="main">
+        {/* Header */}
         <div className="hdr">
-          <div className="hdr-left">
-            <span className="hdr-title">Copilot</span>
-            <span className="hdr-badge">Preview</span>
+          <div className="hdr-tabs">
+            <button className="hdr-tab active">{isDP ? 'SAP R/3 Materi...' : 'Copilot'}</button>
           </div>
           <div className="hdr-right">
-            <button className="hdr-btn">{I.scissors} Clear chat</button>
-            <button className="hdr-btn" style={{fontSize:18,letterSpacing:1}}>···</button>
+            {isDP && <button onClick={()=>setShowProjects(true)} style={{fontWeight:600,color:'#0f6cbd'}}>📐 My Projects ({SAMPLE_PROJECTS.filter(p=>p.status!=='done').length})</button>}
+            <button onClick={()=>setShowProjects(true)}>Manage conversations</button>
           </div>
         </div>
 
-        <div className="content">
-          {/* Toggle */}
-          <div className="toggle-wrap">
-            <div className="toggle">
-              <button className={`toggle-btn ${!isDP?"t-active":""}`} onClick={()=>switchMode("conversation")}>
-                <span style={{width:14,height:14,display:"flex"}}>{I.chat}</span> Conversation
-              </button>
-              <button className={`toggle-btn ${isDP?"t-active":""}`} onClick={()=>switchMode("dp")}>
-                <span style={{width:14,height:14,display:"flex"}}>{I.project}</span> Data Project
-              </button>
-            </div>
+        {/* Active projects banner - shows in DP mode when projects are running */}
+        {isDP && step === STEPS.START && (
+          <div className="active-banner" onClick={()=>setShowProjects(true)}>
+            <span className="ab-dot"></span>
+            <span><span className="ab-count">{SAMPLE_PROJECTS.filter(p=>p.status==='running').length} project{SAMPLE_PROJECTS.filter(p=>p.status==='running').length!==1?'s':''}</span> executing  ·  <span className="ab-count">{SAMPLE_PROJECTS.filter(p=>p.status==='review').length}</span> awaiting review</span>
+            <span className="ab-arrow">›</span>
           </div>
+        )}
 
-          <div className="fade col" key={mode}>
-          {!isDP ? (<>
-            <div className="c-greeting"><CopilotLogo/><h1>Hi Naresh</h1></div>
-            <p className="c-sub">Uncover insights in your data with the help of AI</p>
-            <div className="input-area"><div className="input-box">
-              <textarea ref={ref} placeholder="Ask a question about your data" value={text} onChange={onInput} rows={1}/>
-              <div className="input-foot">
-                <div className="foot-left">
-                  <button className="f-btn">{I.plus}</button>
-                  <div className="dd-wrap">
-                    <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{I.settings} {planModes[planMode]} <span style={{display:"flex"}}>{I.chevDown}</span></button>
-                    {modeOpen && <div className="dd">
-                      <button className="dd-item" onClick={()=>{setPlanMode("default");setModeOpen(false);}}>Default mode</button>
-                      <button className="dd-item" onClick={()=>{setPlanMode("deep");setModeOpen(false);}}>Deep plan mode</button>
-                      <button className="dd-item" onClick={()=>{setPlanMode("auto");setModeOpen(false);}}>Deep plan (auto approve)</button>
-                    </div>}
+        {/* Chat content */}
+        <div className="content" ref={chatRef}>
+          {step === STEPS.START && (
+            <div className="chat col fade">
+              <div className="toggle">
+                <button className={`t-btn ${!isDP?'t-act':''}`} onClick={()=>switchMode('conversation')}>💬 Conversation</button>
+                <button className={`t-btn ${isDP?'t-act':''}`} onClick={()=>switchMode('dp')}>📐 Data Project</button>
+              </div>
+              {!isDP ? (
+                <>
+                  <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Naresh</h1></div></div>
+                  <p className="greet-sub">Uncover insights in your data with the help of AI</p>
+                </>
+              ) : (
+                <>
+                  <img src="dataprojects-logo.png" alt="DataProjects" className="dp-logo"/>
+                  <span className="dp-name">DataProjects</span>
+                  <h1 className="dp-h1">What would you like to build, migrate, or optimize?</h1>
+                  <p className="dp-desc">DataProjects manages long-running data engineering projects with milestones, autonomous execution, and production monitoring.</p>
+                </>
+              )}
+              {!isDP && (
+                <div className="sugs">
+                  <button className="sug" onClick={()=>setText('Find reports about [a topic]')}><span style={{color:'#0f6cbd'}}>✦</span><span>Find reports about <em>[a topic]</em></span></button>
+                  <button className="sug" onClick={()=>setText('Prep a summary for my team')}><span style={{color:'#8764b8'}}>✦</span><span>Prep a summary about <em>report</em></span></button>
+                  <button className="sug" onClick={()=>setText('What can Copilot help me with?')}><span style={{color:'#d83b01'}}>✦</span><span>What can Copilot help me with?</span></button>
+                </div>
+              )}
+              {isDP && (
+                <div className="sugs">
+                  <button className="sug" onClick={()=>setText('Migrate 2,000 tables from Teradata to Fabric')}>📄 Migrate Teradata to Fabric</button>
+                  <button className="sug" onClick={()=>setText('Run data quality assessment across 500 tables')}>📄 Run data quality assessment</button>
+                  <button className="sug" onClick={()=>setText('Consolidate 130 ERP systems into unified lakehouse')}>📄 Consolidate ERP data sources</button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {step !== STEPS.START && (
+            <div className="chat fade" style={{justifyContent:'flex-start'}}>
+              {/* User message */}
+              <div className="msg">
+                <div className="msg-user">
+                  {resources.length > 0 && <div className="chips" style={{marginBottom:8}}>{resources.map(r=><span key={r.id} className="chip">{r.name}</span>)}</div>}
+                  {DEFAULT_TEXT}
+                </div>
+              </div>
+
+              {/* Researching */}
+              {(step === STEPS.SUBMITTED || step === STEPS.RESEARCHING) && (
+                <div className="research fade">
+                  <div className="spinner"></div>
+                  <span className="research-text">{step === STEPS.SUBMITTED ? 'Starting...' : 'Beginning research... Scanning SAP R3 dump, analyzing table structures, mapping P2P entities'}</span>
+                </div>
+              )}
+
+              {/* Plan */}
+              {step === STEPS.PLAN && (
+                <div className="plan fade">
+                  <div className="plan-header">
+                    <h3>SAP P2P Silver Ingestion Plan</h3>
+                    <p>Deep plan mode · 3 milestones identified · <span className="proj-id">DP-20260309-001</span></p>
+                  </div>
+                  <div className="plan-section">
+                    <h4>Understanding</h4>
+                    <p>You want to ingest Procure-to-Pay data from an SAP R3 dump into normalized Silver tables. The source is a raw dump in the Bronze lakehouse. I will create a medallion pipeline with validation, transformation, and quality checks.</p>
+                  </div>
+                  <div className="plan-section">
+                    <h4>Discovery</h4>
+                    <ul>
+                      <li>Found 4 source tables in ERP_Dump: EKKO (PO headers), EKPO (PO items), LFA1 (Vendors), BSEG (Invoices)</li>
+                      <li>P2P Business Rules.xlsx has 23 mapping rules and 12 validation constraints</li>
+                      <li>Target tables: Vendors, PurchaseOrders, PurchaseOrderLines, Invoices</li>
+                    </ul>
+                  </div>
+                  <div className="plan-section">
+                    <h4>Execution Plan - Milestones</h4>
+                    {[
+                      {n:1,title:'Vendor Master Ingestion',desc:'Transform LFA1 → Vendors table. Dedup, standardize addresses, validate tax IDs.'},
+                      {n:2,title:'Purchase Order Pipeline',desc:'Transform EKKO+EKPO → PurchaseOrders + PurchaseOrderLines. Apply business rules from Excel, validate amounts.'},
+                      {n:3,title:'Invoice Matching & Quality',desc:'Transform BSEG → Invoices. 3-way match (PO, receipt, invoice). Deploy quality monitor.'},
+                    ].map(ms=>(
+                      <div className="plan-milestone" key={ms.n}>
+                        <div className="ms-num pending">{ms.n}</div>
+                        <div className="ms-content"><h5>{ms.title}</h5><p>{ms.desc}</p></div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="plan-section">
+                    <h4>What I'll Produce</h4>
+                    <ul>
+                      <li>5 PySpark notebooks (transformations, quality checks, orchestrator)</li>
+                      <li>4 Silver Delta tables with schema enforcement</li>
+                      <li>1 production monitor per milestone (freshness, row counts, null rates)</li>
+                      <li>Data lineage from Bronze → Silver for all tables</li>
+                    </ul>
+                  </div>
+                  <div className="plan-actions">
+                    <button className="btn" onClick={()=>setStep(STEPS.START)}>Edit the plan</button>
+                    <button className="btn btn-primary" onClick={executePlan}>Execute plan</button>
                   </div>
                 </div>
-                <button className="send" disabled={!text.trim()}>{I.arrowR}</button>
-              </div>
-            </div></div>
-            <div className="sugs">
-              <button className="sug" onClick={()=>fill("Find reports about [a topic]")}>
-                <span className="sug-ic" style={{color:"#0f6cbd"}}>{I.sparkle}</span>
-                <span>Find reports about <em>[a topic]</em></span>
-              </button>
-              <button className="sug" onClick={()=>fill("Prep a summary for my team")}>
-                <span className="sug-ic" style={{color:"#8764b8"}}>{I.sparkle}</span>
-                <span>Prep a summary for my team about <em>report</em></span>
-              </button>
-              <button className="sug" onClick={()=>fill("What can Copilot help me with?")}>
-                <span className="sug-ic" style={{color:"#d83b01"}}>{I.sparkle}</span>
-                <span>What can Copilot help me with?</span>
-              </button>
-            </div>
-            <button className="see-m">See more <span style={{display:"flex"}}>{I.chevDown}</span></button>
-          </>) : (<>
-            <img src="dataprojects-logo.png" alt="DataProjects" className="dp-logo-img"/>
-            <span className="dp-name">DataProjects</span>
-            <h1 className="dp-h1">What would you like to build, migrate, or optimize?</h1>
-            <p className="dp-desc">DataProjects manages long-running data engineering projects with milestones, autonomous execution, and production monitoring. Review each milestone and approve before it ships.</p>
-            <div className="input-area"><div className="input-box">
-              {resources.length>0 && <div className="chips">{resources.map(r=>(
-                <span key={r.id} className="chip">{r.name}<button className="chip-x" onClick={()=>setResources(x=>x.filter(y=>y.id!==r.id))}>×</button></span>
-              ))}</div>}
-              <textarea ref={ref} placeholder="Describe your project or provide instructions..." value={text} onChange={onInput} rows={3}/>
-              <div className="input-foot">
-                <div className="foot-left">
-                  <div className="dd-wrap">
-                    <button className="f-btn" onClick={()=>setAddOpen(!addOpen)}>{I.plus}</button>
-                    {addOpen && <div className="dd">
-                      <button className="dd-item" onClick={()=>setAddOpen(false)}>{I.database} OneLake catalog</button>
-                      <button className="dd-item" onClick={()=>setAddOpen(false)}>{I.upload} Upload files</button>
-                    </div>}
+              )}
+
+              {/* Executing - streaming tool call log */}
+              {step === STEPS.EXECUTING && (
+                <div className="exec-log fade">
+                  <div className="exec-heading">Executing the plan...</div>
+                  <div className="exec-status">
+                    <span>{execStep < EXEC_STEPS.length ? 'Running...' : '✓ Complete'}</span>
+                    <button title="Copy log">📋</button>
                   </div>
-                  <div className="dd-wrap">
-                    <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{I.settings} {planModes[planMode]} <span style={{display:"flex"}}>{I.chevDown}</span></button>
-                    {modeOpen && <div className="dd">
-                      <button className="dd-item" onClick={()=>{setPlanMode("default");setModeOpen(false);}}>Default mode</button>
-                      <button className="dd-item" onClick={()=>{setPlanMode("deep");setModeOpen(false);}}>Deep plan mode</button>
-                      <button className="dd-item" onClick={()=>{setPlanMode("auto");setModeOpen(false);}}>Deep plan (auto approve)</button>
-                    </div>}
+                  <div className="exec-entries">
+                    {EXEC_STEPS.map((s, i) => {
+                      if (i > execStep) return null;
+                      const isComplete = i < execStep;
+                      const isRunning = i === execStep && execStep < EXEC_STEPS.length;
+                      return (
+                        <div className="exec-entry" key={i}>
+                          <div><span className="exec-tool">[{s.tool}]</span> <span className="exec-action">{s.action}</span></div>
+                          {s.detail && <div className="exec-detail">{'\u00A0\u00A0\u00A0\u00A0'}{s.detail}</div>}
+                          {isComplete && <div className="exec-result">{'\u00A0\u00A0\u00A0\u00A0'}✓ {s.result}</div>}
+                          {isRunning && !s.detail && <div className="exec-running"><span className="mini-spin"></span></div>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="resources-bar">
+                    <span>Resources</span>
+                    <div className="r-icons">
+                      <span className="r-icon">📊</span>
+                      <span className="r-icon">📈</span>
+                      <span className="r-icon">🔗</span>
+                    </div>
+                    <span className="r-arrow">›</span>
+                  </div>
+                  <div className="exec-feedback">
+                    <button title="Copy">📋</button>
+                    <button title="Share">↗</button>
+                    <button title="Like">👍</button>
+                    <button title="Dislike">👎</button>
+                    <button title="More">···</button>
                   </div>
                 </div>
-                <button className="send" disabled={!text.trim()}>{I.arrowR}</button>
-              </div>
-            </div></div>
-            <div className="sugs">
-              <button className="sug" onClick={()=>fill("Migrate 2,000 tables from Teradata to Fabric")}>
-                <span className="sug-ic" style={{color:"#616161"}}>{I.doc}</span>
-                <span>Migrate Teradata to Fabric</span>
-              </button>
-              <button className="sug" onClick={()=>fill("Run data quality assessment across 500 tables")}>
-                <span className="sug-ic" style={{color:"#616161"}}>{I.doc}</span>
-                <span>Run data quality assessment</span>
-              </button>
-              <button className="sug" onClick={()=>fill("Consolidate 130 ERP systems into unified lakehouse")}>
-                <span className="sug-ic" style={{color:"#616161"}}>{I.doc}</span>
-                <span>Consolidate ERP data sources</span>
-              </button>
+              )}
+
+              {/* Commit review */}
+              {step === STEPS.REVIEW && (
+                <div className="commit fade" style={{marginTop:16}}>
+                  <div className="commit-header">
+                    <h3>Draft SAP P2P Silver Ingestion</h3>
+                    <p>Review staged artifacts before committing · <span className="proj-id">DP-20260309-001</span></p>
+                  </div>
+                  <div className="commit-stats">
+                    <div className="stat-box"><div className="stat-icon">📓</div><div className="stat-num">5</div><div className="stat-label">Notebooks</div></div>
+                    <div className="stat-box"><div className="stat-icon">📊</div><div className="stat-num">4</div><div className="stat-label">Tables loaded</div></div>
+                  </div>
+                  <div className="file-list">
+                    <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">sap_mm_transformations.pynb</span></div>
+                    <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">data_quality_checks.pynb</span></div>
+                    <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">silver_table_writer.pynb</span></div>
+                    <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_invoice_matching.pynb</span></div>
+                    <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_orchestrator.pynb</span></div>
+                  </div>
+                  <div className="diff-panel">
+                    <div className="diff-header">⟨/⟩ Notebook diff &nbsp;&nbsp;<span style={{fontWeight:400,color:'#616161'}}>data_quality_checks.pynb</span></div>
+                    <div className="diff-desc">Added 12 validation rules including mandatory field checks, amount validations, referential integrity between PO header/items</div>
+                    <div className="diff-view">
+                      <div className="diff-side">
+                        <div className="diff-line diff-old"><span className="diff-ln">6</span>declare @vendorId varchar(5)</div>
+                        <div className="diff-line diff-old"><span className="diff-ln">7</span>declare @DynamicSQL varchar(80</div>
+                        <div className="diff-line diff-normal"><span className="diff-ln">8</span></div>
+                        <div className="diff-line diff-old"><span className="diff-ln">9</span>-- Get the partition to backup</div>
+                        <div className="diff-line diff-old"><span className="diff-ln">10</span>select @vendorId = dbo.getPart</div>
+                      </div>
+                      <div className="diff-side" style={{borderLeft:'1px solid #e0e0e0'}}>
+                        <div className="diff-line diff-new"><span className="diff-ln">6</span>-- AutoFix: replace the partiti</div>
+                        <div className="diff-line diff-new"><span className="diff-ln">7</span>declare @dt datetime2;</div>
+                        <div className="diff-line diff-normal"><span className="diff-ln">8</span>declare @DynamicSQL varchar(80</div>
+                        <div className="diff-line diff-new"><span className="diff-ln">9</span>set @dt = getdate();</div>
+                        <div className="diff-line diff-new"><span className="diff-ln">10</span>set @DynamicSQL = 'CREATE TABL</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="data-diff">
+                    <div className="data-diff-title">📊 Data Diffs — Schema & Row Changes</div>
+                    <table className="schema-tbl">
+                      <thead><tr><th>Column</th><th>Type</th><th>Change</th></tr></thead>
+                      <tbody>
+                        <tr className="schema-add"><td>transaction_amount_usd</td><td>DECIMAL(18,2)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
+                        <tr className="schema-add"><td>currency_code</td><td>VARCHAR(3)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
+                        <tr className="schema-mod"><td>vendor_name</td><td>VARCHAR(100) → VARCHAR(200)</td><td style={{color:'#c77700',fontWeight:600}}>~ Modified</td></tr>
+                        <tr><td>vendor_id</td><td>INT</td><td style={{color:'#a0a0a0'}}>—</td></tr>
+                        <tr><td>po_number</td><td>VARCHAR(20)</td><td style={{color:'#a0a0a0'}}>—</td></tr>
+                      </tbody>
+                    </table>
+                    <div className="row-counts">
+                      <div className="row-ct"><span>Vendors</span><strong>8,432</strong><small>+8,432 new</small></div>
+                      <div className="row-ct"><span>PurchaseOrders</span><strong>45,891</strong><small>+45,891 new</small></div>
+                      <div className="row-ct"><span>Invoices</span><strong>32,156</strong><small>+32,156 new</small></div>
+                      <div className="row-ct"><span>PO Lines</span><strong>187,234</strong><small>+187,234 new</small></div>
+                    </div>
+                  </div>
+                  <div className="plan-actions">
+                    <button className="btn">Request clarifications</button>
+                    <button className="btn">Edit the plan and create another review</button>
+                    <button className="btn btn-primary" onClick={commitChanges}>Commit changes on my behalf</button>
+                  </div>
+                </div>
+              )}
+
+              {/* Recap / Execution Summary */}
+              {step === STEPS.DONE && (
+                <div className="recap fade" style={{marginTop:16}}>
+                  <div className="recap-header">
+                    <div className="recap-check">✓</div>
+                    <div>
+                      <div className="recap-title">Execution Summary: SAP P2P Silver Ingestion</div>
+                      <div className="recap-subtitle">Notebooks deployed and data loaded to Silver lakehouse. Links to artifacts are available below.</div>
+                      <div className="recap-duration"><span className="dur-badge">DURATION</span> 4 hours 32 minutes</div>
+                    </div>
+                  </div>
+
+                  <div className="recap-stats">
+                    <div className="recap-stat">
+                      <div className="rs-num">📓 5</div>
+                      <div className="rs-label">Notebooks</div>
+                      <div className="rs-sub">3 modified · 2 new</div>
+                    </div>
+                    <div className="recap-stat">
+                      <div className="rs-num">📊 4</div>
+                      <div className="rs-label">Tables loaded</div>
+                      <div className="rs-sub">273,713 total rows</div>
+                    </div>
+                    <div className="recap-stat">
+                      <div className="rs-num" style={{color:'#1a7f37'}}>✓ 4/4</div>
+                      <div className="rs-label">Validations passed</div>
+                      <div className="rs-sub">All reported as passing</div>
+                    </div>
+                  </div>
+
+                  <div className="recap-section">
+                    <div className="recap-section-title">📓 Notebooks</div>
+                    {[
+                      {badge:'mod',name:'sap_mm_transformations.pynb',stat:'+147'},
+                      {badge:'mod',name:'data_quality_checks.pynb',stat:'+64 / -18'},
+                      {badge:'mod',name:'silver_table_writer.pynb',stat:'+23'},
+                      {badge:'new',name:'p2p_invoice_matching.pynb',stat:'+89'},
+                      {badge:'new',name:'p2p_orchestrator.pynb',stat:'+56'},
+                    ].map((f,i)=>(
+                      <div className="recap-row" key={i}>
+                        <span className={`recap-badge ${f.badge}`}>{f.badge==='mod'?'MODIFIED':'NEW'}</span>
+                        <span className="recap-row-name">{f.name}</span>
+                        <span className="recap-row-stat">{f.stat}</span>
+                        <a className="recap-row-link" title="Open">↗</a>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="recap-section">
+                    <div className="recap-section-title">📊 Tables</div>
+                    {[
+                      {name:'/ERP_Normalized/Vendors',rows:'8,432 rows'},
+                      {name:'/ERP_Normalized/PurchaseOrders',rows:'45,891 rows'},
+                      {name:'/ERP_Normalized/PurchaseOrderLines',rows:'187,234 rows'},
+                      {name:'/ERP_Normalized/Invoices',rows:'32,156 rows'},
+                    ].map((t,i)=>(
+                      <div className="recap-row" key={i}>
+                        <span className="recap-badge loaded">LOADED</span>
+                        <span className="recap-row-name">{t.name}</span>
+                        <span className="recap-row-stat">{t.rows}</span>
+                        <a className="recap-row-link" title="Open">↗</a>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="recap-section">
+                    <div className="recap-section-title">✓ Validations</div>
+                    {[
+                      {name:'Schema Validation',extra:null},
+                      {name:'Referential Integrity',extra:null},
+                      {name:'Data Quality Checks',extra:'99.2% pass rate'},
+                      {name:'Row Count Verification',extra:null},
+                    ].map((v,i)=>(
+                      <div className="recap-row" key={i}>
+                        <span className="recap-row-name" style={{marginLeft:0}}>{v.name}</span>
+                        {v.extra && <span style={{color:'#616161',fontSize:12,marginRight:8}}>{v.extra}</span>}
+                        <span className="recap-passed">✓ PASSED</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="resources-bar">
+                    <span>Resources</span>
+                    <div className="r-icons">
+                      <span className="r-icon">📊</span>
+                      <span className="r-icon">📈</span>
+                      <span className="r-icon">🔗</span>
+                    </div>
+                    <span className="r-arrow">›</span>
+                  </div>
+
+                  <div className="exec-feedback">
+                    <button title="Copy">📋</button>
+                    <button title="Share">↗</button>
+                    <button title="Like">👍</button>
+                    <button title="Dislike">👎</button>
+                    <button title="More">···</button>
+                  </div>
+
+                  <div className="recap-actions">
+                    <button className="recap-action" onClick={()=>setStep(STEPS.START)}>Archive this conversation</button>
+                    <button className="recap-action">Continue with improvements</button>
+                    <button className="recap-action" onClick={()=>{setStep(STEPS.START);switchMode('dp')}}>Start a new conversation</button>
+                  </div>
+                </div>
+              )}
             </div>
-            <button className="see-m">See more <span style={{display:"flex"}}>{I.chevDown}</span></button>
-          </>)}
+          )}
+        </div>
+
+        {/* Input */}
+        <div className="input-area">
+          {step === STEPS.START && isDP && (
+            <div className="dp-input-label" style={{maxWidth:720,margin:'0 auto 0'}}>
+              <span className="dp-il-left">
+                <span className="dp-il-dot"></span>
+                Data Project Mode
+              </span>
+              <div className="scope-toggle">
+                <span className={`scope-label ${projectScope==='my'?'scope-act':''}`}>My Project</span>
+                <button className={`scope-switch ${projectScope==='team'?'on':''}`} onClick={()=>setProjectScope(projectScope==='my'?'team':'my')} title={projectScope==='my'?'Switch to Team Project':'Switch to My Project'}>
+                  <span className="scope-knob"></span>
+                </button>
+                <span className={`scope-label ${projectScope==='team'?'scope-act':''}`}>Team Project</span>
+              </div>
+            </div>
+          )}
+          <div className={`input-box${step === STEPS.START && isDP ? ' dp-glow' : ''}`}>
+            {step === STEPS.START && isDP && resources.length > 0 && (
+              <div className="chips">
+                {resources.slice(0, MAX_VISIBLE).map(r => (
+                  <span key={r.id} className="chip">
+                    <span className={`chip-type ${TYPE_CSS[r.type]||'tbl'}`}>{TYPE_ICONS[r.type]||'⊞'}</span>
+                    {r.name}
+                    <span className="chip-perm-wrap">
+                      <button className="perm-toggle" onClick={e=>{e.stopPropagation();setPermDropdownId(permDropdownId===r.id?null:r.id)}}>
+                        {r.perm==='ro'?'✂':'✏'}<span style={{fontSize:9,marginLeft:1}}>▾</span>
+                      </button>
+                      {permDropdownId===r.id && (
+                        <div className="perm-dd-menu">
+                          <button className="perm-opt" onClick={()=>setPerm(r.id,'ro')}>
+                            <span className="perm-chk">{r.perm==='ro'?'✓':'\u00A0'}</span>
+                            ✂ Read-only
+                          </button>
+                          <button className="perm-opt" onClick={()=>setPerm(r.id,'rw')}>
+                            <span className="perm-chk">{r.perm==='rw'?'✓':'\u00A0'}</span>
+                            ✏ Read & write
+                          </button>
+                        </div>
+                      )}
+                    </span>
+                    <button className="chip-x" onClick={()=>setResources(x=>x.filter(y=>y.id!==r.id))}>×</button>
+                  </span>
+                ))}
+                {resources.length > MAX_VISIBLE && (
+                  <button className="chip-overflow" title={resources.slice(MAX_VISIBLE).map(r=>r.name).join(', ')}>+{resources.length - MAX_VISIBLE}</button>
+                )}
+              </div>
+            )}
+            <textarea ref={ref} placeholder={isDP?'Describe your project or provide instructions...':'Ask a question about your data'} value={text} onChange={e=>{setText(e.target.value);e.target.style.height='auto';e.target.style.height=e.target.scrollHeight+'px'}} rows={step===STEPS.START&&isDP?3:1}/>
+            <div className="input-foot">
+              <div className="foot-left">
+                <div className="dd-wrap">
+                  <button className="f-btn" onClick={()=>setAddOpen(!addOpen)}>+</button>
+                  {addOpen && <div className="dd">
+                    <button className="dd-item" onClick={()=>setAddOpen(false)}>🗄 OneLake catalog</button>
+                    <button className="dd-item" onClick={()=>setAddOpen(false)}>📤 Upload files</button>
+                  </div>}
+                </div>
+                <div className="dd-wrap">
+                  <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{planMode==='default'?'⚡':planMode==='deep'?'⚙':'🤖'} {planModes[planMode]} ▾</button>
+                  {modeOpen && <div className="mode-dd">
+                    <button className={`mode-item ${planMode==='default'?'mode-sel':''}`} onClick={()=>{setPlanMode('default');setModeOpen(false)}}>
+                      <span className="mode-icon">⚡</span>
+                      <div><div className="mode-title">Normal</div><div className="mode-desc">Starts a lightweight plan immediately and runs in the background</div></div>
+                    </button>
+                    <button className={`mode-item ${planMode==='deep'?'mode-sel':''}`} onClick={()=>{setPlanMode('deep');setModeOpen(false)}}>
+                      <span className="mode-icon">⚙</span>
+                      <div><div className="mode-title">Deep plan</div><div className="mode-desc">Builds a detailed plan and waits for your approval before running</div></div>
+                    </button>
+                    <button className={`mode-item ${planMode==='auto'?'mode-sel':''}`} onClick={()=>{setPlanMode('auto');setModeOpen(false)}}>
+                      <span className="mode-icon">🤖</span>
+                      <div><div className="mode-title">Deep plan (automatic)</div><div className="mode-desc">Builds a detailed plan and runs it automatically</div></div>
+                    </button>
+                  </div>}
+                </div>
+              </div>
+              <button className="send" disabled={!text.trim()} onClick={submit}>→</button>
+            </div>
           </div>
+        </div>
+      </div>
+
+      {/* Toasts */}
+      {toasts.length > 0 && (
+        <div className="toasts">
+          {toasts.map(t => (
+            <div className="toast" key={t.id}>
+              <div className="toast-top">
+                <div className={`toast-icon ${t.type}`}>{t.type === 'success' ? '✓' : 'ℹ'}</div>
+                <div className="toast-text">
+                  <div className="toast-title">{t.title}</div>
+                  <div className="toast-body">{t.body}</div>
+                </div>
+                <button className="toast-close" onClick={() => removeToast(t.id)}>×</button>
+              </div>
+              {t.actions && (
+                <div className="toast-actions">
+                  {t.actions.map((a, i) => <button key={i} onClick={() => removeToast(t.id)}>{a}</button>)}
+                </div>
+              )}
+              {t.source && <div className="toast-source">{t.source}</div>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Projects Panel */}
+      {showProjects && <ProjectsPanel onClose={()=>setShowProjects(false)} tab={projectsTab} setTab={setProjectsTab}/>}
+    </div>
+  );
+}
+
+function SB({label, icon, active}) {
+  return <button className={`sb-i ${active?'act':''}`}><span style={{display:'flex',width:20,height:20}}>{icon}</span><span className="sb-lbl">{label}</span></button>;
+}
+
+function CopilotSmall() {
+  return <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3L4.5 6.5v3L10 13l5.5-3.5v-3L10 3z" fill="#6264A7" opacity=".85"/><path d="M10 9.5L4.5 6v3.5L10 13V9.5z" fill="#E74856" opacity=".85"/><path d="M10 9.5l5.5-3.5v3.5L10 13V9.5z" fill="#05A6F0" opacity=".85"/><path d="M10 3l5.5 3.5L10 9.5 4.5 6.5 10 3z" fill="#FFB900" opacity=".9"/></svg>;
+}
+
+function CopilotLogo() {
+  return <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 6L9 12.5v5.5l11 6.5 11-6.5v-5.5L20 6z" fill="#6264A7" opacity=".85"/><path d="M20 18L9 11.5V18l11 6.5V18z" fill="#E74856" opacity=".85"/><path d="M20 18l11-6.5V18l-11 6.5V18z" fill="#05A6F0" opacity=".85"/><path d="M20 6l11 6.5L20 18 9 12.5 20 6z" fill="#FFB900" opacity=".9"/><path d="M20 24.5l11-6.5v5l-11 6.5v-5z" fill="#05A6F0" opacity=".6"/><path d="M20 24.5L9 18v5l11 6.5v-5z" fill="#E74856" opacity=".6"/></svg>;
+}
+
+function ProjectsPanel({onClose, tab, setTab}) {
+  const activeProjects = SAMPLE_PROJECTS.filter(p => p.status !== 'done');
+  const completedProjects = SAMPLE_PROJECTS.filter(p => p.status === 'done');
+  const displayed = tab === 'active' ? activeProjects : completedProjects;
+
+  const statusColors = {running:'#0f6cbd',review:'#c77700',done:'#1a7f37',queued:'#616161'};
+  const progressColors = {running:'#0f6cbd',review:'#c77700',done:'#1a7f37',queued:'#d0d0d0'};
+
+  return (
+    <div className="projects-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <div className="projects-panel">
+        <div className="pp-header">
+          <h2>My Data Projects</h2>
+          <button className="pp-close" onClick={onClose}>×</button>
+        </div>
+        <div className="pp-tabs">
+          <button className={`pp-tab ${tab==='active'?'pp-active':''}`} onClick={()=>setTab('active')}>Active ({activeProjects.length})</button>
+          <button className={`pp-tab ${tab==='completed'?'pp-active':''}`} onClick={()=>setTab('completed')}>Completed ({completedProjects.length})</button>
+        </div>
+        <div className="pp-body">
+          {displayed.length === 0 ? (
+            <div className="pp-empty">No {tab} projects</div>
+          ) : (
+            displayed.map(p => (
+              <div className="pp-card" key={p.id} onClick={onClose}>
+                <div className="pp-card-top">
+                  <div>
+                    <span className="pp-card-title">{p.name}</span>
+                    {p.projId && <div className="proj-id">{p.projId}</div>}
+                  </div>
+                  <span className={`pp-status ${p.status}`}>{p.statusLabel}</span>
+                </div>
+                <div className="pp-card-desc">{p.desc}</div>
+                <div className="pp-card-meta">
+                  <span>🕐 Started {p.started}</span>
+                  <span>↻ {p.updated}</span>
+                  <span>📌 {p.milestones} milestones</span>
+                  {p.health && p.health.length > 0 && (
+                    <span style={{display:'flex',alignItems:'center',gap:4}}>
+                      <span style={{fontSize:11}}>Health</span>
+                      <span className="health-dots">{p.health.map((h,i)=><span key={i} className={`health-dot h-${h}`}></span>)}</span>
+                    </span>
+                  )}
+                </div>
+                {p.status !== 'done' && p.status !== 'queued' && (
+                  <div className="pp-card-progress">
+                    <div className="pp-card-progress-fill" style={{width:`${p.progress}%`,background:progressColors[p.status]}}></div>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-function SB({icon, label, active, raw}) {
-  return (
-    <button className={`sb-item ${active?"active":""}`}>
-      <span className="sb-icon">{raw ? icon : <span style={{display:"flex",width:20,height:20}}>{icon}</span>}</span>
-      <span className="sb-label">{label}</span>
-    </button>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>

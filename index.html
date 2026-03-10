@@ -80,14 +80,10 @@ a{color:inherit;text-decoration:none}
 .modal-gh-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0f6cbd;text-decoration:none;margin-bottom:16px;padding:6px 14px;border:1px solid #d0d8e0;border-radius:6px;transition:background 0.15s}
 .modal-gh-link:hover{background:#e8f0fe}
 
-/* Accordion */
-.acc{border:1px solid #e8e8e8;border-radius:8px;margin-bottom:8px;overflow:hidden}
-.acc summary{padding:12px 16px;font-size:14px;font-weight:600;color:#242424;cursor:pointer;background:#fafafa;list-style:none;display:flex;align-items:center;gap:8px}
-.acc summary::-webkit-details-marker{display:none}
-.acc summary::before{content:'▸';font-size:12px;color:#616161;transition:transform 0.2s}
-.acc[open] summary::before{transform:rotate(90deg)}
-.acc summary:hover{background:#f0f0f0}
-.acc-body{padding:12px 16px 16px;border-top:1px solid #e8e8e8}
+/* PRD sections - always open */
+.acc-open{border:1px solid #e8e8e8;border-radius:8px;margin-bottom:8px;overflow:hidden}
+.acc-heading{padding:12px 16px;font-size:14px;font-weight:600;color:#242424;background:#fafafa;border-bottom:1px solid #e8e8e8}
+.acc-body{padding:12px 16px 16px}
 </style>
 </head>
 <body>
@@ -322,7 +318,7 @@ const content = {
     <h2>Full PRD (v1.5)</h2>
     <p style="margin-bottom:16px"><em>Authored by Naresh Venkat & Vijay Sarad - March 06, 2026</em></p>
     <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjects/Fabric_DataProjects_Agent_PRD.md" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-    <details class="acc"><summary>1. Executive Summary</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Fabric DataProjects is an AI-powered data engineering agent purpose-built for long-running, multi-milestone projects that unfold over weeks or months. Unlike single-shot AI assistants, DataProjects maintains persistent project context, plans work as incremental milestones, executes complex Spark-based transformations, and delivers results to production one milestone at a time, each accompanied by an automatically deployed production monitor.</p>
+    <div class="acc-open"><div class="acc-heading">1. Executive Summary</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Fabric DataProjects is an AI-powered data engineering agent purpose-built for long-running, multi-milestone projects that unfold over weeks or months. Unlike single-shot AI assistants, DataProjects maintains persistent project context, plans work as incremental milestones, executes complex Spark-based transformations, and delivers results to production one milestone at a time, each accompanied by an automatically deployed production monitor.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects is exposed through two complementary surfaces:</p>
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">CLI - any coding agent (GitHub Copilot via FabricSkills, Claude Code, Cursor, or any agent capable of calling an HTTP API). The agent communicates with the DataProjects Orchestrator via a well-defined REST API.</li>
@@ -337,8 +333,8 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">My Projects vs. Team Projects - projects default to private (&quot;My Projects&quot;) but can be toggled to &quot;Team Projects&quot; for workspace-wide visibility and collaboration.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Draft/Commit model - the agent never writes directly to production. All work is staged; nothing reaches production without explicit user approval at the milestone level.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Agent-agnostic CLI via HTTP API - the DataProjects Orchestrator exposes a self-describing REST API (GET /api/v1/hello) enabling any coding agent to integrate without a proprietary plugin.</li>
-</ul></div></details>
-<details class="acc"><summary>1.1 The Business Case for Project-Mode AI</summary><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Why the Industry Is Moving from Chat to Projects</h4>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">1.1 The Business Case for Project-Mode AI</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Why the Industry Is Moving from Chat to Projects</h4>
 
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">Both Anthropic and OpenAI have independently concluded that ephemeral chat is broken for real work. Both shipped &quot;Projects&quot; features in 2024-2025 to fix the same three fundamental problems:</p>
 
@@ -372,13 +368,13 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Governance</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">File permissions</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level lineage, PII detection, quality gates, draft/commit</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Post-deployment</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">None</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Production monitors: quality, freshness, schema drift, anomaly detection</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Team model</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Share the chat</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace-inherited roles, team visibility into milestone progress</td></tr>
-</table></div></details>
-<details class="acc"><summary>1.2 Why &quot;Projects&quot; - Not Tasks, Not Chat</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The deliberate naming reflects a product insight: the work data engineers do is project-scoped. Consider:</p>
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">1.2 Why &quot;Projects&quot; - Not Tasks, Not Chat</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The deliberate naming reflects a product insight: the work data engineers do is project-scoped. Consider:</p>
 
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><em>Lydia is a Data Engineer leading an initiative to consolidate data from 130 ERP systems into Microsoft Fabric. She receives a request to ingest Procure-to-Pay data from SAP R3 into Silver layer tables. The planning phase alone would traditionally consume weeks: studying SAP enterprise resource diagrams, navigating documentation, meeting with business teams. Only then could development begin, followed by more weeks of coding, testing, and validation.</em></p>
 
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">This is not a task. It is a project - with planning, discovery, execution, validation, and deployment phases. With DataProjects, Lydia enters instructions, references her Bronze Lakehouse, attaches business rules from Excel, selects Deep Plan Mode, and submits. The AI plans milestones, creates notebooks, executes transformations, and delivers each milestone to production with a monitor watching quality. What took months is delivered incrementally without compromising governance.</p></div></details>
-<details class="acc"><summary>1.3 Target Project Scenarios</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects targets data engineering work that runs for weeks, involves teams, and has natural milestones. DataProjects operates exclusively within Microsoft Fabric, but many of the highest-value scenarios involve migration TO Fabric from other platforms:</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">This is not a task. It is a project - with planning, discovery, execution, validation, and deployment phases. With DataProjects, Lydia enters instructions, references her Bronze Lakehouse, attaches business rules from Excel, selects Deep Plan Mode, and submits. The AI plans milestones, creates notebooks, executes transformations, and delivers each milestone to production with a monitor watching quality. What took months is delivered incrementally without compromising governance.</p></div></div>
+<div class="acc-open"><div class="acc-heading">1.3 Target Project Scenarios</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects targets data engineering work that runs for weeks, involves teams, and has natural milestones. DataProjects operates exclusively within Microsoft Fabric, but many of the highest-value scenarios involve migration TO Fabric from other platforms:</p>
 
 <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Scenario</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Timeline</th></tr>
@@ -390,27 +386,27 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Multi-Source Data Lake</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">20+ source systems (POS, CRM, APIs, file drops) into unified medallion architecture. Source-specific ingestion, harmonization, quality validation.</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">2-4 months</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Performance Optimization</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Code repo + 100+ Delta tables. Query tuning, partition redesign, Spark config optimization, Z-order analysis, cost reduction.</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">2-6 weeks</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Enterprise Monitoring &amp; Break-Fix</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">300+ production Delta tables. Automated row-count trending, schema drift detection, null-rate anomalies, freshness SLA tracking, root cause analysis and remediation.</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Ongoing</td></tr>
-</table></div></details>
-<details class="acc"><summary>1.4 What We Are Shipping</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">1.4 What We Are Shipping</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Surface</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Entry Point</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">CLI</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Any coding agent (GHCP, Claude Code, Cursor)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Agent communicates with DataProjects Orchestrator via HTTP REST API. GHCP uses FabricSkills plugin; others use /api/v1/hello for self-discovery.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">In-Fabric</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fabric AI Orchestrator - Project Mode toggle</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">User toggles Project Mode. Orchestrator delegates to DataProjects Orchestrator via API. DataProjects Panel for visibility.</td></tr>
 
 
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">Users interact only with their chosen orchestrator (Fabric AI Platform or coding agent CLI). The DataProjects Orchestrator is backend infrastructure exposed as an HTTP API.</p></div></details>
-<details class="acc"><summary>2. Assumptions</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">Users interact only with their chosen orchestrator (Fabric AI Platform or coding agent CLI). The DataProjects Orchestrator is backend infrastructure exposed as an HTTP API.</p></div></div>
+<div class="acc-open"><div class="acc-heading">2. Assumptions</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">DataProjects ships after the Osmos team delivers the AI Data Engineer Skill. The AI Data Engineer Skill provides foundational single-session capabilities (Spark job execution, lakehouse management, notebook generation, data quality checks) that DataProjects orchestrates across milestones.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">The AI Data Engineer Skill is the primary execution engine within each milestone. DataProjects adds project lifecycle, milestone planning, state management, production monitor deployment, and cross-session context on top.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Fabric capacity and Spark runtime are available in the target workspace.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Users have appropriate workspace permissions (Admin or Member) to create and manage projects.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">The Unified AI Platform (Fabric AI Orchestrator) supports skill loading and Project Mode toggle by the time DataProjects ships.</li>
-</ul></div></details>
-<details class="acc"><summary>3.1 The Industry Shift: From Chat to Projects</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The AI industry is rapidly moving beyond single-turn chat interactions toward persistent, project-oriented AI. Claude Projects and ChatGPT Projects allow users to organize conversations, attach reference documents, and maintain context across sessions. However, these are general-purpose project containers. They organize conversations, not engineering work.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects takes the next step: an AI agent that does not just organize context but actually plans, executes, and delivers data engineering work across milestones, with production-grade governance and incremental delivery to production.</p></div></details>
-<details class="acc"><summary>3.2 Why Data Engineering Demands Incremental Delivery</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Enterprise data engineering projects - migrations, consolidations, modernizations - are too large and too risky for a single &quot;big bang&quot; deployment. A 2,000-table Teradata migration cannot be validated, approved, and shipped in one atomic operation. The risk is unacceptable: a single schema mismatch or data quality regression could cascade across hundreds of downstream consumers.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects addresses this with milestone-based incremental delivery. Each milestone is a standalone, shippable unit. When approved, its artifacts commit to production and a production monitor is deployed to continuously watch quality, freshness, schema stability, and anomalies. Subsequent milestones build on what is already live and validated - not on untested staging artifacts.</p></div></details>
-<details class="acc"><summary>3.3 Lydia&#x27;s Production Deployment Anxiety</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0"><em>Lydia is a senior data engineer at a global manufacturer. She is responsible for consolidating 130 ERP systems into Fabric. After weeks of development, her agent produces a set of notebooks and Delta tables for the first two SAP modules (FI and SD). The code looks correct. The row counts match. The schema validation passes.</em></p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">3.1 The Industry Shift: From Chat to Projects</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The AI industry is rapidly moving beyond single-turn chat interactions toward persistent, project-oriented AI. Claude Projects and ChatGPT Projects allow users to organize conversations, attach reference documents, and maintain context across sessions. However, these are general-purpose project containers. They organize conversations, not engineering work.</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects takes the next step: an AI agent that does not just organize context but actually plans, executes, and delivers data engineering work across milestones, with production-grade governance and incremental delivery to production.</p></div></div>
+<div class="acc-open"><div class="acc-heading">3.2 Why Data Engineering Demands Incremental Delivery</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Enterprise data engineering projects - migrations, consolidations, modernizations - are too large and too risky for a single &quot;big bang&quot; deployment. A 2,000-table Teradata migration cannot be validated, approved, and shipped in one atomic operation. The risk is unacceptable: a single schema mismatch or data quality regression could cascade across hundreds of downstream consumers.</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects addresses this with milestone-based incremental delivery. Each milestone is a standalone, shippable unit. When approved, its artifacts commit to production and a production monitor is deployed to continuously watch quality, freshness, schema stability, and anomalies. Subsequent milestones build on what is already live and validated - not on untested staging artifacts.</p></div></div>
+<div class="acc-open"><div class="acc-heading">3.3 Lydia&#x27;s Production Deployment Anxiety</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0"><em>Lydia is a senior data engineer at a global manufacturer. She is responsible for consolidating 130 ERP systems into Fabric. After weeks of development, her agent produces a set of notebooks and Delta tables for the first two SAP modules (FI and SD). The code looks correct. The row counts match. The schema validation passes.</em></p>
 
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">But Lydia is anxious. She has seen &quot;validated&quot; deployments fail in production before - a currency conversion edge case for the Brazilian subsidiary, a slowly-changing dimension that worked in test but produced duplicates under production load, a freshness SLA that was met during testing but violated when real-world data volumes arrived.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects addresses Lydia&#x27;s anxiety through two mechanisms:</p>
@@ -418,8 +414,8 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Draft/Commit model - Lydia reviews every artifact before it touches production. She can inspect notebooks line by line, examine data diffs, fix a JOIN condition, rename a column - all before approving.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Production Monitors - when Lydia approves the FI/SD milestone, a production monitor is automatically deployed alongside the artifacts. It watches row counts, schema stability, null rates, freshness SLAs, and detects anomalies. If the Brazilian currency edge case causes a data quality regression, Lydia is alerted immediately - not days later when a downstream report breaks.</li>
 </ul>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">The combination means Lydia can confidently ship increments to production, knowing that each one is both pre-validated (draft/commit review) and post-validated (production monitor). Her anxiety transforms into confidence: &quot;Ship the first wave, watch the monitor, then ship the next.&quot;</p></div></details>
-<details class="acc"><summary>4. Terminology</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">The combination means Lydia can confidently ship increments to production, knowing that each one is both pre-validated (draft/commit review) and post-validated (production monitor). Her anxiety transforms into confidence: &quot;Ship the first wave, watch the monitor, then ship the next.&quot;</p></div></div>
+<div class="acc-open"><div class="acc-heading">4. Terminology</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Term</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Definition</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">DataProjects Orchestrator</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Backend execution engine. Exposes HTTP API for project CRUD, milestone tracking, production monitor deployment. Not user-facing.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Project</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">A long-running, milestone-structured unit of work. Can be My Project (private) or Team Project (shared via workspace RBAC).</td></tr>
@@ -432,30 +428,30 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Draft/Commit Model</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">All artifacts are staged. Nothing reaches production without explicit user approval at the milestone level.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">My Project</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Private project. Only the creator can see and interact with it. Default.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Team Project</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Shared project. Visible to workspace members per workspace role permissions.</td></tr>
-</table></div></details>
-<details class="acc"><summary>5.1 Architecture Layers</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects is structured as a four-layer architecture:</p>
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">5.1 Architecture Layers</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">DataProjects is structured as a four-layer architecture:</p>
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">User Surfaces - Fabric AI Orchestrator (in-fabric), coding agents (GHCP CLI, Claude Code, Cursor, VS Code)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">DataProjects Agent - thin integration layer: agent/skill registrations that connect user surfaces to the orchestrator API</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">DataProjects Orchestrator - backend engine managing project lifecycle, milestones, skill delegation, production monitor deployment. HTTP REST API.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Fabric Runtime - Spark clusters, Lakehouse storage, SQL endpoints, Notebooks</li>
-</ul></div></details>
-<details class="acc"><summary>5.2 Critical Design Principles</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">5.2 Critical Design Principles</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Single orchestrator per user, multiple sessions - a user has one DataProjects Orchestrator instance managing all their projects.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Projects are workspace-scoped - operates within the workspace where the orchestrator runs. Can reference other workspaces as read-only.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Agent-agnostic HTTP API - GET /api/v1/hello returns the orchestrator&#x27;s name, version, capabilities, skills, and endpoints. Any coding agent that can make HTTP calls can integrate.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">One shared Lakehouse per workspace - all projects share a single &quot;AI Projects Lakehouse&quot;. Per-project folders scoped via DAT tokens.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Projects are NOT items, NOT workloads in v1 - orchestrator-managed state, not first-class Fabric items.</li>
-</ul></div></details>
-<details class="acc"><summary>5.3 Project Data Model</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">5.3 Project Data Model</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Projects are workspace-scoped. All write operations target the home workspace.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">No cross-workspace writes. Read-only references to other workspaces enforced at the DAT token level.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">One shared Lakehouse per workspace. Each project gets a folder (e.g., /projects/DP-20260304-001/).</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Cross-pollination control - data isolated via DAT tokens. Conversation context optionally shareable.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Project ID: auto-generated (e.g., DP-20260304-001-teradata-migration)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Hierarchy: Project &gt; Milestones &gt; Tasks. Each milestone has status, artifacts, monitor config, approval state.</li>
-</ul></div></details>
-<details class="acc"><summary>5.4 Milestones - Incremental Delivery with Production Monitors</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Milestones are the core delivery unit. Each milestone is a standalone, shippable increment. When a user approves a milestone, two things happen simultaneously:</p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">5.4 Milestones - Incremental Delivery with Production Monitors</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Milestones are the core delivery unit. Each milestone is a standalone, shippable increment. When a user approves a milestone, two things happen simultaneously:</p>
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Artifacts commit to production - notebooks, Delta tables, pipeline configurations are written to the production workspace.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">A production monitor is deployed - an automated observability component that continuously watches the shipped artifacts.</li>
@@ -489,16 +485,16 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">When user input is needed, the project pauses. User can redirect, change milestones, or start over.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">The project does not end when milestones complete. Users can come back and evolve the project.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Custom milestones supported: Business sign-off, UAT, Parallel-run, Compliance review.</li>
-</ul></div></details>
-<details class="acc"><summary>5.5 My Projects vs. Team Projects</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">5.5 My Projects vs. Team Projects</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Aspect</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">My Project</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Team Project</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Visibility</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Only the creator</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">All workspace members with appropriate roles</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Default</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes (default at creation)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Opt-in via toggle</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Permissions</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Creator-only</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Inherited from workspace RBAC</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Concurrency</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">N/A</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Optimistic concurrency. Conflicts surfaced during commit.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Promotion</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Can promote to Team Project (one-click)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">N/A</td></tr>
-</table></div></details>
-<details class="acc"><summary>5.6 Two-Orchestrator Architecture</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">![Architecture Diagram](architecture_diagram.png)</p>
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">5.6 Two-Orchestrator Architecture</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">![Architecture Diagram](architecture_diagram.png)</p>
 
 
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">There are two orchestrators, but the user only ever interacts with one surface:</p>
@@ -519,8 +515,8 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Step 7: User reviews staged artifacts, optionally edits inline, approves.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Step 8: Commit ships artifacts to production and deploys production monitor.</li>
 </ul>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">The user NEVER interacts with the DataProjects Orchestrator directly. In CLI, the coding agent (GHCP, Claude Code, Cursor) calls the DataProjects HTTP API on behalf of the user.</p></div></details>
-<details class="acc"><summary>6.1 Installation &amp; Integration</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>GitHub Copilot (GHCP) - via FabricSkills Plugin:</strong></p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">The user NEVER interacts with the DataProjects Orchestrator directly. In CLI, the coding agent (GHCP, Claude Code, Cursor) calls the DataProjects HTTP API on behalf of the user.</p></div></div>
+<div class="acc-open"><div class="acc-heading">6.1 Installation &amp; Integration</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>GitHub Copilot (GHCP) - via FabricSkills Plugin:</strong></p>
 
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Part of the FabricSkills plugin. Components: dataprojects agent, plus skills for ETL, Teradata, Databricks, ERP, Data Quality.</li>
@@ -532,25 +528,25 @@ const content = {
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">No plugin required. Any agent that can make HTTP requests can integrate.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Discovery: GET /api/v1/hello returns self-description, capabilities, skills, and endpoints.</li>
-</ul></div></details>
-<details class="acc"><summary>GHCP direct invocation</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">$ ghcs --agent dataprojects &quot;Migrate 500 tables from Teradata to Fabric&quot;</p></div></details>
-<details class="acc"><summary>GHCP auto-routing (detects project-scale work)</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">$ ghcs &quot;I need to migrate our Teradata warehouse&quot;</p></div></details>
-<details class="acc"><summary>Claude Code</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; Use the DataProjects API to create a project for our SAP consolidation</p></div></details>
-<details class="acc"><summary>Generic agent pattern</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">GET  /api/v1/hello                    -&gt; discover capabilities</p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">GHCP direct invocation</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">$ ghcs --agent dataprojects &quot;Migrate 500 tables from Teradata to Fabric&quot;</p></div></div>
+<div class="acc-open"><div class="acc-heading">GHCP auto-routing (detects project-scale work)</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">$ ghcs &quot;I need to migrate our Teradata warehouse&quot;</p></div></div>
+<div class="acc-open"><div class="acc-heading">Claude Code</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; Use the DataProjects API to create a project for our SAP consolidation</p></div></div>
+<div class="acc-open"><div class="acc-heading">Generic agent pattern</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">GET  /api/v1/hello                    -&gt; discover capabilities</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">POST /api/v1/projects                 -&gt; create project</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">GET  /api/v1/projects/{id}/status     -&gt; poll progress</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">GET  /api/v1/projects/{id}/review     -&gt; review staged artifacts</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">POST /api/v1/projects/{id}/commit     -&gt; approve and ship to production</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></details>
-<details class="acc"><summary>6.3 Skill Catalog</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></div>
+<div class="acc-open"><div class="acc-heading">6.3 Skill Catalog</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Skill ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Name</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Key Capabilities</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">dataprojects-etl-pipeline</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ETL Pipeline</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source profiling, medallion architecture, PySpark generation, validation</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">dataprojects-teradata-migration</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Teradata Migration</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">BTEQ conversion, SQL dialect translation, partitioning redesign, benchmarking</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">dataprojects-databricks-migration</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Databricks Migration</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Unity Catalog crawl, Delta copy, notebook conversion, wave planning</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">dataprojects-erp-consolidation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ERP Consolidation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Multi-ERP schema mapping, business rule codification, cross-system normalization</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">dataprojects-data-quality</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data Quality</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Profiling, quality scoring, PII detection, drift detection, compliance</td></tr>
-</table></div></details>
-<details class="acc"><summary>6.4 Long-Running Project Lifecycle</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p>
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">6.4 Long-Running Project Lifecycle</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">Project: created &gt; planning_milestones &gt; executing &gt; review_pending &gt; committing &gt; succeeded</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">failed        cancelled</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">|</p>
@@ -559,8 +555,8 @@ const content = {
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">Milestone: pending &gt; in_progress &gt; completed</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">|</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">blocked (dependency or input needed)</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></details>
-<details class="acc"><summary>6.5 Progress Reporting Protocol</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Progress is reported at two levels: project-level and milestone-level.</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></div>
+<div class="acc-open"><div class="acc-heading">6.5 Progress Reporting Protocol</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Progress is reported at two levels: project-level and milestone-level.</p>
 
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">$ ghcs project status DP-20260304-001</p>
@@ -585,8 +581,8 @@ const content = {
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">(no milestones shipped yet)</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">------------------------------------------------------------</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">Est. remaining: ~3 days | Next milestone: ~4 hours</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></details>
-<details class="acc"><summary>6.6 Telemetry &amp; Completion</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></div>
+<div class="acc-open"><div class="acc-heading">6.6 Telemetry &amp; Completion</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Category</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Metrics</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Timing</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Wall-clock duration, compute time, idle time (waiting for user input)</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data Volume</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rows processed, bytes read/written, Delta table sizes</td></tr>
@@ -594,24 +590,24 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quality</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validation pass rates, data quality scores, monitor baseline values</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Artifacts</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebooks generated, Delta tables created/modified, pipelines configured</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Governance</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Approval timestamps, reviewer identity, audit trail entries</td></tr>
-</table></div></details>
-<details class="acc"><summary>6.7 Git &amp; No-Git Experiences</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">6.7 Git &amp; No-Git Experiences</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Aspect</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Git-Connected</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No-Git</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Branch</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Feature branch per project</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Staging folder in AI Projects Lakehouse</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Isolation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Git branching, no locking, optimistic concurrency</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Built-in diff/revert by orchestrator</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Commit</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Merge to main on milestone approval</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Copy from staging to production with atomic swap</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Conflicts</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Detected and surfaced during review</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Same approach</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Recommendation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Strongly preferred</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fallback. DataProjects Panel recommends enabling Git.</td></tr>
-</table></div></details>
-<details class="acc"><summary>6.8 Cross-Session Context &amp; Isolation</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">6.8 Cross-Session Context &amp; Isolation</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Default session isolation - each CLI session has its own conversation context. No automatic cross-session sharing.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Project state is always accessible from any session (milestones, artifacts, monitors). Only conversation context is session-scoped.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">ghcs project list - shows all active projects across sessions with current milestone and health status.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">ghcs project status &lt;id&gt; - retrieves full status from any terminal.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Team Projects - all workspace members can query status. Visibility governed by workspace role.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">ghcs project isolate - explicit context reset if cross-session pollution occurs.</li>
-</ul></div></details>
-<details class="acc"><summary>7.1 Task vs. Project Toggle</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Fabric AI Orchestrator provides Ask Mode (simple questions), Agent Mode (single-session tasks), and Project Mode (long-running DataProjects). The mode toggle is visible in the orchestrator UI header.</p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">7.1 Task vs. Project Toggle</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Fabric AI Orchestrator provides Ask Mode (simple questions), Agent Mode (single-session tasks), and Project Mode (long-running DataProjects). The mode toggle is visible in the orchestrator UI header.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">When Project Mode is active:</p>
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Project instruction box - richer input field supporting multi-line instructions, markdown, and attachment references.</li>
@@ -619,34 +615,34 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Access permissions - set read/write per referenced resource.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Execution mode selector - Normal, Deep Plan, Deep Plan + Auto-Approval.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Ownership selector - My Project (default) or Team Project.</li>
-</ul></div></details>
-<details class="acc"><summary>7.2 Project Mode - Attachments &amp; Resources</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">7.2 Project Mode - Attachments &amp; Resources</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Reference lakehouse resources by relative paths (e.g., Tables/bronze/sap_fi_transactions).</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Set access permissions per resource: Read-Only (reference data) or Read-Write (target for outputs).</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Attach Excel files with business rules (currency conversion tables, naming conventions, SLA definitions).</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Select execution mode: Normal, Deep Plan, Deep Plan + Auto-Approval.</li>
-</ul></div></details>
-<details class="acc"><summary>7.3 DataProjects Panel</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">We own the DataProjects Panel UX. The orchestrator gives us a rendering surface; we control what is inside.</p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">7.3 DataProjects Panel</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">We own the DataProjects Panel UX. The orchestrator gives us a rendering surface; we control what is inside.</p>
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Project List - all active and completed projects, filterable by status, ownership, date.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Milestone Timeline - visual timeline with milestone boxes, progress bars, and production health indicators (green/yellow/red).</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Project Detail View - activity stream, artifacts list, review controls, production monitor dashboard.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Status at a Glance - badge in Fabric sidebar showing current milestone + aggregate health.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Workspace-scoped: users see their My Projects plus Team Projects they have access to.</li>
-</ul></div></details>
-<details class="acc"><summary>7.4 Orchestrator Status Queries</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Users can query project status from any mode:</p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">7.4 Orchestrator Status Queries</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Users can query project status from any mode:</p>
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">&quot;What&#x27;s the status of my Teradata migration?&quot; - current milestone, progress, and health.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">&quot;Show me the production health for Wave 1&quot; - monitor metrics for the specified milestone.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">&quot;Are there any alerts on my projects?&quot; - active production monitor alerts across all projects.</li>
-</ul></div></details>
-<details class="acc"><summary>7.5 Upgrade Path: Chat to Project</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The orchestrator can propose upgrading a conversation to a project when:</p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">7.5 Upgrade Path: Chat to Project</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The orchestrator can propose upgrading a conversation to a project when:</p>
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Conversation has had many tool calls and significant elapsed time.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">User is about to close a tab while work is in progress.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">User says &quot;turn this into a project&quot; or &quot;this is going to take a while.&quot;</li>
-</ul></div></details>
-<details class="acc"><summary>7.6 Review, Diff &amp; Commit</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Code Diffs:</strong></p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">7.6 Review, Diff &amp; Commit</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Code Diffs:</strong></p>
 
 <ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Side-by-side or inline diff view, syntax-highlighted for PySpark, SQL, and configuration files.</li>
@@ -668,8 +664,8 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Users can approve individual milestones without committing the entire project.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Rejected milestones return to the agent for rework with user feedback.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Users can edit artifacts inline before approving (fix a JOIN, rename a column, adjust a threshold).</li>
-</ul></div></details>
-<details class="acc"><summary>8. User Journey: Incremental Delivery with Production Monitors</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">This traces a complete journey through the SAP ERP Consolidation scenario, demonstrating milestone-level approval, inline editing, and production monitor deployment.</p>
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">8. User Journey: Incremental Delivery with Production Monitors</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">This traces a complete journey through the SAP ERP Consolidation scenario, demonstrating milestone-level approval, inline editing, and production monitor deployment.</p>
 
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><em>Scenario: Lydia consolidates 12 SAP modules from 130 ERP systems into a unified Fabric Lakehouse with medallion architecture.</em></p>
 
@@ -711,8 +707,8 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Inline editing - Lydia fixed a JOIN and renamed a column without leaving the review flow.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Growing health visibility - as more waves shipped, the dashboard grew, giving real-time confidence.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Ongoing detection - monitors do not stop when the project completes. They continue running.</li>
-</ul></div></details>
-<details class="acc"><summary>9. Data Governance &amp; Quality Framework</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">9. Data Governance &amp; Quality Framework</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Principle</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Implementation</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Nothing without approval</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">All artifacts staged in draft. Nothing reaches production without explicit user approval at the milestone level.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Lineage tracked</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level lineage from source to Bronze to Silver to Gold. Every transformation traceable.</td></tr>
@@ -722,23 +718,23 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Audit trail immutable</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Every action logged with timestamp, user identity, action details. Cannot be modified or deleted.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quality gates enforced</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Configurable per milestone (row count thresholds, schema validation, null rate limits). Must pass before completion.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Team Project audit</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Includes who approved each milestone, who made inline edits, who committed. Full accountability chain.</td></tr>
-</table></div></details>
-<details class="acc"><summary>10.1 Platform Integration</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">10.1 Platform Integration</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Acceptance</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-0100</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Project Mode toggle in Fabric AI Orchestrator</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Visible in UI header</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-0110</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">DataProjects Panel rendering surface in Fabric UI</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">We own the panel content</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-0120</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Webhook callbacks from DataProjects to Fabric AI Orchestrator</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Progress, input needed, review ready events</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-0130</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Resource attachment support in Project Mode</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Lakehouse paths, Excel uploads, read/write permissions</td></tr>
-</table></div></details>
-<details class="acc"><summary>10.2 Project Creation</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">10.2 Project Creation</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Acceptance</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-1000</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Create project via HTTP API or agent invocation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Both patterns work</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-1010</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Auto-generated project ID (DP-YYYYMMDD-NNN)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Deterministic format</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-1020</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">My Project / Team Project toggle at creation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Defaults to My Project</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-1030</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Project immediately visible in DataProjects Panel</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Regardless of creation source</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-1040</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Agent-agnostic: any HTTP client can create a project via /api/v1/projects</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Not limited to GHCP</td></tr>
-</table></div></details>
-<details class="acc"><summary>10.3 Milestones &amp; Monitors</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">10.3 Milestones &amp; Monitors</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Acceptance</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-2000</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">AI proposes milestones during planning phase</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">User can review, modify, reorder</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-2010</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Per-milestone commit ships artifacts to production</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Not all-or-nothing</td></tr>
@@ -746,38 +742,38 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-2030</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Monitors run continuously after deployment</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Not just at milestone completion</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-2040</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Health indicators (green/yellow/red) visible in DataProjects Panel</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Per shipped milestone</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-2050</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Custom milestones supported (user-tracked, not AI-executed)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Business sign-off, UAT, etc.</td></tr>
-</table></div></details>
-<details class="acc"><summary>10.4 Execution &amp; Progress</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">10.4 Execution &amp; Progress</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Acceptance</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-3000</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Executes in AI Projects Lakehouse (scratch space)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Per-project folder via DAT tokens</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-3010</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Reports progress at project and milestone level</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Periodic + on state change</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-3020</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No cross-workspace writes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Read-only references enforced</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-3030</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Milestones modifiable during input_needed state</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">User can redirect</td></tr>
-</table></div></details>
-<details class="acc"><summary>10.5 Review, Diff &amp; Commit</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">10.5 Review, Diff &amp; Commit</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Acceptance</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-4000</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Inline artifact editing during review</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">User can fix code, rename columns before approving</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-4010</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Code and data diffs viewable via CLI and Fabric UI</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Equivalent information</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-4020</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Git branches for code isolation (preferred)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No workspace-per-task</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-4030</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No locking - optimistic concurrency</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Conflicts surfaced at review</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-4040</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rejected milestones return to agent with user feedback</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Agent reworks and re-stages</td></tr>
-</table></div></details>
-<details class="acc"><summary>10.6 Governance &amp; Quality</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">10.6 Governance &amp; Quality</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Acceptance</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-5000</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">OBO execution, cross-workspace read-only</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No privilege escalation</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-5010</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PII detection on all touched tables</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Flagged in review and monitor</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-5020</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level lineage for all transformations</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Persisted to catalog</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-5030</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quality gates block milestone completion if failed</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Override requires explicit action</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">R-5040</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Immutable audit trail with user identity per action</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Team Projects include approver identity</td></tr>
-</table></div></details>
-<details class="acc"><summary>11. Non-Goals (Current Release)</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">11. Non-Goals (Current Release)</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Real-time / streaming data pipelines - batch-oriented only.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Mid-execution intervention - once a milestone is executing, users cannot modify in-flight Spark jobs. Must wait for completion or cancel.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Cross-workspace projects - v1 projects scoped to a single workspace.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Custom skill development - skill catalog maintained by the team. Skill SDK planned for v2.</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Separate project-level permissions - Team Project permissions derive from workspace roles.</li>
-</ul></div></details>
-<details class="acc"><summary>12. Success Criteria</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</ul></div></div>
+<div class="acc-open"><div class="acc-heading">12. Success Criteria</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Criterion</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Measure</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">End-to-end project</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Create, plan, execute, review, commit a multi-milestone project from CLI or Fabric UI.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Production monitors active</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Every approved build milestone has an active, running monitor that detects regressions.</td></tr>
@@ -785,16 +781,16 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Multi-agent CLI</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">At least 3 coding agents (GHCP, Claude Code, +1) integrate via /hello endpoint.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Governance enforcement</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Draft/commit enforced without exception. No artifact reaches production without approval. Audit trails complete.</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data integrity</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Committed artifacts exactly match what user reviewed. No silent modifications.</td></tr>
-</table></div></details>
-<details class="acc"><summary>13.1 Open Questions</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">13.1 Open Questions</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Question</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Context</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notification mechanism?</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">In-app, email, Teams for input_needed and monitor alerts</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Projects as Fabric items?</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Should projects eventually become hidden workload items for platform integration?</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maximum project duration?</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Upper bounds before automatic timeout</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Cross-workspace support?</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requires top-level Fabric construct above workspace</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Monitor retention policy?</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">How long do production monitors run after project completion?</td></tr>
-</table></div></details>
-<details class="acc"><summary>13.2 Future Work</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">13.2 Future Work</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Feature</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Target</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Interactive mid-milestone intervention</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">v2</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Cross-workspace projects</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">v3</td></tr>
@@ -803,9 +799,9 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Project templates (Teradata, SAP, etc.)</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">v2</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Upgrade path: chat to project auto-suggestion</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">v2</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Projects as Fabric item/workload</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">v3</td></tr>
-</table></div></details>
-<details class="acc"><summary>Appendix A: Interface Specification</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Complete HTTP REST API between Fabric AI Orchestrator / Coding Agents and the DataProjects Orchestrator. All endpoints require Azure AD OBO authentication.</p></div></details>
-<details class="acc"><summary>A.1 Discovery</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p>
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">Appendix A: Interface Specification</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Complete HTTP REST API between Fabric AI Orchestrator / Coding Agents and the DataProjects Orchestrator. All endpoints require Azure AD OBO authentication.</p></div></div>
+<div class="acc-open"><div class="acc-heading">A.1 Discovery</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">GET /api/v1/hello</p>
 
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">// Response: 200 OK</p>
@@ -831,8 +827,8 @@ const content = {
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">},</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&quot;auth&quot;: &quot;azure_ad_obo&quot;</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">}</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></details>
-<details class="acc"><summary>A.2 Key Endpoints</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">\`\`\`</p></div></div>
+<div class="acc-open"><div class="acc-heading">A.2 Key Endpoints</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Method</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Endpoint</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">POST</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">/api/v1/projects</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Create a new project</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">GET</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">/api/v1/projects</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">List all projects for the user</td></tr>
@@ -845,8 +841,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">GET</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">/api/v1/projects/{id}/review</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Get review summary (code + data diffs + governance)</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">POST</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">/api/v1/projects/{id}/commit</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Approve and ship milestone to production + deploy monitor</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">POST</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">/api/v1/projects/{id}/reject</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Reject milestone and return to agent for rework</td></tr>
-</table></div></details>
-<details class="acc"><summary>A.3 Webhook Events (DataProjects to Fabric AI Orchestrator)</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+</table></div></div>
+<div class="acc-open"><div class="acc-heading">A.3 Webhook Events (DataProjects to Fabric AI Orchestrator)</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Event</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">When</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Orchestrator Action</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">milestone_completed</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Milestone finishes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Update Panel, log to activity</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">input_needed</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Project paused, needs answer</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Surface question in user&#x27;s current chat</td></tr>
@@ -858,7 +854,7 @@ const content = {
 
 
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><em>Document Classification: Microsoft Confidential</em></p></div></details>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><em>Document Classification: Microsoft Confidential</em></p></div></div>
 
   `,
   skillsprd: `
@@ -866,10 +862,10 @@ const content = {
     <h2>DataProjects Skills PRD</h2>
     <p style="margin-bottom:16px"><em>Skill specifications for the DataProjects agent. Each skill defines capabilities, phases, inputs/outputs, and integration patterns.</em></p>
     <a href="https://github.com/nareshvenkat_microsoft/osmos-product/tree/main/DataProjects/skills" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-    <details class="acc"><summary>ETL Pipeline Skill</summary><div class="acc-body"><details class="acc"><summary>Overview</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The ETL Pipeline Orchestration skill enables the DataProjects Agent to autonomously plan, build, execute, validate, and deploy end-to-end Extract-Transform-Load pipelines across Microsoft Fabric Lakehouses, Warehouses, and external data sources. This skill is purpose-built for long-running data engineering projects where pipeline logic spans multiple notebooks, tables, and transformation layers.</p>
+    <div class="acc-open"><div class="acc-heading">ETL Pipeline Skill</div><div class="acc-body"><div class="acc-open"><div class="acc-heading">Overview</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The ETL Pipeline Orchestration skill enables the DataProjects Agent to autonomously plan, build, execute, validate, and deploy end-to-end Extract-Transform-Load pipelines across Microsoft Fabric Lakehouses, Warehouses, and external data sources. This skill is purpose-built for long-running data engineering projects where pipeline logic spans multiple notebooks, tables, and transformation layers.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; <strong>⚠️ Agent-Only Skill:</strong> This skill is exclusively invoked through the DataProjects Agent. It cannot be used as a standalone GitHub Copilot CLI skill. The DataProjects Agent provides the orchestration context, session management, progress reporting, and governance guardrails required for safe ETL execution.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Capabilities</summary><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Source Discovery &amp; Profiling</h4>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Capabilities</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Source Discovery &amp; Profiling</h4>
 <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema introspection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Discovers source schemas from Lakehouse tables, SQL endpoints, external ADLS/S3 locations, and API endpoints</td></tr>
@@ -910,8 +906,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Lineage tracking</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Records column-level lineage metadata for governance and audit</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PII detection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Flags columns that may contain personally identifiable information</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Invocation</summary><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Invocation</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs --agent fabric-dataprojects \\</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&quot;Build an ETL pipeline that ingests CSV files from ADLS container</p>
@@ -935,8 +931,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`quality_threshold\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">float</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Minimum data quality score to pass validation (0.0–1.0, default: 0.95)</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`governance_tags\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Tags for data classification (e.g., \`pii\`, \`financial\`, \`public\`)</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Progress Reporting</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The skill reports progress to the DataProjects Agent at defined checkpoints:</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Progress Reporting</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The skill reports progress to the DataProjects Agent at defined checkpoints:</p>
 <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Checkpoint</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Status Message</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source discovery</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Discovered {n} source tables/files. Schema profiling complete.\`</td></tr>
@@ -947,8 +943,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] All validations passed. Ready for review.\`</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Failed</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Failed at stage {stage}: {error_message}. {n}/{m} stages completed before failure.\`</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Artifacts Produced</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Artifacts Produced</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Artifact</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Location</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PySpark notebooks</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace / Git repo</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Transformation notebooks per stage</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Orchestration notebook</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace / Git repo</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Master notebook that chains stages</td></tr>
@@ -957,14 +953,14 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema diff</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Review surface</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Before/after schema comparison</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Execution log</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark job logs with timing and resource usage</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Data Governance Integration</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">This skill enforces governance at every stage:</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Data Governance Integration</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">This skill enforces governance at every stage:</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">1. <strong>Pre-execution:</strong> Validates user has read access to sources and write access to targets</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">2. <strong>During execution:</strong> PII columns are flagged and tagged; sensitive data is masked in logs</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">3. <strong>Post-execution:</strong> Lineage metadata is written to governance catalog; quality metrics are recorded</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">4. <strong>At review:</strong> Data classification tags are surfaced in the diff review; PII handling is highlighted</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Error Handling</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Error Handling</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Error Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source unavailable</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Retry 3x with backoff; fail with clear error if source remains unreachable</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema mismatch</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Halt and report mismatch details; do not proceed with incompatible schemas</td></tr>
@@ -972,18 +968,18 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark job failure</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capture full stack trace; report last successful checkpoint; suggest remediation</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quota/capacity exceeded</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Report capacity limits; suggest smaller batch size or different time window</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Limitations (Current Version)</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Limitations (Current Version)</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Real-time/streaming ETL not supported (batch only)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Maximum of 50 source tables per single invocation</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Cross-workspace ETL requires explicit workspace permissions</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">No automatic schedule creation (manual pipeline trigger only)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">User cannot intervene mid-execution (planned for future release)</li>
-</ul></div></details></div></details>
-<details class="acc"><summary>Data Quality Skill</summary><div class="acc-body"><details class="acc"><summary>Overview</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Data Quality &amp; Governance skill enables the DataProjects Agent to autonomously profile, validate, monitor, and remediate data quality issues across Microsoft Fabric Lakehouses, Warehouses, and SQL Endpoints. Unlike point-in-time quality checks, this skill is designed for long-running, continuous data quality operations — establishing baselines, detecting drift, enforcing business rules, and building self-healing data pipelines.</p>
+</ul></div></div></div></div>
+<div class="acc-open"><div class="acc-heading">Data Quality Skill</div><div class="acc-body"><div class="acc-open"><div class="acc-heading">Overview</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Data Quality &amp; Governance skill enables the DataProjects Agent to autonomously profile, validate, monitor, and remediate data quality issues across Microsoft Fabric Lakehouses, Warehouses, and SQL Endpoints. Unlike point-in-time quality checks, this skill is designed for long-running, continuous data quality operations — establishing baselines, detecting drift, enforcing business rules, and building self-healing data pipelines.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; <strong>⚠️ Agent-Only Skill:</strong> This skill is exclusively invoked through the DataProjects Agent. It cannot be used as a standalone GitHub Copilot CLI skill. The DataProjects Agent provides the orchestration context, session management, and governance framework required for comprehensive data quality operations.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Capabilities</summary><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Data Profiling &amp; Baseline</h4>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Capabilities</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Data Profiling &amp; Baseline</h4>
 <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level profiling</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Computes statistics per column: null rate, uniqueness, cardinality, min/max, mean/median, distribution shape</td></tr>
@@ -1028,8 +1024,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Compliance mapping</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maps detected PII to regulatory frameworks (GDPR, CCPA, HIPAA)</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Classification persistence</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Writes classification tags to governance catalog for downstream enforcement</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Invocation</summary><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Invocation</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs --agent fabric-dataprojects \\</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&quot;Run a comprehensive data quality assessment on the &#x27;customer_360&#x27;</p>
@@ -1057,8 +1053,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`governance_tags\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Tags for data classification (e.g., \`pii\`, \`financial\`, \`public\`)</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`sensitivity_level\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Minimum sensitivity level to flag: \`public\`, \`internal\`, \`confidential\`, \`restricted\`</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Quality Score Computation</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Each table receives a composite quality score (0.0–1.0) computed from weighted dimensions:</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Quality Score Computation</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Each table receives a composite quality score (0.0–1.0) computed from weighted dimensions:</p>
 <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Dimension</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Weight</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Metric</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Completeness</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">25%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Percentage of non-null values in required columns</td></tr>
@@ -1068,8 +1064,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Timeliness</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">10%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Freshness of data relative to expected update frequency</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Integrity</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">10%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Referential integrity pass rate across related tables</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Progress Reporting</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Progress Reporting</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Checkpoint</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Status Message</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Discovery</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Discovered {n} tables in Lakehouse. Starting profiling.\`</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Profiling complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Profiling complete. {n} tables, {m} columns analyzed. {issues} potential issues detected.\`</td></tr>
@@ -1080,8 +1076,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Remediation applied</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Remediation applied to {n} tables. {rows} rows modified. Quality score improved: {before} → {after}.\`</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Assessment complete. Overall quality score: {score}. Report available in task activity.\`</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Artifacts Produced</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Artifacts Produced</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Artifact</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Location</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Profiling report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Per-column statistics, distributions, and anomalies</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quality scorecard</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table-level and column-level quality scores with dimension breakdown</td></tr>
@@ -1093,8 +1089,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Drift report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Comparison of current state vs. baseline with statistical test results</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data classification map</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level sensitivity classifications and compliance mappings</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Quality Rules File Format</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Custom rules can be provided in YAML:</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Quality Rules File Format</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Custom rules can be provided in YAML:</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>yaml</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">rules:</p>
 <ul style="padding-left:18px;margin:4px 0">
@@ -1138,16 +1134,16 @@ const content = {
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">severity: &quot;warning&quot;</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">description: &quot;Daily order volume should be between 100 and 50,000&quot;</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Data Governance Integration</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Data quality is foundational to governance. This skill integrates deeply:</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Data Governance Integration</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Data quality is foundational to governance. This skill integrates deeply:</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">1. <strong>Classification enforcement:</strong> All discovered PII is tagged in the governance catalog; untagged sensitive data blocks pipeline promotion</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">2. <strong>Quality gates:</strong> Tables below <code>quality_threshold</code> are flagged and cannot be promoted to Gold layer without explicit override</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">3. <strong>Audit logging:</strong> Every quality check, remediation, and override is logged with user identity and timestamp</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">4. <strong>Compliance reporting:</strong> Generates compliance-ready reports mapping data assets to regulatory requirements</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">5. <strong>Lineage enrichment:</strong> Quality metrics and classifications are attached to lineage records for downstream visibility</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">6. <strong>Masking enforcement:</strong> Recommends and can apply column-level masking policies for sensitive data</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Error Handling</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Error Handling</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Error Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table access denied</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Skip table with warning; report permission issue; continue with accessible tables</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Profiling timeout</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Use sampling (10% of rows) for large tables; flag as approximate</td></tr>
@@ -1156,8 +1152,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Baseline not found</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Create new baseline; warn that drift detection requires a prior baseline</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark resource limits</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Reduce parallelism; process tables sequentially if needed</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Limitations (Current Version)</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Limitations (Current Version)</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Streaming/real-time quality monitoring not supported (batch assessment only)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Maximum 100 tables per single invocation</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">PII detection supports English-language patterns only; multilingual PII detection planned</li>
@@ -1165,11 +1161,11 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Remediation is applied as new table versions (no in-place mutation of historical data)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">User cannot intervene mid-assessment (planned for future release)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Statistical drift detection requires minimum 10,000 rows per table for reliable results</li>
-</ul></div></details></div></details>
-<details class="acc"><summary>Databricks Migration Skill</summary><div class="acc-body"><details class="acc"><summary>Overview</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Databricks Data Migration skill enables the DataProjects Agent to autonomously plan and execute end-to-end migrations from Databricks (Unity Catalog, Hive Metastore, Delta Lake on DBFS/ADLS/S3) into Microsoft Fabric Lakehouses and Warehouses. This includes schema translation, data transfer, notebook conversion, pipeline migration, and post-migration validation.</p>
+</ul></div></div></div></div>
+<div class="acc-open"><div class="acc-heading">Databricks Migration Skill</div><div class="acc-body"><div class="acc-open"><div class="acc-heading">Overview</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Databricks Data Migration skill enables the DataProjects Agent to autonomously plan and execute end-to-end migrations from Databricks (Unity Catalog, Hive Metastore, Delta Lake on DBFS/ADLS/S3) into Microsoft Fabric Lakehouses and Warehouses. This includes schema translation, data transfer, notebook conversion, pipeline migration, and post-migration validation.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; <strong>⚠️ Agent-Only Skill:</strong> This skill is exclusively invoked through the DataProjects Agent. It cannot be used as a standalone GitHub Copilot CLI skill. The DataProjects Agent provides the orchestration context, session management, cross-environment credential brokering, and governance controls required for safe migration execution.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Capabilities</summary><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Source Assessment &amp; Discovery</h4>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Capabilities</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Source Assessment &amp; Discovery</h4>
 <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Unity Catalog crawl</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Enumerates catalogs, schemas, tables, views, and functions from Databricks Unity Catalog</td></tr>
@@ -1217,8 +1213,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Query result comparison</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Runs sample analytical queries on both source and target, compares results</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Performance benchmarking</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Runs representative queries on migrated data to baseline Fabric performance</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Invocation</summary><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Invocation</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs --agent fabric-dataprojects \\</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&quot;Migrate our Databricks Unity Catalog &#x27;prod_analytics&#x27; to Fabric</p>
@@ -1248,8 +1244,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`governance_tags\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data classification tags to apply to migrated assets</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dry_run\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">bool</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Generate plan and validation report without executing transfer (default: \`false\`)</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Progress Reporting</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Progress Reporting</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Checkpoint</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Status Message</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Discovery complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Source assessment complete. {n} tables, {m} notebooks, {j} jobs discovered. Total data: {size}.\`</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Plan generated</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Migration plan ready. {w} waves. Wave 1: {n} tables ({size}). Estimated transfer time: {t}.\`</td></tr>
@@ -1260,8 +1256,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validation complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Full validation complete. {passed}/{total} checks passed. See report for details.\`</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Failed</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Failed during wave {n}, table {table}: {error}. {completed}/{total} tables migrated before failure.\`</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Artifacts Produced</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Artifacts Produced</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Artifact</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Location</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Migration assessment report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source inventory with sizes, risks, and compatibility scores</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Migration plan</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream / Git</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Wave-by-wave plan with dependencies and estimated timelines</td></tr>
@@ -1272,16 +1268,16 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rollback runbook</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Step-by-step rollback procedures per wave</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">API translation guide</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Mapping of Databricks APIs → Fabric equivalents used in conversion</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Data Governance Integration</summary><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Migration preserves and extends governance:</p>
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Data Governance Integration</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Migration preserves and extends governance:</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">1. <strong>Source governance extraction:</strong> Reads Unity Catalog tags, column descriptions, masking policies, and row filters</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">2. <strong>Governance mapping:</strong> Translates Databricks governance metadata to Fabric equivalents where supported</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">3. <strong>Classification continuity:</strong> Applies <code>governance_tags</code> to all migrated assets; PII classifications from source are preserved</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">4. <strong>Lineage preservation:</strong> Records migration lineage — every target table links back to its Databricks source</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">5. <strong>Access validation:</strong> Confirms user has appropriate permissions on both source (Databricks) and target (Fabric) before execution</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">6. <strong>Audit trail:</strong> Full migration audit log with timestamps, data volumes, and validation results</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Databricks API Translation Reference</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Databricks API Translation Reference</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Databricks API</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fabric Equivalent</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dbutils.fs.ls()\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`mssparkutils.fs.ls()\`</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dbutils.fs.cp()\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`mssparkutils.fs.cp()\`</td></tr>
@@ -1293,8 +1289,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`spark.sql(&quot;CREATE CATALOG ...&quot;)\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Not applicable — Fabric uses workspaces/lakehouses</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`%run /path/to/notebook\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`mssparkutils.notebook.run(&quot;notebook_name&quot;)\`</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Error Handling</summary><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Error Handling</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
 <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Error Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Databricks auth failure</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Report credential issue; guide user to configure PAT or service principal</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table not found in source</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Skip with warning; continue migration of remaining tables</td></tr>
@@ -1303,8 +1299,8 @@ const content = {
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebook conversion failure</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Mark as \`needs-review\`; provide original + partial conversion for manual completion</td></tr>
 <tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fabric capacity exceeded</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Pause migration; report capacity limits; suggest off-peak window</td></tr>
 </table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></details>
-<details class="acc"><summary>Limitations (Current Version)</summary><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
+<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
+<div class="acc-open"><div class="acc-heading">Limitations (Current Version)</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Scala and R notebook conversion not supported (PySpark and SQL only)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">MLflow model migration not supported (models must be re-registered manually)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Databricks SQL warehouse queries not migrated (only notebooks and jobs)</li>
@@ -1312,7 +1308,7 @@ const content = {
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Maximum 200 tables per migration invocation</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">Cross-region transfers may incur significant egress costs (flagged in planning)</li>
 <li style="margin:2px 0;font-size:12.5px;line-height:1.6">User cannot intervene mid-migration (planned for future release)</li>
-</ul></div></details></div></details>
+</ul></div></div></div></div>
   `,
   twoorch: `
     <span class="card-tag tag-spec">SPEC</span>
