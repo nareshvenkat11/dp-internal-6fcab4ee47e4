@@ -80,6 +80,25 @@ a{color:inherit;text-decoration:none}
 .modal-gh-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0f6cbd;text-decoration:none;margin-bottom:16px;padding:6px 14px;border:1px solid #d0d8e0;border-radius:6px;transition:background 0.15s}
 .modal-gh-link:hover{background:#e8f0fe}
 
+/* PRD body from marked renderer */
+.prd-body h1{font-size:20px;font-weight:600;margin:24px 0 12px;color:#242424}
+.prd-body h2{font-size:17px;font-weight:600;margin:24px 0 10px;color:#242424;padding-bottom:6px;border-bottom:1px solid #e8e8e8}
+.prd-body h3{font-size:14px;font-weight:600;margin:18px 0 6px;color:#242424}
+.prd-body h4{font-size:13px;font-weight:600;margin:14px 0 4px;color:#424242}
+.prd-body p{font-size:13px;line-height:1.7;color:#424242;margin:6px 0}
+.prd-body ul,.prd-body ol{padding-left:20px;margin:6px 0}
+.prd-body li{font-size:13px;line-height:1.7;color:#424242;margin:2px 0}
+.prd-body table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0;border:1px solid #e8e8e8;border-radius:6px;overflow:hidden}
+.prd-body th{background:#f5f5f5;padding:6px 10px;text-align:left;font-weight:600;color:#242424;border:1px solid #e8e8e8}
+.prd-body td{padding:6px 10px;border:1px solid #e8e8e8;color:#424242}
+.prd-body pre{background:#f5f5f5;border:1px solid #e0e0e0;border-radius:6px;padding:12px;font-size:11.5px;overflow-x:auto;margin:10px 0;line-height:1.5}
+.prd-body code{background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:12px}
+.prd-body pre code{background:none;padding:0}
+.prd-body hr{border:none;border-top:1px solid #e8e8e8;margin:20px 0}
+.prd-body blockquote{border-left:3px solid #0f6cbd;margin:10px 0;padding:8px 16px;background:#f8fbff}
+.prd-body em{color:#616161}
+.prd-body strong{color:#242424}
+
 /* PRD sections - always open */
 .acc-open{border:1px solid #e8e8e8;border-radius:8px;margin-bottom:8px;overflow:hidden}
 .acc-heading{padding:12px 16px;font-size:14px;font-weight:600;color:#242424;background:#fafafa;border-bottom:1px solid #e8e8e8}
@@ -339,6 +358,1231 @@ const content = {
       <li>Resource attachment support in Project Mode (lakehouse paths, Excel uploads, read/write permissions per resource)</li>
     </ul>
   `,
+  prototype: `
+    <span class="card-tag tag-prototype">PROTOTYPE</span>
+    <h2>Interactive Prototype</h2>
+    <p>The prototype demonstrates the Copilot page with a <strong>Conversation / Data Project</strong> toggle. When toggled to Data Project mode:</p>
+    <ul>
+      <li>Resource chips (ERP_Dump, SAP_R3, Vendors, PurchaseOrders)</li>
+      <li>Mode selector: Default, Deep plan, Deep plan (auto approve)</li>
+      <li>Project-oriented suggestion cards</li>
+    </ul>
+    <p style="margin-top:16px"><a href="prototype.html" target="_blank" class="modal-gh-link" style="background:#0f6cbd;color:#fff;border-color:#0f6cbd">▶ Launch Prototype</a></p>
+  `,
+  prd: `
+    <span class="card-tag tag-spec">SPEC</span>
+    <h2>Full PRD (v1.5)</h2>
+    <p style="margin-bottom:16px"><em>Authored by Naresh Venkat &amp; Vijay Sarad — March 06, 2026</em></p>
+    <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjects/Fabric_DataProjects_Agent_PRD.md" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
+    <div class="prd-body"><p><strong>Fabric DataProjects</strong></p>
+<p>Product Requirements Document</p>
+<p>Authored by Naresh Venkat &amp; Vijay Sarad</p>
+<p>Version 1.5 - March 06, 2026
+Microsoft Confidential</p>
+<p>The table below summarizes all edits applied to this PRD.</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Date</th>
+<th>Author</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1.0</td>
+<td>2026-03-04</td>
+<td>Naresh Venkat</td>
+<td>Initial PRD draft. CLI and In-Fabric experience. ETL, Databricks Migration, Data Quality skills.</td>
+</tr>
+<tr>
+<td>1.1</td>
+<td>2026-03-05</td>
+<td>Naresh Venkat</td>
+<td>Renamed to DataProjects. Added milestones, project scenarios, My/Team Projects, business case (Claude/ChatGPT Projects framing), market data.</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>2026-03-05</td>
+<td>Naresh Venkat</td>
+<td>Two-orchestrator architecture. User interaction model clarified. API interface spec. DataProjects Panel. Removed emdashes.</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>2026-03-05</td>
+<td>Naresh Venkat</td>
+<td>Incorporated transcript decisions (workspace-scoped, no locking, git preferred, milestones != plans, project panel UX ownership).</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>2026-03-05</td>
+<td>Vijay Sarad</td>
+<td>Production monitors concept. Lydia production anxiety narrative. Incremental delivery model. Per-milestone commit. Full user journey. Assumptions section. Agent-agnostic CLI. Scenario 7 (Enterprise Monitoring).</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td>2026-03-06</td>
+<td>Naresh Venkat + Vijay Sarad</td>
+<td>Merged v1.3 (Naresh) and v1.4 (Vijay). Combined all content: business case framing, production monitors, user journey, API spec, session isolation.</td>
+</tr>
+</tbody></table>
+<h2>Change Summary</h2>
+<h1>Table of Contents</h1>
+<ol>
+<li>Executive Summary
+1.1 The Business Case for Project-Mode AI
+1.2 Why &quot;Projects&quot; - Not Tasks, Not Chat
+1.3 Target Project Scenarios
+1.4 What We Are Shipping</li>
+<li>Assumptions</li>
+<li>Problem Statement
+3.1 The Industry Shift: From Chat to Projects
+3.2 Why Data Engineering Demands Incremental Delivery
+3.3 Lydia&#39;s Production Deployment Anxiety</li>
+<li>Terminology</li>
+<li>Solution Overview &amp; Architecture
+5.1 Architecture Layers
+5.2 Critical Design Principles
+5.3 Project Data Model
+5.4 Milestones - Incremental Delivery with Production Monitors
+5.5 My Projects vs. Team Projects
+5.6 Two-Orchestrator Architecture</li>
+<li>CLI Experience
+6.1 Installation &amp; Integration
+6.2 Agent Invocation Patterns
+6.3 Skill Catalog
+6.4 Long-Running Project Lifecycle
+6.5 Progress Reporting Protocol
+6.6 Telemetry &amp; Completion
+6.7 Git &amp; No-Git Experiences
+6.8 Cross-Session Context &amp; Isolation</li>
+<li>In-Fabric Experience
+7.1 Task vs. Project Toggle
+7.2 Project Mode - Attachments &amp; Resources
+7.3 DataProjects Panel
+7.4 Orchestrator Status Queries
+7.5 Upgrade Path: Chat to Project
+7.6 Review, Diff &amp; Commit</li>
+<li>User Journey: Incremental Delivery with Production Monitors</li>
+<li>Data Governance &amp; Quality Framework</li>
+<li>Requirements</li>
+<li>Non-Goals (Current Release)</li>
+<li>Success Criteria</li>
+<li>Open Questions &amp; Future Work
+Appendix A: Interface Specification</li>
+</ol>
+<h1>1. Executive Summary</h1>
+<p>Fabric DataProjects is an AI-powered data engineering agent purpose-built for long-running, multi-milestone projects that unfold over weeks or months. Unlike single-shot AI assistants, DataProjects maintains persistent project context, plans work as incremental milestones, executes complex Spark-based transformations, and delivers results to production one milestone at a time, each accompanied by an automatically deployed production monitor.
+DataProjects is exposed through two complementary surfaces:</p>
+<ul>
+<li>CLI - any coding agent (GitHub Copilot via FabricSkills, Claude Code, Cursor, or any agent capable of calling an HTTP API). The agent communicates with the DataProjects Orchestrator via a well-defined REST API.</li>
+<li>In-Fabric - the Unified AI Platform within Fabric, surfacing a DataProjects Panel for long-running project management alongside the existing Ask Mode and Agent Mode.</li>
+</ul>
+<p><strong>Key design principles:</strong></p>
+<ul>
+<li>Powered by the DataProjects Orchestrator - a per-user backend service abstracted from the end user. Users interact only through their chosen coding agent or the Fabric AI Platform.</li>
+<li>Milestones as incremental delivery units - each milestone is a standalone, shippable increment. When approved, its artifacts are committed to production and a production monitor is automatically deployed to watch quality, freshness, schema stability, and anomalies.</li>
+<li>My Projects vs. Team Projects - projects default to private (&quot;My Projects&quot;) but can be toggled to &quot;Team Projects&quot; for workspace-wide visibility and collaboration.</li>
+<li>Draft/Commit model - the agent never writes directly to production. All work is staged; nothing reaches production without explicit user approval at the milestone level.</li>
+<li>Agent-agnostic CLI via HTTP API - the DataProjects Orchestrator exposes a self-describing REST API (GET /api/v1/hello) enabling any coding agent to integrate without a proprietary plugin.</li>
+</ul>
+<h2>1.1 The Business Case for Project-Mode AI</h2>
+<h3>Why the Industry Is Moving from Chat to Projects</h3>
+<p>Both Anthropic and OpenAI have independently concluded that ephemeral chat is broken for real work. Both shipped &quot;Projects&quot; features in 2024-2025 to fix the same three fundamental problems:</p>
+<p><strong>Problem 1: Context dies with the session.</strong></p>
+<p>Every new chat is a cold start. Users re-explain who they are, what they are working on, and upload the same files again. Anthropic explicitly calls this solving the &quot;cold start problem.&quot; Claude Projects give the AI a curated library of project-specific knowledge with a 200K-token context window, so responses are relevant from the first message.</p>
+<p><strong>Problem 2: Chat is a junk drawer.</strong></p>
+<p>Kevin Weil, OpenAI&#39;s Chief Product Officer, said at the ChatGPT Projects launch: &quot;We&#39;re launching something you&#39;ve all been asking for.&quot; Users had accumulated hundreds of chats with no organization. Projects group related conversations, files, and custom instructions into coherent workspaces. This mirrors how humans naturally organize work: by project, not by timestamp.</p>
+<p><strong>Problem 3: Individual chat is useless for teams.</strong></p>
+<p>Chat history is personal and ephemeral. It cannot be shared, reviewed, or built upon by colleagues. Both Claude and ChatGPT Projects introduced team sharing, activity feeds, and shared knowledge bases. Anthropic frames this as turning Claude from a personal assistant into a &quot;collaborative partner.&quot;</p>
+<p><strong>What DataProjects adds: Autonomous Execution.</strong></p>
+<p>Claude Projects and ChatGPT Projects solved the organization and context problems. But they are still fundamentally conversation organizers - glorified folders with persistent memory. The user still drives every interaction. DataProjects takes the next leap: it solves the same three problems AND adds autonomous execution. It does not just remember your Teradata migration context - it actually runs the migration. It does not just organize your data quality conversations - it profiles 2,000 tables, detects PII, and generates remediation notebooks.</p>
+<p><strong>Chat (2023) &gt; Projects (2024-2025, Claude/ChatGPT) &gt; Autonomous Project Execution (2026, DataProjects)</strong></p>
+<p>Each step solves a deeper problem: from &quot;answer my question&quot; to &quot;remember my context&quot; to &quot;do my project.&quot;
+The market confirms this trajectory. By 2026, 40% of enterprise applications will embed task-specific AI agents (Gartner, Aug 2025). 81% of enterprises plan to develop agents for multi-step processes (2026 State of AI Agents Report). Bain &amp; Company research shows most enterprises find building agentic systems in-house unsustainable. DataProjects is the turnkey platform for data engineering.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Claude/ChatGPT Projects</th>
+<th>DataProjects</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>What it organizes</td>
+<td>Chats and documents</td>
+<td>Code, data, notebooks, pipelines, schemas, quality rules</td>
+</tr>
+<tr>
+<td>Execution model</td>
+<td>User drives the conversation</td>
+<td>Agent executes autonomously for hours/days</td>
+</tr>
+<tr>
+<td>Artifacts</td>
+<td>Text responses, code snippets</td>
+<td>Production PySpark notebooks, Delta tables, lineage records</td>
+</tr>
+<tr>
+<td>Progress tracking</td>
+<td>Conversation history</td>
+<td>Milestone-based progress with production monitors</td>
+</tr>
+<tr>
+<td>Governance</td>
+<td>File permissions</td>
+<td>Column-level lineage, PII detection, quality gates, draft/commit</td>
+</tr>
+<tr>
+<td>Post-deployment</td>
+<td>None</td>
+<td>Production monitors: quality, freshness, schema drift, anomaly detection</td>
+</tr>
+<tr>
+<td>Team model</td>
+<td>Share the chat</td>
+<td>Workspace-inherited roles, team visibility into milestone progress</td>
+</tr>
+</tbody></table>
+<h2>1.2 Why &quot;Projects&quot; - Not Tasks, Not Chat</h2>
+<p>The deliberate naming reflects a product insight: the work data engineers do is project-scoped. Consider:</p>
+<p><em>Lydia is a Data Engineer leading an initiative to consolidate data from 130 ERP systems into Microsoft Fabric. She receives a request to ingest Procure-to-Pay data from SAP R3 into Silver layer tables. The planning phase alone would traditionally consume weeks: studying SAP enterprise resource diagrams, navigating documentation, meeting with business teams. Only then could development begin, followed by more weeks of coding, testing, and validation.</em></p>
+<p>This is not a task. It is a project - with planning, discovery, execution, validation, and deployment phases. With DataProjects, Lydia enters instructions, references her Bronze Lakehouse, attaches business rules from Excel, selects Deep Plan Mode, and submits. The AI plans milestones, creates notebooks, executes transformations, and delivers each milestone to production with a monitor watching quality. What took months is delivered incrementally without compromising governance.</p>
+<h2>1.3 Target Project Scenarios</h2>
+<p>DataProjects targets data engineering work that runs for weeks, involves teams, and has natural milestones. DataProjects operates exclusively within Microsoft Fabric, but many of the highest-value scenarios involve migration TO Fabric from other platforms:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Description</th>
+<th>Timeline</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Teradata Migration</td>
+<td>Fortune 500 migrating 2,000+ tables. BTEQ script conversion, SQL dialect translation, partitioning redesign, phased cutover with parallel-run validation.</td>
+<td>4-6 months</td>
+</tr>
+<tr>
+<td>SAP/ERP Consolidation</td>
+<td>130 ERP systems (SAP, Oracle EBS, JD Edwards) into unified medallion architecture. Per-module waves with business rule codification.</td>
+<td>2-4 months</td>
+</tr>
+<tr>
+<td>Databricks-to-Fabric</td>
+<td>Unity Catalog metadata, Delta tables, notebook conversion (dbutils to mssparkutils), Workflows to Fabric Pipelines.</td>
+<td>1-3 months</td>
+</tr>
+<tr>
+<td>DW Modernization</td>
+<td>Oracle/SQL Server DW to Fabric Lakehouse. 800+ stored procedures, SCD Type 2 to Delta merge, ETL redesign.</td>
+<td>2-4 months</td>
+</tr>
+<tr>
+<td>Regulatory Compliance</td>
+<td>HIPAA/GDPR across 500+ tables: PII detection, column-level encryption, audit trails, retention policies, compliance reporting.</td>
+<td>1-2 months</td>
+</tr>
+<tr>
+<td>Multi-Source Data Lake</td>
+<td>20+ source systems (POS, CRM, APIs, file drops) into unified medallion architecture. Source-specific ingestion, harmonization, quality validation.</td>
+<td>2-4 months</td>
+</tr>
+<tr>
+<td>Performance Optimization</td>
+<td>Code repo + 100+ Delta tables. Query tuning, partition redesign, Spark config optimization, Z-order analysis, cost reduction.</td>
+<td>2-6 weeks</td>
+</tr>
+<tr>
+<td>Enterprise Monitoring &amp; Break-Fix</td>
+<td>300+ production Delta tables. Automated row-count trending, schema drift detection, null-rate anomalies, freshness SLA tracking, root cause analysis and remediation.</td>
+<td>Ongoing</td>
+</tr>
+</tbody></table>
+<h2>1.4 What We Are Shipping</h2>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Entry Point</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CLI</td>
+<td>Any coding agent (GHCP, Claude Code, Cursor)</td>
+<td>Agent communicates with DataProjects Orchestrator via HTTP REST API. GHCP uses FabricSkills plugin; others use /api/v1/hello for self-discovery.</td>
+</tr>
+<tr>
+<td>In-Fabric</td>
+<td>Fabric AI Orchestrator - Project Mode toggle</td>
+<td>User toggles Project Mode. Orchestrator delegates to DataProjects Orchestrator via API. DataProjects Panel for visibility.</td>
+</tr>
+</tbody></table>
+<p>Users interact only with their chosen orchestrator (Fabric AI Platform or coding agent CLI). The DataProjects Orchestrator is backend infrastructure exposed as an HTTP API.</p>
+<h1>2. Assumptions</h1>
+<ul>
+<li>DataProjects ships after the Osmos team delivers the AI Data Engineer Skill. The AI Data Engineer Skill provides foundational single-session capabilities (Spark job execution, lakehouse management, notebook generation, data quality checks) that DataProjects orchestrates across milestones.</li>
+<li>The AI Data Engineer Skill is the primary execution engine within each milestone. DataProjects adds project lifecycle, milestone planning, state management, production monitor deployment, and cross-session context on top.</li>
+<li>Fabric capacity and Spark runtime are available in the target workspace.</li>
+<li>Users have appropriate workspace permissions (Admin or Member) to create and manage projects.</li>
+<li>The Unified AI Platform (Fabric AI Orchestrator) supports skill loading and Project Mode toggle by the time DataProjects ships.</li>
+</ul>
+<h1>3. Problem Statement</h1>
+<h2>3.1 The Industry Shift: From Chat to Projects</h2>
+<p>The AI industry is rapidly moving beyond single-turn chat interactions toward persistent, project-oriented AI. Claude Projects and ChatGPT Projects allow users to organize conversations, attach reference documents, and maintain context across sessions. However, these are general-purpose project containers. They organize conversations, not engineering work.
+DataProjects takes the next step: an AI agent that does not just organize context but actually plans, executes, and delivers data engineering work across milestones, with production-grade governance and incremental delivery to production.</p>
+<h2>3.2 Why Data Engineering Demands Incremental Delivery</h2>
+<p>Enterprise data engineering projects - migrations, consolidations, modernizations - are too large and too risky for a single &quot;big bang&quot; deployment. A 2,000-table Teradata migration cannot be validated, approved, and shipped in one atomic operation. The risk is unacceptable: a single schema mismatch or data quality regression could cascade across hundreds of downstream consumers.
+DataProjects addresses this with milestone-based incremental delivery. Each milestone is a standalone, shippable unit. When approved, its artifacts commit to production and a production monitor is deployed to continuously watch quality, freshness, schema stability, and anomalies. Subsequent milestones build on what is already live and validated - not on untested staging artifacts.</p>
+<h2>3.3 Lydia&#39;s Production Deployment Anxiety</h2>
+<p><em>Lydia is a senior data engineer at a global manufacturer. She is responsible for consolidating 130 ERP systems into Fabric. After weeks of development, her agent produces a set of notebooks and Delta tables for the first two SAP modules (FI and SD). The code looks correct. The row counts match. The schema validation passes.</em></p>
+<p>But Lydia is anxious. She has seen &quot;validated&quot; deployments fail in production before - a currency conversion edge case for the Brazilian subsidiary, a slowly-changing dimension that worked in test but produced duplicates under production load, a freshness SLA that was met during testing but violated when real-world data volumes arrived.
+DataProjects addresses Lydia&#39;s anxiety through two mechanisms:</p>
+<ul>
+<li>Draft/Commit model - Lydia reviews every artifact before it touches production. She can inspect notebooks line by line, examine data diffs, fix a JOIN condition, rename a column - all before approving.</li>
+<li>Production Monitors - when Lydia approves the FI/SD milestone, a production monitor is automatically deployed alongside the artifacts. It watches row counts, schema stability, null rates, freshness SLAs, and detects anomalies. If the Brazilian currency edge case causes a data quality regression, Lydia is alerted immediately - not days later when a downstream report breaks.
+The combination means Lydia can confidently ship increments to production, knowing that each one is both pre-validated (draft/commit review) and post-validated (production monitor). Her anxiety transforms into confidence: &quot;Ship the first wave, watch the monitor, then ship the next.&quot;</li>
+</ul>
+<h1>4. Terminology</h1>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DataProjects Orchestrator</td>
+<td>Backend execution engine. Exposes HTTP API for project CRUD, milestone tracking, production monitor deployment. Not user-facing.</td>
+</tr>
+<tr>
+<td>Project</td>
+<td>A long-running, milestone-structured unit of work. Can be My Project (private) or Team Project (shared via workspace RBAC).</td>
+</tr>
+<tr>
+<td>Milestone</td>
+<td>A standalone, shippable increment within a project. When approved, artifacts commit to production and a production monitor is deployed.</td>
+</tr>
+<tr>
+<td>Production Monitor</td>
+<td>An automated observability component deployed with each approved milestone. Watches quality, freshness, schema stability, and anomalies continuously.</td>
+</tr>
+<tr>
+<td>Skill</td>
+<td>An agent-exclusive capability (ETL, Migration, Quality). Skills work ONLY with the DataProjects agent.</td>
+</tr>
+<tr>
+<td>DataProjects Panel</td>
+<td>Fabric UI panel showing project list, milestone timelines, production health indicators, and review controls.</td>
+</tr>
+<tr>
+<td>Project Mode</td>
+<td>Toggle in the Fabric AI Orchestrator that activates long-running project capabilities via DataProjects.</td>
+</tr>
+<tr>
+<td>AI Projects Lakehouse</td>
+<td>Shared lakehouse per workspace used as scratch space for all projects. Per-project folders isolated via DAT tokens.</td>
+</tr>
+<tr>
+<td>Draft/Commit Model</td>
+<td>All artifacts are staged. Nothing reaches production without explicit user approval at the milestone level.</td>
+</tr>
+<tr>
+<td>My Project</td>
+<td>Private project. Only the creator can see and interact with it. Default.</td>
+</tr>
+<tr>
+<td>Team Project</td>
+<td>Shared project. Visible to workspace members per workspace role permissions.</td>
+</tr>
+</tbody></table>
+<h1>5. Solution Overview &amp; Architecture</h1>
+<h2>5.1 Architecture Layers</h2>
+<p>DataProjects is structured as a four-layer architecture:</p>
+<ul>
+<li>User Surfaces - Fabric AI Orchestrator (in-fabric), coding agents (GHCP CLI, Claude Code, Cursor, VS Code)</li>
+<li>DataProjects Agent - thin integration layer: agent/skill registrations that connect user surfaces to the orchestrator API</li>
+<li>DataProjects Orchestrator - backend engine managing project lifecycle, milestones, skill delegation, production monitor deployment. HTTP REST API.</li>
+<li>Fabric Runtime - Spark clusters, Lakehouse storage, SQL endpoints, Notebooks</li>
+</ul>
+<h2>5.2 Critical Design Principles</h2>
+<ul>
+<li>Single orchestrator per user, multiple sessions - a user has one DataProjects Orchestrator instance managing all their projects.</li>
+<li>Projects are workspace-scoped - operates within the workspace where the orchestrator runs. Can reference other workspaces as read-only.</li>
+<li>Agent-agnostic HTTP API - GET /api/v1/hello returns the orchestrator&#39;s name, version, capabilities, skills, and endpoints. Any coding agent that can make HTTP calls can integrate.</li>
+<li>One shared Lakehouse per workspace - all projects share a single &quot;AI Projects Lakehouse&quot;. Per-project folders scoped via DAT tokens.</li>
+<li>Projects are NOT items, NOT workloads in v1 - orchestrator-managed state, not first-class Fabric items.</li>
+</ul>
+<h2>5.3 Project Data Model</h2>
+<ul>
+<li>Projects are workspace-scoped. All write operations target the home workspace.</li>
+<li>No cross-workspace writes. Read-only references to other workspaces enforced at the DAT token level.</li>
+<li>One shared Lakehouse per workspace. Each project gets a folder (e.g., /projects/DP-20260304-001/).</li>
+<li>Cross-pollination control - data isolated via DAT tokens. Conversation context optionally shareable.</li>
+<li>Project ID: auto-generated (e.g., DP-20260304-001-teradata-migration)</li>
+<li>Hierarchy: Project &gt; Milestones &gt; Tasks. Each milestone has status, artifacts, monitor config, approval state.</li>
+</ul>
+<h2>5.4 Milestones - Incremental Delivery with Production Monitors</h2>
+<p>Milestones are the core delivery unit. Each milestone is a standalone, shippable increment. When a user approves a milestone, two things happen simultaneously:</p>
+<ul>
+<li>Artifacts commit to production - notebooks, Delta tables, pipeline configurations are written to the production workspace.</li>
+<li>A production monitor is deployed - an automated observability component that continuously watches the shipped artifacts.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Milestone</th>
+<th>Description</th>
+<th>Typical Activities</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>M1: Assessment</td>
+<td>Understand the source landscape</td>
+<td>Schema crawling, data profiling, volume estimation, dependency mapping, risk assessment</td>
+</tr>
+<tr>
+<td>M2: Planning</td>
+<td>Build the execution plan</td>
+<td>Wave planning, transformation mapping, resource estimation, milestone scheduling</td>
+</tr>
+<tr>
+<td>M3+: Build Waves</td>
+<td>Generate, test, and ship code per wave</td>
+<td>Notebook generation, data migration, validation, production monitor deployment</td>
+</tr>
+<tr>
+<td>M-Final: Completion</td>
+<td>Cross-wave validation and project wrap-up</td>
+<td>Referential integrity, end-to-end lineage, compliance reporting, consolidated monitor</td>
+</tr>
+</tbody></table>
+<p><strong>Production Monitor Capabilities:</strong></p>
+<ul>
+<li>Watches all artifacts shipped by its milestone - Delta tables, notebook outputs, pipeline results</li>
+<li>Tracks data quality against baselines established during milestone validation</li>
+<li>Detects anomalies: row count deviations, schema drift, null rate spikes, freshness SLA violations</li>
+<li>Alerts the user via DataProjects Panel, Fabric notifications, or webhook callbacks</li>
+<li>Runs continuously after deployment - not just at milestone completion</li>
+<li>User-tunable: thresholds, alert channels, and monitoring frequency can be adjusted post-deployment</li>
+</ul>
+<p><strong>Milestone behaviors:</strong></p>
+<ul>
+<li>Milestones are modifiable on the fly. As the AI discovers more work, milestones can be added or re-prioritized.</li>
+<li>When user input is needed, the project pauses. User can redirect, change milestones, or start over.</li>
+<li>The project does not end when milestones complete. Users can come back and evolve the project.</li>
+<li>Custom milestones supported: Business sign-off, UAT, Parallel-run, Compliance review.</li>
+</ul>
+<h2>5.5 My Projects vs. Team Projects</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>My Project</th>
+<th>Team Project</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Visibility</td>
+<td>Only the creator</td>
+<td>All workspace members with appropriate roles</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Yes (default at creation)</td>
+<td>Opt-in via toggle</td>
+</tr>
+<tr>
+<td>Permissions</td>
+<td>Creator-only</td>
+<td>Inherited from workspace RBAC</td>
+</tr>
+<tr>
+<td>Concurrency</td>
+<td>N/A</td>
+<td>Optimistic concurrency. Conflicts surfaced during commit.</td>
+</tr>
+<tr>
+<td>Promotion</td>
+<td>Can promote to Team Project (one-click)</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+<h2>5.6 Two-Orchestrator Architecture</h2>
+<p><img src="architecture_diagram.png" alt="Architecture Diagram"></p>
+<p>There are two orchestrators, but the user only ever interacts with one surface:</p>
+<ul>
+<li>Fabric AI Orchestrator (user-facing) - handles Ask Mode, Agent Mode, and Project Mode. This is where users type instructions, review results, and make decisions.</li>
+<li>DataProjects Orchestrator (backend) - manages project lifecycle, milestones, skill delegation, production monitor deployment. HTTP REST API. Never directly user-facing.</li>
+</ul>
+<p><strong>The Flow:</strong></p>
+<ul>
+<li>Step 1: User toggles Project Mode in the Fabric AI Orchestrator (or invokes dataprojects agent in CLI).</li>
+<li>Step 2: User provides instructions, attaches documents, references lakehouse resources.</li>
+<li>Step 3: Fabric AI Orchestrator passes the payload to DataProjects Orchestrator via HTTP API.</li>
+<li>Step 4: DataProjects Orchestrator plans milestones, delegates to skills, runs Spark jobs, stages artifacts.</li>
+<li>Step 5: Progress reported back via webhooks. Surfaced in DataProjects Panel.</li>
+<li>Step 6: When input is needed, the question appears in the user&#39;s current chat.</li>
+<li>Step 7: User reviews staged artifacts, optionally edits inline, approves.</li>
+<li>Step 8: Commit ships artifacts to production and deploys production monitor.
+The user NEVER interacts with the DataProjects Orchestrator directly. In CLI, the coding agent (GHCP, Claude Code, Cursor) calls the DataProjects HTTP API on behalf of the user.</li>
+</ul>
+<h1>6. CLI Experience</h1>
+<h2>6.1 Installation &amp; Integration</h2>
+<p><strong>GitHub Copilot (GHCP) - via FabricSkills Plugin:</strong></p>
+<ul>
+<li>Part of the FabricSkills plugin. Components: dataprojects agent, plus skills for ETL, Teradata, Databricks, ERP, Data Quality.</li>
+<li>All skills ONLY work with the DataProjects Agent. Not standalone.</li>
+</ul>
+<p><strong>Claude Code / Cursor / Other Coding Agents - via HTTP API:</strong></p>
+<ul>
+<li>No plugin required. Any agent that can make HTTP requests can integrate.</li>
+<li>Discovery: GET /api/v1/hello returns self-description, capabilities, skills, and endpoints.</li>
+</ul>
+<h2>6.2 Agent Invocation Patterns</h2>
+<pre><code># GHCP direct invocation
+$ ghcs --agent dataprojects &quot;Migrate 500 tables from Teradata to Fabric&quot;
+
+# GHCP auto-routing (detects project-scale work)
+$ ghcs &quot;I need to migrate our Teradata warehouse&quot;
+
+# Claude Code
+&gt; Use the DataProjects API to create a project for our SAP consolidation
+
+# Generic agent pattern
+GET  /api/v1/hello                    -&gt; discover capabilities
+POST /api/v1/projects                 -&gt; create project
+GET  /api/v1/projects/{id}/status     -&gt; poll progress
+GET  /api/v1/projects/{id}/review     -&gt; review staged artifacts
+POST /api/v1/projects/{id}/commit     -&gt; approve and ship to production
+</code></pre>
+<h2>6.3 Skill Catalog</h2>
+<table>
+<thead>
+<tr>
+<th>Skill ID</th>
+<th>Name</th>
+<th>Key Capabilities</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dataprojects-etl-pipeline</td>
+<td>ETL Pipeline</td>
+<td>Source profiling, medallion architecture, PySpark generation, validation</td>
+</tr>
+<tr>
+<td>dataprojects-teradata-migration</td>
+<td>Teradata Migration</td>
+<td>BTEQ conversion, SQL dialect translation, partitioning redesign, benchmarking</td>
+</tr>
+<tr>
+<td>dataprojects-databricks-migration</td>
+<td>Databricks Migration</td>
+<td>Unity Catalog crawl, Delta copy, notebook conversion, wave planning</td>
+</tr>
+<tr>
+<td>dataprojects-erp-consolidation</td>
+<td>ERP Consolidation</td>
+<td>Multi-ERP schema mapping, business rule codification, cross-system normalization</td>
+</tr>
+<tr>
+<td>dataprojects-data-quality</td>
+<td>Data Quality</td>
+<td>Profiling, quality scoring, PII detection, drift detection, compliance</td>
+</tr>
+</tbody></table>
+<h2>6.4 Long-Running Project Lifecycle</h2>
+<pre><code>Project: created &gt; planning_milestones &gt; executing &gt; review_pending &gt; committing &gt; succeeded
+                                            |              |                          
+                                          failed        cancelled                     
+                                            |                                         
+                                          paused (user-initiated)                     
+
+Milestone: pending &gt; in_progress &gt; completed
+                        |                   
+                      blocked (dependency or input needed)
+</code></pre>
+<h2>6.5 Progress Reporting Protocol</h2>
+<p>Progress is reported at two levels: project-level and milestone-level.</p>
+<pre><code>$ ghcs project status DP-20260304-001
+
+DataProjects: Teradata Migration - DP-20260304-001
+Status: EXECUTING (35% complete)
+Workspace: analytics-prod | Owner: Team Project
+------------------------------------------------------------
+MILESTONES
+  M1 Assessment ........... COMPLETE
+     2,147 tables, 523 BTEQ scripts, 1.8TB profiled
+  M2 Planning ............. COMPLETE
+  M3 Wave 1 (FI + SD) .... IN PROGRESS [========..] 78%
+     Schema conversion: done
+     Data migration: running (42 of 58 tables)
+     Validation: pending
+  M4 Wave 2 (CO + MM) .... PENDING
+  M5 Wave 3 (PP + QM) .... PENDING
+  M-Final Completion ...... PENDING
+------------------------------------------------------------
+Production Health:
+  (no milestones shipped yet)
+------------------------------------------------------------
+Est. remaining: ~3 days | Next milestone: ~4 hours
+</code></pre>
+<h2>6.6 Telemetry &amp; Completion</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Metrics</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Timing</td>
+<td>Wall-clock duration, compute time, idle time (waiting for user input)</td>
+</tr>
+<tr>
+<td>Data Volume</td>
+<td>Rows processed, bytes read/written, Delta table sizes</td>
+</tr>
+<tr>
+<td>Compute</td>
+<td>Spark job count, total vCore-hours, cluster utilization</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td>Validation pass rates, data quality scores, monitor baseline values</td>
+</tr>
+<tr>
+<td>Artifacts</td>
+<td>Notebooks generated, Delta tables created/modified, pipelines configured</td>
+</tr>
+<tr>
+<td>Governance</td>
+<td>Approval timestamps, reviewer identity, audit trail entries</td>
+</tr>
+</tbody></table>
+<h2>6.7 Git &amp; No-Git Experiences</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Git-Connected</th>
+<th>No-Git</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Branch</td>
+<td>Feature branch per project</td>
+<td>Staging folder in AI Projects Lakehouse</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>Git branching, no locking, optimistic concurrency</td>
+<td>Built-in diff/revert by orchestrator</td>
+</tr>
+<tr>
+<td>Commit</td>
+<td>Merge to main on milestone approval</td>
+<td>Copy from staging to production with atomic swap</td>
+</tr>
+<tr>
+<td>Conflicts</td>
+<td>Detected and surfaced during review</td>
+<td>Same approach</td>
+</tr>
+<tr>
+<td>Recommendation</td>
+<td>Strongly preferred</td>
+<td>Fallback. DataProjects Panel recommends enabling Git.</td>
+</tr>
+</tbody></table>
+<h2>6.8 Cross-Session Context &amp; Isolation</h2>
+<ul>
+<li>Default session isolation - each CLI session has its own conversation context. No automatic cross-session sharing.</li>
+<li>Project state is always accessible from any session (milestones, artifacts, monitors). Only conversation context is session-scoped.</li>
+<li>ghcs project list - shows all active projects across sessions with current milestone and health status.</li>
+<li>ghcs project status <id> - retrieves full status from any terminal.</li>
+<li>Team Projects - all workspace members can query status. Visibility governed by workspace role.</li>
+<li>ghcs project isolate - explicit context reset if cross-session pollution occurs.</li>
+</ul>
+<h1>7. In-Fabric Experience</h1>
+<h2>7.1 Task vs. Project Toggle</h2>
+<p>The Fabric AI Orchestrator provides Ask Mode (simple questions), Agent Mode (single-session tasks), and Project Mode (long-running DataProjects). The mode toggle is visible in the orchestrator UI header.
+When Project Mode is active:</p>
+<ul>
+<li>Project instruction box - richer input field supporting multi-line instructions, markdown, and attachment references.</li>
+<li>Resource attachment - lakehouse tables, Excel files with business rules, ERD diagrams, reference documents.</li>
+<li>Access permissions - set read/write per referenced resource.</li>
+<li>Execution mode selector - Normal, Deep Plan, Deep Plan + Auto-Approval.</li>
+<li>Ownership selector - My Project (default) or Team Project.</li>
+</ul>
+<h2>7.2 Project Mode - Attachments &amp; Resources</h2>
+<ul>
+<li>Reference lakehouse resources by relative paths (e.g., Tables/bronze/sap_fi_transactions).</li>
+<li>Set access permissions per resource: Read-Only (reference data) or Read-Write (target for outputs).</li>
+<li>Attach Excel files with business rules (currency conversion tables, naming conventions, SLA definitions).</li>
+<li>Select execution mode: Normal, Deep Plan, Deep Plan + Auto-Approval.</li>
+</ul>
+<h2>7.3 DataProjects Panel</h2>
+<p>We own the DataProjects Panel UX. The orchestrator gives us a rendering surface; we control what is inside.</p>
+<ul>
+<li>Project List - all active and completed projects, filterable by status, ownership, date.</li>
+<li>Milestone Timeline - visual timeline with milestone boxes, progress bars, and production health indicators (green/yellow/red).</li>
+<li>Project Detail View - activity stream, artifacts list, review controls, production monitor dashboard.</li>
+<li>Status at a Glance - badge in Fabric sidebar showing current milestone + aggregate health.</li>
+<li>Workspace-scoped: users see their My Projects plus Team Projects they have access to.</li>
+</ul>
+<h2>7.4 Orchestrator Status Queries</h2>
+<p>Users can query project status from any mode:</p>
+<ul>
+<li>&quot;What&#39;s the status of my Teradata migration?&quot; - current milestone, progress, and health.</li>
+<li>&quot;Show me the production health for Wave 1&quot; - monitor metrics for the specified milestone.</li>
+<li>&quot;Are there any alerts on my projects?&quot; - active production monitor alerts across all projects.</li>
+</ul>
+<h2>7.5 Upgrade Path: Chat to Project</h2>
+<p>The orchestrator can propose upgrading a conversation to a project when:</p>
+<ul>
+<li>Conversation has had many tool calls and significant elapsed time.</li>
+<li>User is about to close a tab while work is in progress.</li>
+<li>User says &quot;turn this into a project&quot; or &quot;this is going to take a while.&quot;</li>
+</ul>
+<h2>7.6 Review, Diff &amp; Commit</h2>
+<p><strong>Code Diffs:</strong></p>
+<ul>
+<li>Side-by-side or inline diff view, syntax-highlighted for PySpark, SQL, and configuration files.</li>
+<li>Line-level commenting for team review (Team Projects).</li>
+</ul>
+<p><strong>Data Diffs:</strong></p>
+<ul>
+<li>Schema changes - columns added (green), removed (red), modified (yellow) with before/after data types.</li>
+<li>Row count changes - expected vs. actual, with percentage deviation.</li>
+<li>Sample data comparison - before/after snapshots of representative rows.</li>
+</ul>
+<p><strong>Commit Behavior:</strong></p>
+<ul>
+<li>Commit is per-milestone - each approval ships that milestone&#39;s artifacts and deploys its monitor.</li>
+<li>Users can approve individual milestones without committing the entire project.</li>
+<li>Rejected milestones return to the agent for rework with user feedback.</li>
+<li>Users can edit artifacts inline before approving (fix a JOIN, rename a column, adjust a threshold).</li>
+</ul>
+<h1>8. User Journey: Incremental Delivery with Production Monitors</h1>
+<p>This traces a complete journey through the SAP ERP Consolidation scenario, demonstrating milestone-level approval, inline editing, and production monitor deployment.</p>
+<p><em>Scenario: Lydia consolidates 12 SAP modules from 130 ERP systems into a unified Fabric Lakehouse with medallion architecture.</em></p>
+<p><strong>Step 1: Project Initiation</strong></p>
+<p>Lydia toggles Project Mode, provides instructions referencing 12 SAP modules, attaches currency_conversion_rules.xlsx and chart_of_accounts_mapping.xlsx, references Bronze lakehouse (read-only) and Gold lakehouse (read-write). Selects Team Project and Normal execution mode.</p>
+<p><strong>Step 2: M1 Assessment - Approval</strong></p>
+<p>Agent profiles all 130 source systems, catalogues SAP module schemas, identifies data quality issues. Lydia reviews: 130 systems profiled, 12 modules, 2,400+ source tables. No production monitor for M1 (metadata only). Lydia approves.</p>
+<p><strong>Step 3: M2 Planning - Approval</strong></p>
+<p>Agent produces execution plan: 6 waves (2 modules per wave), dependency graph, estimated timelines. Lydia moves HR from Wave 4 to Wave 5 (inline edit). No monitor for M2 (plan only). Lydia approves.</p>
+<p><strong>Step 4: M3 Wave 1 (FI + SD) - Build, Validate, Ship</strong></p>
+<p>Agent generates PySpark notebooks for FI and SD modules. Bronze ingestion, Silver harmonization, Gold star schemas. Lydia reviews staged notebooks. She notices a JOIN that does not account for multi-currency postings in the Brazilian subsidiary. She fixes it inline. She renames a Gold column from &quot;amt&quot; to &quot;transaction_amount_usd&quot; (inline edit). Data diffs: FI 14.2M rows, SD 8.7M rows. Validation passes.
+Lydia approves M3. FI and SD artifacts ship to production. Production monitor deployed: watches row count deviations, schema drift, null rate spikes, freshness SLA (&lt; 4 hours), anomalies.</p>
+<p><strong>Step 5: M4 Wave 2 (CO + MM) - Build, Validate, Ship</strong></p>
+<p>While building Wave 2, M3 production monitor is running and healthy (all green). Agent generates CO and MM notebooks. Lydia reviews. Clean, no edits needed. CO 6.1M rows, MM 11.3M rows. Validation passes. Lydia approves. Monitor deployed. Dashboard: M3 green, M4 green.</p>
+<p><strong>Step 6: Waves 3-6 - Incremental Delivery Continues</strong></p>
+<p>Each wave follows the same pattern: build, validate, review (optional inline edits), approve, ship, deploy monitor. Growing health: M3 green, M4 green, M5 green, M6 yellow (freshness SLA warning on PM module). M6 monitor detects a freshness violation: PM Bronze pipeline running 45 minutes past the 4-hour SLA. Lydia is alerted, investigates, adjusts pipeline config, monitor returns to green. M7 green, M8 green. All 12 modules live with active monitors.</p>
+<p><strong>Step 7: M-Final - Cross-Wave Validation &amp; Completion</strong></p>
+<p>Agent runs cross-wave validation: referential integrity across all 12 modules, end-to-end lineage verification, compliance report generation. Consolidated production monitor deployed watching all modules holistically. Lydia reviews the compliance report and lineage documentation. Clicks &quot;Complete Project.&quot; All monitors continue running. Project archived with full audit trail.</p>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Incremental delivery - each wave shipped independently, reducing risk and enabling early value.</li>
+<li>Production monitors - every shipped wave had continuous observability. Issues caught immediately (M6 freshness SLA).</li>
+<li>Inline editing - Lydia fixed a JOIN and renamed a column without leaving the review flow.</li>
+<li>Growing health visibility - as more waves shipped, the dashboard grew, giving real-time confidence.</li>
+<li>Ongoing detection - monitors do not stop when the project completes. They continue running.</li>
+</ul>
+<h1>9. Data Governance &amp; Quality Framework</h1>
+<table>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nothing without approval</td>
+<td>All artifacts staged in draft. Nothing reaches production without explicit user approval at the milestone level.</td>
+</tr>
+<tr>
+<td>Lineage tracked</td>
+<td>Column-level lineage from source to Bronze to Silver to Gold. Every transformation traceable.</td>
+</tr>
+<tr>
+<td>PII flagged</td>
+<td>Automatically detected during assessment. PII handling policies enforced at Silver layer.</td>
+</tr>
+<tr>
+<td>Production monitors deployed</td>
+<td>Every approved build milestone ships with an automatic monitor. Continuous post-deployment observability.</td>
+</tr>
+<tr>
+<td>Access controls (OBO)</td>
+<td>All Fabric API calls made on behalf of the user via delegated access tokens. Agent never exceeds user permissions.</td>
+</tr>
+<tr>
+<td>Audit trail immutable</td>
+<td>Every action logged with timestamp, user identity, action details. Cannot be modified or deleted.</td>
+</tr>
+<tr>
+<td>Quality gates enforced</td>
+<td>Configurable per milestone (row count thresholds, schema validation, null rate limits). Must pass before completion.</td>
+</tr>
+<tr>
+<td>Team Project audit</td>
+<td>Includes who approved each milestone, who made inline edits, who committed. Full accountability chain.</td>
+</tr>
+</tbody></table>
+<h1>10. Requirements</h1>
+<h2>10.1 Platform Integration</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-0100</td>
+<td>Project Mode toggle in Fabric AI Orchestrator</td>
+<td>Visible in UI header</td>
+</tr>
+<tr>
+<td>R-0110</td>
+<td>DataProjects Panel rendering surface in Fabric UI</td>
+<td>We own the panel content</td>
+</tr>
+<tr>
+<td>R-0120</td>
+<td>Webhook callbacks from DataProjects to Fabric AI Orchestrator</td>
+<td>Progress, input needed, review ready events</td>
+</tr>
+<tr>
+<td>R-0130</td>
+<td>Resource attachment support in Project Mode</td>
+<td>Lakehouse paths, Excel uploads, read/write permissions</td>
+</tr>
+</tbody></table>
+<h2>10.2 Project Creation</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-1000</td>
+<td>Create project via HTTP API or agent invocation</td>
+<td>Both patterns work</td>
+</tr>
+<tr>
+<td>R-1010</td>
+<td>Auto-generated project ID (DP-YYYYMMDD-NNN)</td>
+<td>Deterministic format</td>
+</tr>
+<tr>
+<td>R-1020</td>
+<td>My Project / Team Project toggle at creation</td>
+<td>Defaults to My Project</td>
+</tr>
+<tr>
+<td>R-1030</td>
+<td>Project immediately visible in DataProjects Panel</td>
+<td>Regardless of creation source</td>
+</tr>
+<tr>
+<td>R-1040</td>
+<td>Agent-agnostic: any HTTP client can create a project via /api/v1/projects</td>
+<td>Not limited to GHCP</td>
+</tr>
+</tbody></table>
+<h2>10.3 Milestones &amp; Monitors</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-2000</td>
+<td>AI proposes milestones during planning phase</td>
+<td>User can review, modify, reorder</td>
+</tr>
+<tr>
+<td>R-2010</td>
+<td>Per-milestone commit ships artifacts to production</td>
+<td>Not all-or-nothing</td>
+</tr>
+<tr>
+<td>R-2020</td>
+<td>Production monitor auto-deployed with each approved build milestone</td>
+<td>Watches quality, freshness, schema, anomalies</td>
+</tr>
+<tr>
+<td>R-2030</td>
+<td>Monitors run continuously after deployment</td>
+<td>Not just at milestone completion</td>
+</tr>
+<tr>
+<td>R-2040</td>
+<td>Health indicators (green/yellow/red) visible in DataProjects Panel</td>
+<td>Per shipped milestone</td>
+</tr>
+<tr>
+<td>R-2050</td>
+<td>Custom milestones supported (user-tracked, not AI-executed)</td>
+<td>Business sign-off, UAT, etc.</td>
+</tr>
+</tbody></table>
+<h2>10.4 Execution &amp; Progress</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-3000</td>
+<td>Executes in AI Projects Lakehouse (scratch space)</td>
+<td>Per-project folder via DAT tokens</td>
+</tr>
+<tr>
+<td>R-3010</td>
+<td>Reports progress at project and milestone level</td>
+<td>Periodic + on state change</td>
+</tr>
+<tr>
+<td>R-3020</td>
+<td>No cross-workspace writes</td>
+<td>Read-only references enforced</td>
+</tr>
+<tr>
+<td>R-3030</td>
+<td>Milestones modifiable during input_needed state</td>
+<td>User can redirect</td>
+</tr>
+</tbody></table>
+<h2>10.5 Review, Diff &amp; Commit</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-4000</td>
+<td>Inline artifact editing during review</td>
+<td>User can fix code, rename columns before approving</td>
+</tr>
+<tr>
+<td>R-4010</td>
+<td>Code and data diffs viewable via CLI and Fabric UI</td>
+<td>Equivalent information</td>
+</tr>
+<tr>
+<td>R-4020</td>
+<td>Git branches for code isolation (preferred)</td>
+<td>No workspace-per-task</td>
+</tr>
+<tr>
+<td>R-4030</td>
+<td>No locking - optimistic concurrency</td>
+<td>Conflicts surfaced at review</td>
+</tr>
+<tr>
+<td>R-4040</td>
+<td>Rejected milestones return to agent with user feedback</td>
+<td>Agent reworks and re-stages</td>
+</tr>
+</tbody></table>
+<h2>10.6 Governance &amp; Quality</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Acceptance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-5000</td>
+<td>OBO execution, cross-workspace read-only</td>
+<td>No privilege escalation</td>
+</tr>
+<tr>
+<td>R-5010</td>
+<td>PII detection on all touched tables</td>
+<td>Flagged in review and monitor</td>
+</tr>
+<tr>
+<td>R-5020</td>
+<td>Column-level lineage for all transformations</td>
+<td>Persisted to catalog</td>
+</tr>
+<tr>
+<td>R-5030</td>
+<td>Quality gates block milestone completion if failed</td>
+<td>Override requires explicit action</td>
+</tr>
+<tr>
+<td>R-5040</td>
+<td>Immutable audit trail with user identity per action</td>
+<td>Team Projects include approver identity</td>
+</tr>
+</tbody></table>
+<h1>11. Non-Goals (Current Release)</h1>
+<ul>
+<li>Real-time / streaming data pipelines - batch-oriented only.</li>
+<li>Mid-execution intervention - once a milestone is executing, users cannot modify in-flight Spark jobs. Must wait for completion or cancel.</li>
+<li>Cross-workspace projects - v1 projects scoped to a single workspace.</li>
+<li>Custom skill development - skill catalog maintained by the team. Skill SDK planned for v2.</li>
+<li>Separate project-level permissions - Team Project permissions derive from workspace roles.</li>
+</ul>
+<h1>12. Success Criteria</h1>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Measure</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>End-to-end project</td>
+<td>Create, plan, execute, review, commit a multi-milestone project from CLI or Fabric UI.</td>
+</tr>
+<tr>
+<td>Production monitors active</td>
+<td>Every approved build milestone has an active, running monitor that detects regressions.</td>
+</tr>
+<tr>
+<td>Cross-surface consistency</td>
+<td>Project created in CLI fully visible in Fabric UI, and vice versa. Real-time sync.</td>
+</tr>
+<tr>
+<td>Multi-agent CLI</td>
+<td>At least 3 coding agents (GHCP, Claude Code, +1) integrate via /hello endpoint.</td>
+</tr>
+<tr>
+<td>Governance enforcement</td>
+<td>Draft/commit enforced without exception. No artifact reaches production without approval. Audit trails complete.</td>
+</tr>
+<tr>
+<td>Data integrity</td>
+<td>Committed artifacts exactly match what user reviewed. No silent modifications.</td>
+</tr>
+</tbody></table>
+<h1>13. Open Questions &amp; Future Work</h1>
+<h2>13.1 Open Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Notification mechanism?</td>
+<td>In-app, email, Teams for input_needed and monitor alerts</td>
+</tr>
+<tr>
+<td>Projects as Fabric items?</td>
+<td>Should projects eventually become hidden workload items for platform integration?</td>
+</tr>
+<tr>
+<td>Maximum project duration?</td>
+<td>Upper bounds before automatic timeout</td>
+</tr>
+<tr>
+<td>Cross-workspace support?</td>
+<td>Requires top-level Fabric construct above workspace</td>
+</tr>
+<tr>
+<td>Monitor retention policy?</td>
+<td>How long do production monitors run after project completion?</td>
+</tr>
+</tbody></table>
+<h2>13.2 Future Work</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Interactive mid-milestone intervention</td>
+<td>v2</td>
+</tr>
+<tr>
+<td>Cross-workspace projects</td>
+<td>v3</td>
+</tr>
+<tr>
+<td>Custom skill SDK for partners</td>
+<td>v2</td>
+</tr>
+<tr>
+<td>Per-object selective commit within milestone</td>
+<td>v2</td>
+</tr>
+<tr>
+<td>Project templates (Teradata, SAP, etc.)</td>
+<td>v2</td>
+</tr>
+<tr>
+<td>Upgrade path: chat to project auto-suggestion</td>
+<td>v2</td>
+</tr>
+<tr>
+<td>Projects as Fabric item/workload</td>
+<td>v3</td>
+</tr>
+</tbody></table>
+<h1>Appendix A: Interface Specification</h1>
+<p>Complete HTTP REST API between Fabric AI Orchestrator / Coding Agents and the DataProjects Orchestrator. All endpoints require Azure AD OBO authentication.</p>
+<h2>A.1 Discovery</h2>
+<pre><code>GET /api/v1/hello
+
+// Response: 200 OK
+{
+  &quot;name&quot;: &quot;DataProjects Orchestrator&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;capabilities&quot;: [&quot;project_lifecycle&quot;, &quot;milestone_planning&quot;,
+                    &quot;spark_execution&quot;, &quot;production_monitoring&quot;,
+                    &quot;draft_commit_governance&quot;],
+  &quot;skills&quot;: [
+    {&quot;id&quot;: &quot;dataprojects-etl-pipeline&quot;, &quot;type&quot;: &quot;skill&quot;},
+    {&quot;id&quot;: &quot;dataprojects-teradata-migration&quot;, &quot;type&quot;: &quot;skill&quot;},
+    {&quot;id&quot;: &quot;dataprojects-databricks-migration&quot;, &quot;type&quot;: &quot;skill&quot;},
+    {&quot;id&quot;: &quot;dataprojects-data-quality&quot;, &quot;type&quot;: &quot;skill&quot;},
+    {&quot;id&quot;: &quot;dataprojects-erp-consolidation&quot;, &quot;type&quot;: &quot;skill&quot;}
+  ],
+  &quot;endpoints&quot;: {
+    &quot;projects&quot;: &quot;/api/v1/projects&quot;,
+    &quot;status&quot;: &quot;/api/v1/projects/{id}/status&quot;,
+    &quot;milestones&quot;: &quot;/api/v1/projects/{id}/milestones&quot;,
+    &quot;review&quot;: &quot;/api/v1/projects/{id}/review&quot;,
+    &quot;commit&quot;: &quot;/api/v1/projects/{id}/commit&quot;
+  },
+  &quot;auth&quot;: &quot;azure_ad_obo&quot;
+}
+</code></pre>
+<h2>A.2 Key Endpoints</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST</td>
+<td>/api/v1/projects</td>
+<td>Create a new project</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/v1/projects</td>
+<td>List all projects for the user</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/v1/projects/{id}/status</td>
+<td>Get project status with milestone progress</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/v1/projects/{id}/milestones</td>
+<td>Get all milestones with status and artifacts</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>/api/v1/projects/{id}/milestones/{mid}</td>
+<td>Modify a milestone</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/v1/projects/{id}/milestones/approve</td>
+<td>Approve proposed milestone plan</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/v1/projects/{id}/activity</td>
+<td>Get chronological activity log</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/v1/projects/{id}/input</td>
+<td>Submit user response to a question</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/v1/projects/{id}/review</td>
+<td>Get review summary (code + data diffs + governance)</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/v1/projects/{id}/commit</td>
+<td>Approve and ship milestone to production + deploy monitor</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/v1/projects/{id}/reject</td>
+<td>Reject milestone and return to agent for rework</td>
+</tr>
+</tbody></table>
+<h2>A.3 Webhook Events (DataProjects to Fabric AI Orchestrator)</h2>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>When</th>
+<th>Orchestrator Action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>milestone_completed</td>
+<td>Milestone finishes</td>
+<td>Update Panel, log to activity</td>
+</tr>
+<tr>
+<td>input_needed</td>
+<td>Project paused, needs answer</td>
+<td>Surface question in user&#39;s current chat</td>
+</tr>
+<tr>
+<td>review_ready</td>
+<td>Execution done, diffs available</td>
+<td>Notify user, enable review in Panel</td>
+</tr>
+<tr>
+<td>monitor_alert</td>
+<td>Production monitor detects issue</td>
+<td>Surface alert in Panel and notifications</td>
+</tr>
+<tr>
+<td>project_completed</td>
+<td>All milestones done and committed</td>
+<td>Show completion telemetry</td>
+</tr>
+<tr>
+<td>project_failed</td>
+<td>Unrecoverable error</td>
+<td>Notify user with error details</td>
+</tr>
+</tbody></table>
+<p><em>Document Classification: Microsoft Confidential</em></p>
+</div>
+  ``,
   prototype: `
     <span class="card-tag tag-prototype">PROTOTYPE</span>
     <h2>Interactive Prototype</h2>
@@ -897,136 +2141,560 @@ const content = {
   epocprd: `
     <span class="card-tag tag-spec">SPEC</span>
     <h2>EPOC Milestone PRD (v1.2)</h2>
-    <p style="margin-bottom:4px"><em>Authored by Naresh Venkat &amp; Vijay Sarad — March 10, 2026</em></p>
-    <p style="margin-bottom:16px;font-size:13px;color:#616161">Earliest Proof of Concept — CLI skill-only, Daily/DXT builds, internal only</p>
+    <p style="margin-bottom:16px"><em>Authored by Naresh Venkat &amp; Vijay Sarad — March 10, 2026 · Internal only (Daily/DXT builds)</em></p>
     <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjects_EPOC/Fabric_DataProjects_EPOC_PRD.md" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-
-    <div class="acc-open"><div class="acc-heading">1. Executive Summary</div><div class="acc-body">
-    <p style="font-size:12.5px;line-height:1.6;margin:4px 0">This PRD defines the EPOC (earliest proof of concept) milestone for DataProjects, scoped to a <strong>skill-only</strong> experience delivered through the <strong>GitHub Copilot CLI</strong> via the existing FabricSkills plugin. There is no Fabric UI and no AI Taskhub UX in this milestone. All interaction happens in the terminal.</p>
-    <p style="font-size:12.5px;line-height:1.6;margin:4px 0">EPOC proves the end-to-end loop: a user invokes the DataProjects skill, creates a DataProject bound to a specific lakehouse with text instructions, the Osmos Engine (OE) builds an implicit plan surfaced as a to-do list (no approval gate), executes autonomously with a one-way activity stream, presents a text summary of changes for review, and gates on final commit approval before writing anything to production.</p>
-    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">What Ships</h4>
-    <ul style="padding-left:18px;margin:4px 0;font-size:12.5px;line-height:1.7">
-      <li>DataProjects surfaced as a <strong>skill</strong> (not an agent) within FabricSkills</li>
-      <li>DataProject creation bound to a lakehouse, with text instruction, relative path references, and file uploads</li>
-      <li>Implicit plan mode surfaced as a to-do list (no user approval required on the plan)</li>
-      <li>One-way conversation stream (model to user) with summarized activity</li>
-      <li>Text-based change summary for review</li>
-      <li>All-or-nothing commit with explicit user approval</li>
-      <li>Lightweight cross-terminal status queries</li>
-      <li>DataProjects execute OBO the creating user; admins can kill jobs from Fabric Monitor</li>
-    </ul>
-    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">What Does Not Ship</h4>
-    <ul style="padding-left:18px;margin:4px 0;font-size:12.5px;line-height:1.7;color:#616161">
-      <li>No Fabric UI / AI Taskhub UX (all interaction is CLI)</li>
-      <li>No agent registration (skill only)</li>
-      <li>No user interjection during execution</li>
-      <li>No rich visual diffs (code side-by-side, schema viz)</li>
-      <li>No Team Projects or multi-user collaboration</li>
-      <li>No resource picker UI (user types relative paths manually)</li>
-    </ul>
-    </div></div>
-
-    <div class="acc-open"><div class="acc-heading">2. Scope and Constraints</div><div class="acc-body">
-    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left;width:140px">Dimension</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">EPOC Decision</th></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Surface</td><td style="padding:5px 8px;border:1px solid #e8e8e8">GitHub Copilot CLI only (via FabricSkills plugin)</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Registration</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Skill, not agent. Invoked mid-conversation or as a starting prompt.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Distribution</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Daily and/or DXT builds only</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Audience</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Naresh and Vijay for demos. Cannot be handed to non-Fabric people.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Binding</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Every DataProject is bound to exactly one lakehouse.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Plan mode</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Implicit. OE always builds a plan and surfaces a to-do list. No approval gate.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Conversation</td><td style="padding:5px 8px;border:1px solid #e8e8e8">One-way stream: model reports progress. User does not send messages during execution.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Diffs</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Text summary only. No side-by-side code diffs, no visual schema diffs.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Commit</td><td style="padding:5px 8px;border:1px solid #e8e8e8">All-or-nothing. User commits or rejects the entire change set.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Collaboration</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Single-user only. User sees only their own DataProjects.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Permissions</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject inherits creating user's permissions (OBO).</td></tr>
-    </table>
-    </div></div>
-
-    <div class="acc-open"><div class="acc-heading">3. How the Skill Is Used</div><div class="acc-body">
-    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">DataProject Creation</h4>
-    <p style="font-size:12.5px;line-height:1.6;margin:4px 0">The user invokes the DataProjects skill and provides a text instruction. Every DataProject is <strong>bound to a lakehouse</strong> specified at creation time. The user can type the project instruction as plain text, reference lakehouse items by relative paths (e.g., <code>Tables/sales_raw</code>, <code>Files/lookups/region_map.csv</code>), and upload supplemental files.</p>
-    <pre style="background:#f5f5f5;border:1px solid #e0e0e0;border-radius:6px;padding:12px;font-size:11.5px;overflow-x:auto;margin:12px 0;line-height:1.6">User: Build an ETL pipeline that ingests data from Tables/landing/sales_raw
-      into a medallion architecture. Use the mapping rules in the attached
-      file. Deduplicate on [order_id, line_item] in Silver, and create a
+    <div class="prd-body"><h1>Fabric DataProjects: EPOC Milestone PRD</h1>
+<p><strong>Version:</strong> 1.2<br><strong>Date:</strong> March 10, 2026<br><strong>Authors:</strong> Naresh Venkat, Vijay Sarad<br><strong>Distribution:</strong> Internal only (Daily/DXT builds)<br><strong>Classification:</strong> Microsoft Confidential</p>
+<hr>
+<h2>1. Executive Summary</h2>
+<p>This PRD defines the EPOC (earliest proof of concept) milestone for DataProjects, scoped to a <strong>skill-only</strong> experience delivered through the <strong>GitHub Copilot CLI</strong> via the existing FabricSkills plugin. There is no Fabric UI and no AI Taskhub UX in this milestone. All interaction happens in the terminal.</p>
+<p>EPOC proves the end-to-end loop: a user invokes the DataProjects skill, creates a DataProject bound to a specific lakehouse with text instructions (optionally referencing lakehouse items and uploading files), the Osmos Engine (OE) builds an implicit plan surfaced as a to-do list (no approval gate on the plan), executes autonomously with a one-way activity stream, presents a text summary of changes for review, and gates on final commit approval before writing anything to production. The user cannot interject during execution.</p>
+<p><strong>What ships:</strong></p>
+<ul>
+<li>DataProjects surfaced as a <strong>skill</strong> (not an agent) within FabricSkills</li>
+<li>DataProject creation bound to a lakehouse, with text instruction, relative path references, and file uploads</li>
+<li>Implicit plan mode surfaced as a to-do list (no user approval required on the plan)</li>
+<li>One-way conversation stream (model to user) with summarized activity</li>
+<li>Text-based change summary for review</li>
+<li>All-or-nothing commit with explicit user approval</li>
+<li>Lightweight cross-terminal status queries</li>
+<li>DataProjects execute OBO the creating user; admins can kill jobs from Fabric Monitor</li>
+</ul>
+<p><strong>What does not ship:</strong></p>
+<ul>
+<li>No Fabric UI / AI Taskhub UX (all interaction is CLI)</li>
+<li>No agent registration (skill only)</li>
+<li>No user interjection during execution</li>
+<li>No rich visual diffs (code side-by-side, schema viz)</li>
+<li>No Team Projects or multi-user collaboration</li>
+<li>No resource picker UI (user types relative paths manually)</li>
+<li>Not available to non-Fabric team members</li>
+</ul>
+<hr>
+<h2>2. Scope and Constraints</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>EPOC Decision</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Surface</strong></td>
+<td>GitHub Copilot CLI only (via FabricSkills plugin)</td>
+</tr>
+<tr>
+<td><strong>Registration</strong></td>
+<td>Skill, not agent. Invoked mid-conversation or as a starting prompt.</td>
+</tr>
+<tr>
+<td><strong>Distribution</strong></td>
+<td>Daily and/or DXT builds only</td>
+</tr>
+<tr>
+<td><strong>Model</strong></td>
+<td>Use whatever model is available. No fixed model selection plan.</td>
+</tr>
+<tr>
+<td><strong>Audience</strong></td>
+<td>Naresh and Vijay for demos. Cannot be handed to non-Fabric people.</td>
+</tr>
+<tr>
+<td><strong>Binding</strong></td>
+<td>Every DataProject is bound to exactly one lakehouse. The lakehouse is the project&#39;s home for data, code references, and staging.</td>
+</tr>
+<tr>
+<td><strong>Plan mode</strong></td>
+<td>Implicit. OE always builds an internal plan and surfaces a to-do list to the user. No approval gate on the plan.</td>
+</tr>
+<tr>
+<td><strong>Conversation</strong></td>
+<td>One-way stream: model reports progress to user. User does not send messages during execution.</td>
+</tr>
+<tr>
+<td><strong>Interjection</strong></td>
+<td>Not supported. User submits the DataProject, then waits for completion.</td>
+</tr>
+<tr>
+<td><strong>Diffs</strong></td>
+<td>Text summary only. No side-by-side code diffs, no visual schema diffs.</td>
+</tr>
+<tr>
+<td><strong>Commit</strong></td>
+<td>All-or-nothing. User commits or rejects the entire change set. No selective commit.</td>
+</tr>
+<tr>
+<td><strong>Collaboration</strong></td>
+<td>Single-user only. User sees only their own DataProjects.</td>
+</tr>
+<tr>
+<td><strong>Permissions</strong></td>
+<td>DataProject inherits the creating user&#39;s permissions (OBO). Spark notebooks run OBO the user.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. How the Skill Is Used</h2>
+<h3>3.1 DataProject Creation</h3>
+<p>The user invokes the DataProjects skill and provides a text instruction. This is a text entry, not a chat conversation. Every DataProject is <strong>bound to a lakehouse</strong> specified at creation time. The user can:</p>
+<ul>
+<li><strong>Type the project instruction</strong> as plain text.</li>
+<li><strong>Reference lakehouse items</strong> by typing relative paths (e.g., <code>Tables/sales_raw</code>, <code>Files/lookups/region_map.csv</code>). There is no resource picker UI in EPOC. The user can reference items in the bound lakehouse and the parent workspace for code. Anything beyond that is out of scope.</li>
+<li><strong>Upload supplemental files</strong> to assist with the DataProject (e.g., Excel files with business rules, mapping documents). These files are stored in a non-user-visible system folder.</li>
+</ul>
+<pre><code>User: Build an ETL pipeline that ingests data from Tables/landing/sales_raw 
+      into a medallion architecture. Use the mapping rules in the attached 
+      file. Deduplicate on [order_id, line_item] in Silver, and create a 
       daily_sales_summary aggregate in Gold.
 
       Lakehouse: sales-lakehouse
-      [attached: transformation_rules.xlsx]</pre>
-
-    <h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Workflow: Four Phases</h4>
-    <pre style="background:#f5f5f5;border:1px solid #e0e0e0;border-radius:6px;padding:12px;font-size:11.5px;overflow-x:auto;margin:12px 0;line-height:1.5">┌──────────────┐     ┌──────────────┐     ┌─────────────┐     ┌──────────────────┐
+      [attached: transformation_rules.xlsx]
+</code></pre>
+<p>When the user submits, the DataProject is created immediately:</p>
+<pre><code>OE: DataProject created.
+  ID:        DP-20260310-001
+  Name:      Build an ETL pipeline that i...
+  Lakehouse: sales-lakehouse
+  Status:    In progress
+</code></pre>
+<p>The project name is auto-generated from the <strong>first few characters of the prompt</strong>. The user can update the name later. The DataProject appears in the project list with: project ID, project name, status, and progress (progress may be blank in EPOC).</p>
+<h3>3.2 Workflow: Four Phases</h3>
+<p>EPOC follows a four-phase workflow. The user has control at <strong>one gate</strong> (commit approval) and is a passive observer during planning and execution.</p>
+<pre><code>┌──────────────┐     ┌──────────────┐     ┌─────────────┐     ┌──────────────────┐
 │ 1. Create    │────&gt;│ 2. Plan      │────&gt;│ 3. Execute  │────&gt;│ 4. Review +      │
 │  DataProject │     │  (implicit)  │     │  (one-way)  │     │    Commit (GATE) │
 └──────────────┘     └──────────────┘     └─────────────┘     └──────────────────┘
    user submits       no approval          no interject         user approves
                       gate; to-do                               or rejects
-                      list shown</pre>
+                      list shown
+</code></pre>
+<p><strong>Phase 1: Create DataProject</strong></p>
+<p>The user provides a text instruction, optionally with relative path references and file uploads, and specifies the target lakehouse. On submit, the DataProject is added to the project list in &quot;In progress&quot; status. Before the user hits submit, the DataProject is in a draft state. All project-related data is only accessible through the skill; there are no user-visible objects that represent a DataProject outside of the skill interaction.</p>
+<p><strong>Phase 2: Implicit Plan (No Approval Gate)</strong></p>
+<p>OE always performs planning, even without the user requesting it. OE builds an internal plan and surfaces an up-leveled version as a <strong>to-do list</strong> shared with the user. This is informational only; OE does <strong>not</strong> pause for user approval on the plan. Execution begins immediately after the to-do list is shown.</p>
+<pre><code>OE: Planning complete. Here is what I will do:
 
-    <p style="font-size:12.5px;line-height:1.6;margin:8px 0"><strong>Phase 1 — Create:</strong> User provides instruction, references, uploads. DataProject added to project list in "In progress" status.</p>
-    <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Phase 2 — Implicit Plan:</strong> OE builds an internal plan, surfaces an up-leveled to-do list. No pause for approval. Execution begins immediately.</p>
-    <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Phase 3 — Execute:</strong> OE makes temp copies of all assets, executes on staging copies. One-way activity stream shows summarized progress. User cannot interject.</p>
-    <p style="font-size:12.5px;line-height:1.6;margin:4px 0"><strong>Phase 4 — Review &amp; Commit:</strong> Text summary of all changes (validation results, code, schema, data). All-or-nothing commit. On commit: artifacts written to production. On reject: all staging discarded.</p>
-    </div></div>
+  To-do list for DP-20260310-001:
+  [ ] Discover and profile source tables in Tables/landing/sales_raw
+  [ ] Create staging copies of target assets
+  [ ] Build Bronze ingestion notebook (raw landing to bronze.raw_sales)
+  [ ] Build Silver transformation notebook (dedup, clean, normalize)
+  [ ] Build Gold aggregation notebook (daily_sales_summary)
+  [ ] Run validation checks (row counts, quality score, PII scan)
 
-    <div class="acc-open"><div class="acc-heading">4. Multi-Terminal Behavior</div><div class="acc-body">
-    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">EPOC Rule</th></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Live activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Only in the originating terminal</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Project list query</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Any terminal (read-only)</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Open project details</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Any terminal</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Commit approval</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Any terminal (whichever the user responds from)</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Context leakage</td><td style="padding:5px 8px;border:1px solid #e8e8e8">None. Terminal 2 never polluted by Terminal 1's project output.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Concurrent DataProjects</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Supported. Each runs independently.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Terminal closes</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject continues server-side. User reconnects from any new terminal.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Admin kill</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Admin can kill from Fabric Monitor. Status changes to Cancelled.</td></tr>
-    </table>
-    </div></div>
+  Starting execution...
+</code></pre>
+<p><strong>Phase 3: Execute (One-Way Activity Stream)</strong></p>
+<p>OE makes <strong>temp copies of all assets</strong> that will be written to (code, tables, uploaded files) before modifying anything. All copies are stored in a non-user-visible space. Execution operates entirely on staging copies; production assets are untouched until commit.</p>
+<p>The conversation stream provides a <strong>summarized activity stream</strong> showing what OE is doing, including tool-calling information. The user sees progress but cannot send messages or interject.</p>
+<pre><code>OE [10:32]: Sampling data from source Tables/landing/sales_raw...
+OE [10:34]: Profiled 47 files. 2.3M rows, 14 columns. 
+            1 PII column detected (email).
+OE [10:36]: Creating staging copies of target assets...
+OE [10:37]: Creating shallow table bronze.raw_sales (staging)...
+OE [10:41]: Bronze ingestion complete. 2,312,847 rows staged.
+OE [10:42]: Deduplicating on [order_id, line_item]...
+OE [10:48]: Silver transformation complete. 2,198,204 rows after dedup.
+OE [10:49]: Aggregating to daily grain by region...
+OE [10:52]: Gold aggregation complete. 365 rows in daily_sales_summary.
+OE [10:53]: Running validation checks...
+OE [10:55]: All validations passed. Quality score: 0.97.
+</code></pre>
+<p>If a Spark notebook is run as part of execution, it runs <strong>OBO the user</strong> who created the DataProject. The DataProject inherits the user&#39;s permissions.</p>
+<p><strong>Phase 4: Review and Commit (GATE)</strong></p>
+<p>Once OE has completed all items on the to-do list and stopped working, the user is presented with a <strong>text summary</strong> of all changes. The status shows &quot;input needed.&quot; The summary covers validation results, code, schema, data, and file changes.</p>
+<pre><code>OE: Execution complete. Review the change summary:
 
-    <div class="acc-open"><div class="acc-heading">5. Requirements (Traceability)</div><div class="acc-body">
-    <p style="font-size:12px;color:#616161;margin-bottom:8px">Original requirement IDs preserved from AI TaskHub spec. "Task" maps to "DataProject."</p>
-    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left;width:50px">ID</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Requirement</th></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">1000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Each lakehouse has exactly one AI TaskHub. User sees only their own DataProjects.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">1020</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Spark notebooks run OBO the creating user.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">1040</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Admin can kill jobs from Fabric Monitor.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">4000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject created via text entry, not chat.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">4030</td><td style="padding:5px 8px;border:1px solid #e8e8e8">User references items by relative paths. No resource picker in EPOC.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">4070</td><td style="padding:5px 8px;border:1px solid #e8e8e8">User can upload supplemental files (stored non-user-visible).</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">5010</td><td style="padding:5px 8px;border:1px solid #e8e8e8">OE always plans (implicit). To-do list shown without approval gate.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">6000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">OE makes temp copies of all assets before modifying anything.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">7000</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Text summary for review. Status shows "input needed."</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">7020</td><td style="padding:5px 8px;border:1px solid #e8e8e8">All-or-nothing commit. OE decides commit order.</td></tr>
-    </table>
-    </div></div>
+  VALIDATION RESULTS:
+    Quality score: 0.97 (threshold: 0.95) - PASSED
+    Row count reconciliation: PASSED at all layers
+    PII scan: 1 column flagged (email in silver.clean_sales)
 
-    <div class="acc-open"><div class="acc-heading">6. Non-Goals (EPOC)</div><div class="acc-body">
-    <ul style="padding-left:18px;margin:4px 0;font-size:12.5px;line-height:1.7;color:#616161">
-      <li>Fabric UI / AI Taskhub UX</li>
-      <li>Agent registration (skill only)</li>
-      <li>User interjection during execution</li>
-      <li>Rich/visual diffs</li>
-      <li>Team Projects or multi-user collaboration</li>
-      <li>Multiple milestones per DataProject (single-pass)</li>
-      <li>Selective commit</li>
-      <li>Production monitors post-deployment</li>
-      <li>Execution mode selection (Normal / Deep Plan / Deep Plan + Auto-Approval)</li>
-    </ul>
-    </div></div>
+  CODE CHANGES:
+    NEW nb_bronze_ingest_sales.py (147 lines)
+      Ingests from Tables/landing/sales_raw into bronze.raw_sales.
+      PySpark with schema inference, type casting, null handling.
 
-    <div class="acc-open"><div class="acc-heading">7. Success Criteria</div><div class="acc-body">
-    <table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-    <tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Criteria</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Measure</th></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">End-to-end loop</td><td style="padding:5px 8px;border:1px solid #e8e8e8">User creates DataProject, sees to-do list and activity stream, reviews text summary, commits. Artifacts appear in lakehouse.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Lakehouse binding</td><td style="padding:5px 8px;border:1px solid #e8e8e8">DataProject bound to single lakehouse. All data references resolve within it.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Staging model</td><td style="padding:5px 8px;border:1px solid #e8e8e8">OE operates on temp copies. Production untouched until explicit commit.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Commit gate</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Nothing written to production without explicit user approval.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Terminal isolation</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Running a DataProject in Terminal 1 produces zero output in Terminal 2 unless queried.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Cross-terminal status</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Project list from Terminal 2 returns accurate info about Terminal 1's DataProjects.</td></tr>
-    <tr><td style="padding:5px 8px;border:1px solid #e8e8e8">Demo-ready</td><td style="padding:5px 8px;border:1px solid #e8e8e8">Naresh and Vijay can run a convincing demo from the CLI.</td></tr>
-    </table>
-    </div></div>
-  `,
+    NEW nb_silver_clean_sales.py (203 lines)
+      Deduplicates on [order_id, line_item], normalizes dates to UTC,
+      fills null region values with &quot;UNKNOWN&quot;.
+
+    NEW nb_gold_daily_summary.py (89 lines)
+      Aggregates clean_sales by date and region.
+      Computes total_revenue, order_count, avg_order_value.
+
+  SCHEMA CHANGES:
+    NEW bronze.raw_sales (14 columns, 2,312,847 rows)
+    NEW silver.clean_sales (14 columns, 2,198,204 rows)
+    NEW gold.daily_sales_summary (5 columns, 365 rows)
+
+  DATA CHANGES:
+    Source rows: 2,312,847
+    After dedup: 2,198,204 (114,643 duplicates removed)
+    Gold output: 365 daily aggregation rows
+
+  Status: Input needed - commit or discard?
+  Commit all changes? [yes / no]
+</code></pre>
+<p><strong>Commit is all-or-nothing.</strong> The user commits or rejects the entire change set. There is no option to commit some files and not others in EPOC. OE decides the order in which objects are committed.</p>
+<p>On <strong>commit</strong>: Each object is copied or merged with its production version. Notebooks are updated to reference production locations (not the staging location). Notebooks are copied to production locations. Schema changes are applied to production tables. Data changes are applied to target tables. The user is informed after all objects have been successfully committed.</p>
+<pre><code>OE: All changes committed successfully.
+  3 notebooks written to workspace
+  3 Delta tables created in sales-lakehouse
+  Lineage and governance metadata recorded
+</code></pre>
+<p>On <strong>reject</strong>: All staging artifacts are discarded. Nothing touches production.</p>
+<hr>
+<h2>4. Multi-Terminal Behavior</h2>
+<h3>4.1 Design Principle</h3>
+<p>Each CLI terminal session is <strong>isolated by default</strong>. A DataProjects skill invocation in Terminal 1 does not push status updates to Terminal 2. However, any terminal can <strong>query</strong> the status of any active DataProject via a lightweight status check. A user can only see the DataProjects that they created.</p>
+<h3>4.2 Project List from Any Terminal</h3>
+<p>From any terminal with FabricSkills loaded, the user can ask for their project list. Each item shows project ID, project name, status, and progress.</p>
+<pre><code>User: What DataProjects are running?
+</code></pre>
+<pre><code>OE: Your DataProjects:
+
+  ID                  Name                          Lakehouse           Status        Progress
+  DP-20260310-001     Build an ETL pipeline th...   sales-lakehouse     In progress   --
+  DP-20260310-002     Profile data quality acr...   customer-lh         Succeeded     --
+  DP-20260310-003     Migrate customer dimens...    analytics-lh        Input needed  --
+</code></pre>
+<p>Status values map to Fabric Monitor statuses: <strong>Not started, In progress, Succeeded, Failed, Cancelled, Unknown.</strong></p>
+<p>Progress may be blank in EPOC.</p>
+<h3>4.3 Opening a DataProject from Any Terminal</h3>
+<p>The user can open any DataProject from the project list at any point to see the conversation stream on the project details. If a DataProject is waiting for input (e.g., commit approval), the user can respond from any terminal.</p>
+<pre><code>User: Open DataProject DP-20260310-003
+
+OE: DataProject DP-20260310-003 - &quot;Migrate customer dimens...&quot;
+    Lakehouse: analytics-lh
+    Status: Input needed (review and commit)
+    [shows change summary and commit prompt]
+</code></pre>
+<h3>4.4 Isolation Guarantees</h3>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>EPOC Rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Live activity stream</td>
+<td>Only in the originating terminal</td>
+</tr>
+<tr>
+<td>Project list query</td>
+<td>Any terminal (read-only)</td>
+</tr>
+<tr>
+<td>Open project details</td>
+<td>Any terminal</td>
+</tr>
+<tr>
+<td>Commit approval</td>
+<td>Any terminal (whichever terminal the user responds from)</td>
+</tr>
+<tr>
+<td>Context leakage</td>
+<td>None. Terminal 2&#39;s conversation is never polluted by Terminal 1&#39;s project output.</td>
+</tr>
+<tr>
+<td>Concurrent DataProjects</td>
+<td>Supported. User can kick off DataProjects in multiple terminals. Each runs independently.</td>
+</tr>
+<tr>
+<td>Visibility</td>
+<td>User sees only their own DataProjects.</td>
+</tr>
+</tbody></table>
+<h3>4.5 What Happens If the Originating Terminal Closes</h3>
+<p>If the user closes the terminal that started a DataProject:</p>
+<ul>
+<li>The DataProject <strong>continues executing</strong> on the Osmos Engine (server-side, not terminal-bound).</li>
+<li>The live activity stream is lost (no terminal to receive it).</li>
+<li>The user can open the DataProject from any new terminal to see accumulated activity and respond at the next gate.</li>
+</ul>
+<h3>4.6 Admin Kill</h3>
+<p>An admin can kill jobs initiated by a DataProject from <strong>Fabric Monitor</strong>. If a DataProject is killed, the skill shows that the DataProject has been killed and by whom. The project status changes to Cancelled.</p>
+<hr>
+<h2>5. Requirements</h2>
+<p>These requirements are adapted from the full AI TaskHub requirements table for the CLI skill-only EPOC context. The original requirement IDs are preserved for traceability. &quot;Task&quot; in the original source table maps to &quot;DataProject&quot; in this document.</p>
+<h3>Auth and Permissions</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1000</td>
+<td>Each lakehouse has exactly one AI TaskHub. A user can only see the DataProjects that they created.</td>
+<td>Single-user visibility. No Team Projects in EPOC.</td>
+</tr>
+<tr>
+<td>1020</td>
+<td>If a DataProject results in a notebook being run on Spark, the notebook runs OBO the user who created the DataProject. The DataProject inherits the permissions of the user.</td>
+<td></td>
+</tr>
+<tr>
+<td>1040</td>
+<td>An admin can kill jobs initiated by a DataProject from Fabric Monitor. The skill shows that the DataProject has been killed and by whom.</td>
+<td>Project status changes to Cancelled.</td>
+</tr>
+</tbody></table>
+<h3>DataProject Creation</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4000</td>
+<td>DataProject is created via text entry, not a chat experience for initiation.</td>
+<td>In CLI, user provides instruction text in a single prompt.</td>
+</tr>
+<tr>
+<td>4010</td>
+<td>The DataProject is added to the project list as soon as the user submits. Until submit, the DataProject is in a draft state.</td>
+<td></td>
+</tr>
+<tr>
+<td>4020</td>
+<td>User creates the project instruction by entering text.</td>
+<td></td>
+</tr>
+<tr>
+<td>4030</td>
+<td>User can reference items in the bound lakehouse by typing relative paths. No resource picker in EPOC. User can reference items in the parent workspace for code and the bound lakehouse for data.</td>
+<td></td>
+</tr>
+<tr>
+<td>4070</td>
+<td>User can upload files to assist with the DataProject. Files serve as supplemental information for OE. Files are stored in the system folder (non-user-visible).</td>
+<td></td>
+</tr>
+<tr>
+<td>4100</td>
+<td>After the user is happy with their project instruction, they submit.</td>
+<td></td>
+</tr>
+<tr>
+<td>4110</td>
+<td>Each DataProject shows: project friendly name, project creation date, status, progress. Progress can be blank in EPOC.</td>
+<td></td>
+</tr>
+<tr>
+<td>4125</td>
+<td>Project friendly name is the first few characters of the prompt.</td>
+<td></td>
+</tr>
+<tr>
+<td>4170</td>
+<td>Once a DataProject has been created, the user can open the DataProject at any point and see the conversation stream.</td>
+<td>From any terminal.</td>
+</tr>
+</tbody></table>
+<h3>Planning</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5010</td>
+<td>OE always performs some level of planning (implicit). OE maintains an internal plan and surfaces an up-leveled version as a to-do list shared with the user <strong>without asking for user approval</strong>.</td>
+<td>No plan gate. Execution begins immediately after plan is shown.</td>
+</tr>
+</tbody></table>
+<h3>Execution</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6000</td>
+<td>As part of plan building, OE makes temp copies of all assets that will be written to. This includes copies of code and tables, as well as uploaded files.</td>
+<td></td>
+</tr>
+<tr>
+<td>6020</td>
+<td>Copies of conversation, code, and files are stored in a non-user-visible space.</td>
+<td></td>
+</tr>
+<tr>
+<td>6040</td>
+<td>As execution continues, the conversation stream provides details about execution including tool-calling information. At minimum, show a summarized activity stream (e.g., &quot;sampling data from source&quot;, &quot;creating shallow table&quot;).</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3>Review, Diff, and Commit</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7000</td>
+<td>Once OE has completed all items on the to-do list and stopped working, the user is given the opportunity to review a change summary. Status shows &quot;input needed.&quot; Changes are shown as a text summary covering validation results, code, schema, data, and file changes.</td>
+<td>For EPOC, text summary only.</td>
+</tr>
+<tr>
+<td>7020</td>
+<td>User is given the option to commit the changes. All objects are committed as a package (all-or-nothing). OE decides commit order. No selective commit in EPOC.</td>
+<td></td>
+</tr>
+<tr>
+<td>7030</td>
+<td>On commit: each object is copied/merged with the production version. Notebooks updated to reference production locations. Schema changes applied to production tables. Data changes applied to target tables.</td>
+<td></td>
+</tr>
+<tr>
+<td>7040</td>
+<td>Inform the user after all objects have been successfully committed.</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3>DataProject List Management</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8000</td>
+<td>Each item in the project list shows: project ID, project name, lakehouse, status, progress.</td>
+<td></td>
+</tr>
+<tr>
+<td>8010</td>
+<td>Project name is generated by OE but can be updated by the user.</td>
+<td>Max characters TBD.</td>
+</tr>
+</tbody></table>
+<h3>Status</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>9000</td>
+<td>DataProject status maps to Fabric Monitor statuses: Cancelled, Succeeded, Failed, In progress, Not started, Unknown.</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3>Operational</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>13010</td>
+<td>All DataProject-related data is only accessible through the skill. There are no user-visible objects that represent a DataProject.</td>
+<td></td>
+</tr>
+<tr>
+<td>13020</td>
+<td>Capacity queue management.</td>
+<td>TBD.</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>6. Non-Goals (EPOC)</h2>
+<ul>
+<li>Fabric UI / AI Taskhub UX (all interaction is CLI skill)</li>
+<li>Agent registration (skill only)</li>
+<li>User interjection during execution</li>
+<li>Rich/visual diffs (code side-by-side, schema visualizations)</li>
+<li>Team Projects or multi-user collaboration</li>
+<li>Resource picker UI (user types relative paths manually)</li>
+<li>Multiple milestones per DataProject (EPOC DataProjects are single-pass)</li>
+<li>Selective commit (all-or-nothing only)</li>
+<li>Production monitors post-deployment</li>
+<li>Cross-lakehouse or cross-workspace references beyond bound lakehouse and parent workspace</li>
+<li>Execution mode selection (Normal / Deep Plan / Deep Plan + Auto-Approval)</li>
+<li>Deep plan mode with explicit user approval on the plan</li>
+</ul>
+<hr>
+<h2>7. Success Criteria</h2>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Measure</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>End-to-end loop works</td>
+<td>User creates a DataProject bound to a lakehouse, sees to-do list and activity stream, reviews text summary, commits. Artifacts appear in the lakehouse and workspace.</td>
+</tr>
+<tr>
+<td>Lakehouse binding works</td>
+<td>DataProject is bound to a single lakehouse. All data references resolve within that lakehouse.</td>
+</tr>
+<tr>
+<td>Staging model works</td>
+<td>OE operates on temp copies. Production assets untouched until explicit commit.</td>
+</tr>
+<tr>
+<td>Commit gate blocks writes</td>
+<td>Nothing written to production without explicit user approval. Reject discards everything.</td>
+</tr>
+<tr>
+<td>All-or-nothing commit</td>
+<td>Commit applies all changes as a package. No partial commits.</td>
+</tr>
+<tr>
+<td>OBO execution</td>
+<td>Spark notebooks run with the creating user&#39;s permissions.</td>
+</tr>
+<tr>
+<td>Terminal isolation holds</td>
+<td>Running a DataProject in Terminal 1 produces zero output in Terminal 2 unless explicitly queried.</td>
+</tr>
+<tr>
+<td>Cross-terminal status works</td>
+<td>Project list query from Terminal 2 returns accurate info about Terminal 1&#39;s DataProjects.</td>
+</tr>
+<tr>
+<td>Project reconnect works</td>
+<td>User can open any DataProject from any terminal to see activity and respond at gates.</td>
+</tr>
+<tr>
+<td>Admin kill works</td>
+<td>Admin kills a DataProject from Fabric Monitor; skill reflects Cancelled status and who killed it.</td>
+</tr>
+<tr>
+<td>Demo-ready</td>
+<td>Naresh and Vijay can run a convincing demo from the CLI.</td>
+</tr>
+</tbody></table>
+</div>
+  ``,
   skillsprd: `
     <span class="card-tag tag-spec">SPEC</span>
     <h2>DataProjects Skills PRD</h2>
