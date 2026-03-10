@@ -2212,455 +2212,1340 @@ OE: DataProject DP-20260310-003 - &quot;Migrate customer dimens...&quot;
   skillsprd: `
     <span class="card-tag tag-spec">SPEC</span>
     <h2>DataProjects CLI Skills</h2>
-    <p style="margin-bottom:16px"><em>Skill specifications for the DataProjects agent. Each skill defines capabilities, phases, inputs/outputs, and integration patterns.</em></p>
+    <p style="margin-bottom:16px"><em>Authored by Vijay Sarad &amp; Naresh Venkat</em></p>
     <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjectSkills/Fabric_Data_Engineer_Skill_PRD.md" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
-    <div class="acc-open"><div class="acc-heading">ETL Pipeline Skill</div><div class="acc-body"><div class="acc-open"><div class="acc-heading">Overview</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The ETL Pipeline Orchestration skill enables the DataProjects Agent to autonomously plan, build, execute, validate, and deploy end-to-end Extract-Transform-Load pipelines across Microsoft Fabric Lakehouses, Warehouses, and external data sources. This skill is purpose-built for long-running data engineering projects where pipeline logic spans multiple notebooks, tables, and transformation layers.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; <strong>⚠️ Agent-Only Skill:</strong> This skill is exclusively invoked through the DataProjects Agent. It cannot be used as a standalone GitHub Copilot CLI skill. The DataProjects Agent provides the orchestration context, session management, progress reporting, and governance guardrails required for safe ETL execution.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Capabilities</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Source Discovery &amp; Profiling</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema introspection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Discovers source schemas from Lakehouse tables, SQL endpoints, external ADLS/S3 locations, and API endpoints</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data profiling</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Generates column-level statistics — nulls, cardinality, distributions, outliers, min/max, data types</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Volume estimation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Estimates row counts and data sizes to inform partitioning and Spark configuration</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source compatibility check</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validates that source data is compatible with target schema requirements</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">2. Transformation Planning</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Medallion layer mapping</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maps source → Bronze → Silver → Gold transformation stages with clear lineage</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Dependency graph generation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Builds a DAG of transformations with explicit upstream/downstream dependencies</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema evolution planning</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Detects schema drift and proposes merge/evolution strategies (additive, compatible, breaking)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Incremental vs. full-load decision</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Recommends incremental (watermark/CDC) or full-load strategy based on source characteristics</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">3. Pipeline Code Generation</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PySpark notebook generation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Generates production-grade PySpark notebooks with error handling, logging, and idempotency</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark SQL generation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Generates Spark SQL for transformations where SQL is more readable/maintainable</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Configuration externalization</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Extracts environment-specific config (paths, connection strings, thresholds) into parameters</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebook chaining</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Generates orchestration notebooks that chain individual transformation notebooks</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">4. Execution &amp; Monitoring</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark job submission</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Submits notebooks to Fabric Spark clusters via Livy sessions</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Progress tracking</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Reports stage-level progress (e.g., &quot;Bronze ingestion complete, starting Silver transforms&quot;)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Error recovery</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Implements retry logic with exponential backoff for transient failures</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Resource monitoring</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Monitors Spark executor utilization and adjusts parallelism if needed</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">5. Validation &amp; Data Governance</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Row count reconciliation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validates source-to-target row counts at each transformation stage</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data quality checks</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Runs null checks, uniqueness constraints, referential integrity, and business rule validations</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema validation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Confirms output schemas match expected definitions before committing</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Lineage tracking</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Records column-level lineage metadata for governance and audit</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PII detection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Flags columns that may contain personally identifiable information</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Invocation</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs --agent fabric-dataprojects \\</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">&quot;Build an ETL pipeline that ingests CSV files from ADLS container</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">raw-sales-data into Bronze, deduplicates and cleans in Silver,</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">and creates aggregated daily_sales_summary in Gold layer&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via GHCP CLI Auto-Routing</h4>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs &quot;I need to build a pipeline that processes our raw customer data</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">from the landing zone into a clean, deduplicated customer dimension table&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Skill Parameters</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Parameter</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Required</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`source_type\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`lakehouse_table\`, \`adls_path\`, \`sql_endpoint\`, \`api\`, \`file_upload\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`source_location\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">URI or path to source data</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`target_lakehouse\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Target Fabric Lakehouse name or ID</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`target_layer\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`bronze\`, \`silver\`, \`gold\`, \`all\` (default: \`all\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`load_strategy\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`full\`, \`incremental\`, \`cdc\` (default: auto-detected)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`schedule\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Cron expression for recurring execution (future capability)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`quality_threshold\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">float</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Minimum data quality score to pass validation (0.0–1.0, default: 0.95)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`governance_tags\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Tags for data classification (e.g., \`pii\`, \`financial\`, \`public\`)</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Progress Reporting</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The skill reports progress to the DataProjects Agent at defined checkpoints:</p>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Checkpoint</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Status Message</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source discovery</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Discovered {n} source tables/files. Schema profiling complete.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Plan generated</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Transformation plan ready: {n} stages, {m} notebooks. Estimated runtime: {t}.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Bronze complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Bronze ingestion complete. {n} rows landed. Quality score: {score}.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Silver complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Silver transformations complete. {n} rows after dedup/cleaning. {m} quality checks passed.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Gold complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Gold aggregations complete. {n} output tables created.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] All validations passed. Ready for review.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Failed</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[ETL] Failed at stage {stage}: {error_message}. {n}/{m} stages completed before failure.\`</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Artifacts Produced</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Artifact</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Location</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PySpark notebooks</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace / Git repo</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Transformation notebooks per stage</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Orchestration notebook</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace / Git repo</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Master notebook that chains stages</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data quality report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">JSON report with per-column quality metrics</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Lineage manifest</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level lineage from source to target</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema diff</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Review surface</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Before/after schema comparison</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Execution log</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark job logs with timing and resource usage</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Data Governance Integration</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">This skill enforces governance at every stage:</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">1. <strong>Pre-execution:</strong> Validates user has read access to sources and write access to targets</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">2. <strong>During execution:</strong> PII columns are flagged and tagged; sensitive data is masked in logs</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">3. <strong>Post-execution:</strong> Lineage metadata is written to governance catalog; quality metrics are recorded</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">4. <strong>At review:</strong> Data classification tags are surfaced in the diff review; PII handling is highlighted</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Error Handling</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Error Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source unavailable</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Retry 3x with backoff; fail with clear error if source remains unreachable</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema mismatch</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Halt and report mismatch details; do not proceed with incompatible schemas</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data quality below threshold</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Halt pipeline; report quality metrics; allow user to override threshold</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark job failure</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capture full stack trace; report last successful checkpoint; suggest remediation</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quota/capacity exceeded</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Report capacity limits; suggest smaller batch size or different time window</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Limitations (Current Version)</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Real-time/streaming ETL not supported (batch only)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Maximum of 50 source tables per single invocation</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Cross-workspace ETL requires explicit workspace permissions</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">No automatic schedule creation (manual pipeline trigger only)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">User cannot intervene mid-execution (planned for future release)</li>
-</ul></div></div></div></div>
-<div class="acc-open"><div class="acc-heading">Data Quality Skill</div><div class="acc-body"><div class="acc-open"><div class="acc-heading">Overview</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Data Quality &amp; Governance skill enables the DataProjects Agent to autonomously profile, validate, monitor, and remediate data quality issues across Microsoft Fabric Lakehouses, Warehouses, and SQL Endpoints. Unlike point-in-time quality checks, this skill is designed for long-running, continuous data quality operations — establishing baselines, detecting drift, enforcing business rules, and building self-healing data pipelines.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; <strong>⚠️ Agent-Only Skill:</strong> This skill is exclusively invoked through the DataProjects Agent. It cannot be used as a standalone GitHub Copilot CLI skill. The DataProjects Agent provides the orchestration context, session management, and governance framework required for comprehensive data quality operations.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Capabilities</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Data Profiling &amp; Baseline</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level profiling</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Computes statistics per column: null rate, uniqueness, cardinality, min/max, mean/median, distribution shape</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table-level profiling</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Computes row counts, schema snapshot, partition statistics, file-level metrics</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Cross-table profiling</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Identifies referential relationships, join cardinality, orphaned keys</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Baseline establishment</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Stores profiling results as a quality baseline for future drift detection</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Historical comparison</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Compares current profile against previous baselines to identify trends</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">2. Quality Rule Definition &amp; Enforcement</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Auto-generated rules</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Infers quality rules from data profiling (e.g., &quot;email column should match regex&quot;, &quot;order_amount should be &gt; 0&quot;)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Custom rule authoring</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Supports user-defined rules in natural language, SQL predicates, or Great Expectations-compatible syntax</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rule categorization</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Classifies rules as \`critical\` (blocks pipeline), \`warning\` (flags for review), or \`info\` (logged only)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Cross-table rules</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Enforces referential integrity, cross-table consistency, and aggregate reconciliation</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Temporal rules</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validates time-series data for gaps, duplicates, monotonicity, and seasonality anomalies</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">3. Quality Monitoring &amp; Drift Detection</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema drift detection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Detects added, removed, renamed, or retyped columns vs. baseline</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Distribution drift</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Uses statistical tests (KS test, chi-square) to detect distribution shifts in numerical and categorical columns</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Volume anomaly detection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Flags unexpected changes in row counts (sudden drops, unusual spikes)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Freshness monitoring</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Tracks data update timestamps and alerts on stale data</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Pattern anomaly detection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Identifies new patterns in string columns that deviate from established baselines</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">4. Data Remediation</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Null handling</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Proposes and applies strategies: drop, fill (mean/median/mode/constant), flag-and-keep</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Deduplication</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Identifies and removes duplicate records based on configurable key columns and match strategies</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Type coercion</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fixes type mismatches (e.g., string dates → proper date types, numeric strings → numbers)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Outlier treatment</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Detects and handles outliers via capping, winsorization, or removal with configurable thresholds</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Standardization</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Normalizes values (case, whitespace, encoding, categorical mapping)</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">5. PII Detection &amp; Data Classification</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PII scanning</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Detects columns containing emails, phone numbers, SSNs, credit cards, addresses, names</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Sensitivity classification</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Tags columns as \`public\`, \`internal\`, \`confidential\`, \`restricted\` based on content analysis</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Masking recommendations</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Recommends masking strategies (hash, redact, tokenize, generalize) per sensitive column</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Compliance mapping</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maps detected PII to regulatory frameworks (GDPR, CCPA, HIPAA)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Classification persistence</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Writes classification tags to governance catalog for downstream enforcement</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Invocation</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs --agent fabric-dataprojects \\</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">&quot;Run a comprehensive data quality assessment on the &#x27;customer_360&#x27;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">Lakehouse. Profile all Silver and Gold layer tables, establish</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">quality baselines, detect PII, and generate a remediation plan</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">for any issues found&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via GHCP CLI Auto-Routing</h4>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs &quot;Our customer table has data quality issues — lots of nulls in</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">email and phone, possible duplicates on customer_id, and I think</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">there might be PII in the notes column. Can you investigate and fix?&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Skill Parameters</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Parameter</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Required</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`target_lakehouse\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fabric Lakehouse name or ID to assess</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`target_tables\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Specific tables to assess (default: all tables)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`mode\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`profile\`, \`validate\`, \`remediate\`, \`monitor\`, \`full\` (default: \`full\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`quality_threshold\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">float</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Minimum acceptable quality score per table (0.0–1.0, default: 0.95)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`baseline_action\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`create\`, \`compare\`, \`update\` (default: \`compare\` if baseline exists, \`create\` otherwise)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`pii_scan\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">bool</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Enable PII detection and classification (default: \`true\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`auto_remediate\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">bool</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Apply recommended remediations automatically (default: \`false\` — requires review)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`rules_file\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Path to custom quality rules file (YAML or JSON)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`governance_tags\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Tags for data classification (e.g., \`pii\`, \`financial\`, \`public\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`sensitivity_level\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Minimum sensitivity level to flag: \`public\`, \`internal\`, \`confidential\`, \`restricted\`</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Quality Score Computation</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Each table receives a composite quality score (0.0–1.0) computed from weighted dimensions:</p>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Dimension</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Weight</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Metric</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Completeness</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">25%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Percentage of non-null values in required columns</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Uniqueness</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">20%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Percentage of unique values in key columns (no duplicates)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Consistency</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">20%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Percentage of values conforming to format/pattern rules</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Accuracy</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">15%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Percentage of values passing business rule validations</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Timeliness</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">10%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Freshness of data relative to expected update frequency</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Integrity</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">10%</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Referential integrity pass rate across related tables</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Progress Reporting</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Checkpoint</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Status Message</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Discovery</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Discovered {n} tables in Lakehouse. Starting profiling.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Profiling complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Profiling complete. {n} tables, {m} columns analyzed. {issues} potential issues detected.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PII scan complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] PII scan complete. {n} columns flagged across {m} tables. Classifications: {breakdown}.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rules evaluated</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] {n} quality rules evaluated. {passed} passed, {warned} warnings, {failed} critical failures.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Drift detected</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Drift detected in {n} tables vs. baseline. {schema} schema changes, {distribution} distribution shifts.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Remediation plan</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Remediation plan generated. {n} actions proposed. Estimated impact: {rows} rows affected.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Remediation applied</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Remediation applied to {n} tables. {rows} rows modified. Quality score improved: {before} → {after}.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[QUALITY] Assessment complete. Overall quality score: {score}. Report available in task activity.\`</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Artifacts Produced</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Artifact</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Location</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Profiling report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Per-column statistics, distributions, and anomalies</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quality scorecard</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table-level and column-level quality scores with dimension breakdown</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PII detection report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">List of flagged columns with PII type, confidence, and masking recommendations</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quality rules catalog</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace / Git repo</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">YAML file of all quality rules (auto-generated + custom)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Remediation plan</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Review surface</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Proposed changes with expected impact and risk assessment</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Remediation notebooks</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace / Git repo</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PySpark notebooks implementing approved remediations</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Baseline snapshot</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Quality baseline for future drift comparisons</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Drift report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Comparison of current state vs. baseline with statistical test results</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data classification map</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Column-level sensitivity classifications and compliance mappings</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Quality Rules File Format</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Custom rules can be provided in YAML:</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>yaml</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">rules:</p>
-<ul style="padding-left:18px;margin:4px 0">
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">name: &quot;customer_email_valid&quot;</li>
+    <div class="prd-body"><hr>
+<h2>title: Fabric Data Engineer Skill
+subtitle: AI-Powered Autonomous Data Engineering for Microsoft Fabric
+version: &quot;1.0&quot;
+authors: Vijay Sarad
+team: Microsoft Fabric Data Analytics</h2>
+<h2>Document Changelog</h2>
+<h3>v1.0 | 2026-03-08 19:19 UTC | Vijay Sarad</h3>
+<ul>
+<li>Initial PRD with three-phase lifecycle (planning, implementing, approval), sandbox model, and multi-session project management</li>
+<li>Reframed as agent-agnostic skill working with any coding surface; added server-side execution model surviving terminal closure</li>
+<li>Defined 67 traceable requirements, user journey for Teradata BTEQ migration, and governance framework with quality gates</li>
 </ul>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">table: &quot;dim_customer&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">column: &quot;email&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">type: &quot;pattern&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">pattern: &quot;^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">severity: &quot;critical&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">description: &quot;Customer email must be a valid email format&quot;</p>
-<ul style="padding-left:18px;margin:4px 0">
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">name: &quot;order_amount_positive&quot;</li>
+<h1>Executive Summary</h1>
+<p>The Fabric Data Engineer Skill is an AI-powered data engineering skill that works with any coding agent surface, including GitHub Copilot CLI (via the FabricSkills plugin), VS Code Copilot, and other agent-based development environments. It enables data engineers to execute complex, multi-step data engineering projects autonomously within Microsoft Fabric. The skill handles end-to-end workflows: profiling data sources, generating transformation logic, creating PySpark notebooks, building and modifying Delta Lake schemas, rigorously testing generated code, and presenting validated results for user approval.</p>
+<p>The skill&#39;s core value proposition is producing high-quality, trustworthy code. Rather than generating a single best-guess implementation, the skill explores multiple implementation strategies, executes each against real data, validates correctness, and selects the approach that delivers the most reliable, performant result. The user receives code that has already been tested and validated, not a draft that requires manual verification.</p>
+<p>The skill operates through a three-phase lifecycle (planning, implementing, approval) and uses a sandbox model within the user&#39;s existing Fabric workspace. Sandbox artifacts (notebooks, tables) follow a naming convention that makes them browseable in the Fabric UI, so users can inspect proposed changes before committing to production. The skill is designed for minimal user interruption: it asks for input only when ambiguity cannot be resolved from context or when approval is required.</p>
+<p>This skill is the precursor to the full <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjects/Fabric_DataProjects_Agent_PRD.docx">DataProjects</a> product, which will add in-Fabric experiences, team collaboration, milestone-based delivery, and a two-orchestrator architecture. The Fabric Data Engineer Skill proves out the core execution model and sandbox/commit pattern that DataProjects will build upon.</p>
+<h1>Problem Statement</h1>
+<h2>The Gap Between AI Code Assistants and Data Engineering Reality</h2>
+<p>Current AI coding assistants (GitHub Copilot, Claude Code, Cursor) are powerful tools for writing software, but they do not understand the unique demands of data engineering work. Data engineering is not just code. It is code, data, schemas, lineage, quality rules, and governance requirements interacting across dozens of interconnected artifacts.</p>
+<p>Consider what a data engineer faces when tasked with migrating a set of Teradata tables to Microsoft Fabric:</p>
+<ul>
+<li><strong>Schema translation</strong>: Teradata-specific data types, partitioning schemes, and indexing strategies must be mapped to Delta Lake equivalents</li>
+<li><strong>BTEQ script conversion</strong>: Proprietary Teradata scripting must be translated to PySpark notebooks with equivalent logic</li>
+<li><strong>Data validation</strong>: Row counts, checksums, and business rule validation must confirm the migration is accurate</li>
+<li><strong>Multiple valid approaches</strong>: There are often several legitimate ways to implement a transformation (broadcast join vs. sort-merge join, SCD Type 1 vs. Type 2, full reload vs. incremental), and the right choice depends on the data itself</li>
 </ul>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">table: &quot;fact_orders&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">column: &quot;total_amount&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">type: &quot;range&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">min: 0.01</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">max: 1000000</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">severity: &quot;critical&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">description: &quot;Order amount must be positive and below $1M&quot;</p>
-<ul style="padding-left:18px;margin:4px 0">
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">name: &quot;customer_order_ref_integrity&quot;</li>
+<p>Today, a data engineer must do all of this manually: write the code, run it, check the results, iterate. AI assistants can help write individual code snippets, but they cannot execute, test, compare approaches, validate results, and present a complete solution for review. The data engineer is still the orchestrator of every step.</p>
+<h2>What Data Engineers Actually Need</h2>
+<p>Data engineers need an AI skill that can:</p>
+<ol>
+<li><strong>Understand data, not just code</strong>: Profile schemas, detect data types, identify PII, understand cardinality and distributions</li>
+<li><strong>Produce high-quality, trustworthy code</strong>: Rigorously test generated implementations against real data, validate correctness and performance, and deliver code that has already been proven to work, not a draft that requires manual verification</li>
+<li><strong>Execute end-to-end</strong>: Run Spark jobs, create notebooks, build tables, validate results. Not just suggest code</li>
+<li><strong>Work autonomously</strong>: Handle the full planning-to-validation cycle without requiring constant hand-holding</li>
+<li><strong>Stage changes safely</strong>: Present all proposed changes in a reviewable sandbox before touching production</li>
+<li><strong>Support parallel work</strong>: Let users run multiple projects simultaneously across different sessions without interference</li>
+</ol>
+<p>The Fabric Data Engineer Skill fills this gap. It combines AI code generation with data-aware execution, multi-option evaluation, and a structured approval workflow.</p>
+<h1>Terminology</h1>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Fabric Data Engineer Skill</strong></td>
+<td>An AI-powered data engineering skill that works with any coding agent surface (GHCP CLI, VS Code Copilot, etc.) to execute autonomous data engineering projects in Microsoft Fabric</td>
+</tr>
+<tr>
+<td><strong>Project</strong></td>
+<td>A single unit of data engineering work managed by the skill. Has a unique ID, lifecycle state, and associated sandbox artifacts</td>
+</tr>
+<tr>
+<td><strong>Project ID</strong></td>
+<td>A unique identifier for each project, formatted as <code>DE-&lt;YYYYMMDD&gt;-&lt;NNN&gt;</code> (e.g., <code>DE-20260308-001</code>)</td>
+</tr>
+<tr>
+<td><strong>Sandbox</strong></td>
+<td>A set of staging artifacts (notebooks, tables) created by the skill within the user&#39;s workspace, using a naming convention prefix to isolate them from production assets</td>
+</tr>
+<tr>
+<td><strong>Phase</strong></td>
+<td>One of the three lifecycle stages: Planning, Implementing, or Approval</td>
+</tr>
+<tr>
+<td><strong>Approval Boundary</strong></td>
+<td>The point at which the skill pauses and requests user review. The user inspects sandbox artifacts and approves or rejects the proposed changes</td>
+</tr>
+<tr>
+<td><strong>Commit</strong></td>
+<td>The act of promoting approved sandbox artifacts to production (renaming/moving from sandbox to production locations)</td>
+</tr>
+<tr>
+<td><strong>Input Request</strong></td>
+<td>A question the skill surfaces to the user when it encounters ambiguity it cannot resolve autonomously. Input requests are queued and visible across terminals</td>
+</tr>
+<tr>
+<td><strong>FabricSkills Plugin</strong></td>
+<td>The existing GHCP CLI plugin that hosts Fabric-related skills. The Data Engineer Skill is registered within this plugin as one delivery surface, but the skill also works with other coding agent surfaces</td>
+</tr>
+</tbody></table>
+<h1>Solution Overview</h1>
+<h2>Architecture</h2>
+<p>The Fabric Data Engineer Skill operates as a skill accessible from any coding agent surface. In GHCP CLI, it is registered within the FabricSkills plugin. In VS Code, it is accessible via Copilot. It uses a stateless invocation model with persistent project state stored in the Fabric workspace.</p>
+<pre><code>┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│  GHCP CLI        │  │  VS Code         │  │  Other Agent     │
+│  Terminal 1      │  │  Copilot         │  │  Surface         │
+│  (Project A)     │  │  (Project B)     │  │  (any project)   │
+└────────┬────────┘  └────────┬────────┘  └────────┬────────┘
+         │                    │                    │
+         └────────────────────┴────────────────────┘
+                              │
+                 ┌────────────┴────────────┐
+                 │  FabricSkills Plugin     │
+                 │  ┌──────────────────┐   │
+                 │  │ Data Engineer    │   │
+                 │  │ Skill            │   │
+                 │  └────────┬─────────┘   │
+                 └───────────┼─────────────┘
+                              │
+              ┌───────────────┴───────────────┐
+              │   Fabric Workspace             │
+              │                                │
+              │  ┌──────────────────────────┐  │
+              │  │ Project State Store       │  │
+              │  │ (metadata, status,        │  │
+              │  │  input requests)          │  │
+              │  └──────────────────────────┘  │
+              │                                │
+              │  ┌────────────┐ ┌────────────┐ │
+              │  │ Sandbox    │ │ Production │ │
+              │  │ Artifacts  │ │ Artifacts  │ │
+              │  │ __sandbox_ │ │            │ │
+              │  └────────────┘ └────────────┘ │
+              │                                │
+              │  ┌──────────────────────────┐  │
+              │  │ Fabric Runtime            │  │
+              │  │ (Spark, Lakehouse, SQL)   │  │
+              │  └──────────────────────────┘  │
+              └────────────────────────────────┘
+</code></pre>
+<h2>Key Principles</h2>
+<ol>
+<li><strong>Workspace-scoped</strong>: A project operates within a single Fabric workspace. All sandbox and production artifacts live in the same workspace.</li>
+<li><strong>Naming-convention isolation</strong>: Sandbox artifacts are prefixed with <code>__sandbox_&lt;project_id&gt;_</code> so they are visually distinct in the Fabric UI and can be filtered or cleaned up easily.</li>
+<li><strong>State persisted in workspace</strong>: Project metadata (status, phase, input requests, options evaluated) is stored in a project state table within the workspace, making it accessible from any terminal.</li>
+<li><strong>Server-side execution with stateless invocation</strong>: Project tasks execute server-side within the Fabric workspace and continue running even if the user shuts down their terminal session. Each CLI invocation reads the current state of all projects from the workspace state store, enabling any session to pick up where another left off. The user&#39;s terminal is a window into project state, not the engine driving execution.</li>
+<li><strong>Test-before-propose</strong>: The skill never proposes an approach it has not tested. Every option is executed against real data and validated before being presented for approval.</li>
+<li><strong>Minimal interruption</strong>: The skill resolves ambiguity from context wherever possible. Input requests are reserved for genuinely unresolvable decisions.</li>
+</ol>
+<h1>CLI Experience</h1>
+<h2>Installation</h2>
+<p>The Fabric Data Engineer Skill is part of the FabricSkills plugin. No separate installation is required.</p>
+<pre><code class="language-bash"># If FabricSkills is already installed, the Data Engineer Skill is available automatically
+# Verify available skills:
+ghcs &quot;list fabric skills&quot;
+
+# Output includes:
+# ...
+# - fabric-data-engineer    Data engineering project execution
+# ...
+</code></pre>
+<h2>Invocation Patterns</h2>
+<h3>Pattern 1: Direct Skill Invocation</h3>
+<pre><code class="language-bash">ghcs &quot;Use the data engineer skill to migrate our Teradata BTEQ scripts
+      for the finance tables to PySpark notebooks in my analytics-prod workspace&quot;
+</code></pre>
+<h3>Pattern 2: Auto-Routing by GHCP CLI</h3>
+<pre><code class="language-bash">ghcs &quot;I need to convert 50 BTEQ scripts from our Teradata system into
+      PySpark notebooks and validate the output data matches&quot;
+</code></pre>
+<p>GHCP CLI recognizes this as a data engineering project and routes to the skill:</p>
+<pre><code>Routing to Fabric Data Engineer Skill...
+   Reason: Multi-step data engineering project detected
+   Workspace: analytics-prod
+
+Project DE-20260308-001 created
+   Phase: Planning
+   Sandbox prefix: __sandbox_DE-20260308-001_
+</code></pre>
+<h2>Project Lifecycle</h2>
+<p>Every project follows a three-phase lifecycle:</p>
+<pre><code>created --&gt; planning --&gt; implementing --&gt; approval --&gt; committed
+                                             |
+                                             +--&gt; rejected (back to implementing or cancelled)
+</code></pre>
+<p>Additional states: <code>paused</code> (user-initiated), <code>failed</code> (unrecoverable error), <code>cancelled</code> (user-initiated), <code>input_needed</code> (waiting for user response)</p>
+<h3>Phase 1: Planning</h3>
+<p>During planning, the skill:</p>
+<ol>
+<li><strong>Analyzes the request</strong>: Parses user instructions to understand scope, constraints, and success criteria</li>
+<li><strong>Profiles data sources</strong>: Connects to source systems/tables, profiles schemas, samples data, detects data types and PII</li>
+<li><strong>Generates approach options</strong>: Creates 2-4 distinct implementation approaches with trade-off analysis</li>
+<li><strong>Estimates scope</strong>: Counts objects, estimates data volume, projects execution time</li>
+<li><strong>Produces a plan summary</strong>: Presents the plan to the user with recommended approach</li>
+</ol>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  Project: DE-20260308-001                                    ║
+║  Task: Teradata BTEQ Migration (Finance Tables)              ║
+║  Phase: PLANNING (complete)                                  ║
+║  Workspace: analytics-prod                                   ║
+╠══════════════════════════════════════════════════════════════╣
+║  DISCOVERY RESULTS                                           ║
+║  Tables found: 47                                            ║
+║  BTEQ scripts: 23                                            ║
+║  Estimated data volume: 340 GB                               ║
+║  PII columns detected: 3 (email, ssn, phone)                ║
+╠══════════════════════════════════════════════════════════════╣
+║  APPROACH OPTIONS                                            ║
+║                                                              ║
+║  Option A (Recommended): Medallion Architecture              ║
+║    Bronze: raw ingest with schema-on-read                    ║
+║    Silver: cleaned, typed, deduplicated                      ║
+║    Gold: business aggregations                               ║
+║    Est. notebooks: 12  |  Est. time: ~4 hours                ║
+║    Test result: 47/47 tables validated OK                    ║
+║                                                              ║
+║  Option B: Direct Migration (1:1 table mapping)              ║
+║    Single-layer transform from Teradata to Delta             ║
+║    Est. notebooks: 8   |  Est. time: ~2 hours                ║
+║    Test result: 44/47 tables OK, 3 with type mismatches      ║
+║                                                              ║
+║  Option C: Hybrid (medallion for complex, direct for simple) ║
+║    Complex tables via Bronze/Silver/Gold, simple via direct   ║
+║    Est. notebooks: 10  |  Est. time: ~3 hours                ║
+║    Test result: 47/47 tables validated OK                    ║
+║                                                              ║
+║  Awaiting your selection. Default: Option A                  ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<p>The user selects an approach (or accepts the default), and the project moves to implementing.</p>
+<h3>Phase 2: Implementing</h3>
+<p>During implementing, the skill:</p>
+<ol>
+<li><strong>Generates notebooks</strong>: Creates PySpark notebooks for each transformation step</li>
+<li><strong>Creates sandbox tables</strong>: Builds Delta tables with the sandbox naming prefix</li>
+<li><strong>Executes transformations</strong>: Runs the generated notebooks against real data in the sandbox</li>
+<li><strong>Validates results</strong>: Performs row count reconciliation, checksum validation, schema verification, and business rule checks</li>
+<li><strong>Tests alternative implementations</strong>: For critical transformations, tests multiple code paths (e.g., different join strategies) and selects the best performer</li>
+<li><strong>Reports progress</strong>: Updates project state with stage-level progress</li>
+</ol>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  Project: DE-20260308-001                                    ║
+║  Phase: IMPLEMENTING (67%)                                   ║
+╠══════════════════════════════════════════════════════════════╣
+║  PROGRESS                                                    ║
+║  ✓ Bronze ingestion notebooks generated (12/12)              ║
+║  ✓ Bronze tables created and loaded (47/47)                  ║
+║  ✓ Silver transformation notebooks generated (12/12)         ║
+║  ▸ Silver transforms executing (31/47 tables complete)       ║
+║  ○ Gold aggregation notebooks (pending)                      ║
+║  ○ Validation suite (pending)                                ║
+╠══════════════════════════════════════════════════════════════╣
+║  SANDBOX ARTIFACTS (viewable in Fabric UI)                   ║
+║  Notebooks: __sandbox_DE-20260308-001_bronze_ingest_*        ║
+║  Notebooks: __sandbox_DE-20260308-001_silver_transform_*     ║
+║  Tables:    __sandbox_DE-20260308-001_bronze.*                ║
+║  Tables:    __sandbox_DE-20260308-001_silver.*                ║
+╠══════════════════════════════════════════════════════════════╣
+║  TESTING (for silver_transform_finance_gl)                   ║
+║  Approach 1: Sort-merge join         - 47s, 100% match       ║
+║  Approach 2: Broadcast join          - 12s, 100% match       ║
+║  Approach 3: Bucketed join           - 23s, 100% match       ║
+║  Selected: Approach 2 (broadcast) - fastest, same accuracy   ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<h3>Phase 3: Approval</h3>
+<p>When implementing is complete and all validations pass, the skill enters the approval phase:</p>
+<ol>
+<li><strong>Presents a review summary</strong>: Lists all sandbox artifacts, validation results, and data quality metrics</li>
+<li><strong>User reviews in Fabric UI</strong>: User navigates to the workspace and inspects sandbox notebooks and tables</li>
+<li><strong>User approves or rejects</strong>:<ul>
+<li><strong>Approve</strong>: Skill commits sandbox artifacts to production (renames, moves to final locations)</li>
+<li><strong>Reject with feedback</strong>: Skill returns to implementing with the user&#39;s feedback incorporated</li>
+<li><strong>Cancel</strong>: Skill cleans up sandbox artifacts and closes the project</li>
 </ul>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">type: &quot;referential&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">parent_table: &quot;dim_customer&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">parent_column: &quot;customer_id&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">child_table: &quot;fact_orders&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">child_column: &quot;customer_id&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">severity: &quot;critical&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">description: &quot;Every order must reference a valid customer&quot;</p>
-<ul style="padding-left:18px;margin:4px 0">
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">name: &quot;daily_order_volume&quot;</li>
+</li>
+</ol>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  Project: DE-20260308-001                                    ║
+║  Phase: APPROVAL REQUESTED                                   ║
+╠══════════════════════════════════════════════════════════════╣
+║  REVIEW SUMMARY                                              ║
+║                                                              ║
+║  Notebooks created: 12                                       ║
+║    __sandbox_DE-20260308-001_bronze_ingest_finance.py         ║
+║    __sandbox_DE-20260308-001_silver_transform_gl.py           ║
+║    __sandbox_DE-20260308-001_gold_daily_summary.py            ║
+║    ... (9 more)                                              ║
+║                                                              ║
+║  Tables created: 14                                          ║
+║    __sandbox_DE-20260308-001_bronze.raw_finance_gl            ║
+║    __sandbox_DE-20260308-001_silver.clean_finance_gl          ║
+║    __sandbox_DE-20260308-001_gold.daily_finance_summary       ║
+║    ... (11 more)                                             ║
+║                                                              ║
+║  VALIDATION RESULTS                                          ║
+║  Row count reconciliation: 47/47 tables PASS                 ║
+║  Schema validation: 47/47 tables PASS                        ║
+║  Business rule checks: 23/23 rules PASS                      ║
+║  Data quality score: 0.97                                    ║
+║  PII detected: 3 columns (tagged, not masked)                ║
+║                                                              ║
+║  View sandbox artifacts in Fabric UI:                        ║
+║  Workspace: analytics-prod                                   ║
+║  Filter by: __sandbox_DE-20260308-001                        ║
+║                                                              ║
+║  Commands:                                                   ║
+║  &gt; ghcs &quot;approve project DE-20260308-001&quot;                    ║
+║  &gt; ghcs &quot;reject project DE-20260308-001 with feedback: ...&quot;  ║
+║  &gt; ghcs &quot;cancel project DE-20260308-001&quot;                     ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<h2>Multi-Session Project Management</h2>
+<h3>Listing Projects from Any Terminal</h3>
+<pre><code class="language-bash">ghcs &quot;list all projects&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  ACTIVE PROJECTS                                             ║
+╠══════════════════════════════════════════════════════════════╣
+║  DE-20260308-001  Teradata BTEQ Migration    approval    ⚠   ║
+║                   analytics-prod             Awaiting review ║
+║                                                              ║
+║  DE-20260308-002  SAP Schema Consolidation   implementing    ║
+║                   analytics-prod             67% complete     ║
+║                                                              ║
+║  DE-20260307-003  Data Quality Baseline      completed   ✓   ║
+║                   analytics-prod             Committed        ║
+║                                                              ║
+║  DE-20260308-004  ERP Lookup Normalization   input_needed ⚠  ║
+║                   analytics-prod             1 pending input  ║
+╠══════════════════════════════════════════════════════════════╣
+║  2 projects need attention (approval / input needed)         ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<h3>Checking Status of a Specific Project</h3>
+<pre><code class="language-bash">ghcs &quot;status of project DE-20260308-002&quot;
+</code></pre>
+<p>Returns the detailed progress view for that project, regardless of which terminal started it.</p>
+<h3>Handling Cross-Project Input Requests</h3>
+<p>When the skill needs input on a project the user is not currently working on, the input request is queued in the project state store. The user discovers pending input requests in two ways:</p>
+<ol>
+<li><strong>When listing projects</strong>: A warning badge appears next to projects that need input</li>
+<li><strong>When checking status</strong>: The pending question is displayed</li>
+</ol>
+<pre><code class="language-bash">ghcs &quot;status of project DE-20260308-004&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  Project: DE-20260308-004                                    ║
+║  Task: ERP Lookup Normalization                              ║
+║  Phase: IMPLEMENTING (paused - input needed)                 ║
+╠══════════════════════════════════════════════════════════════╣
+║  INPUT NEEDED                                                ║
+║                                                              ║
+║  Question: Found conflicting currency codes between SAP and  ║
+║  Oracle EBS systems. SAP uses ISO 4217 codes (EUR, USD),     ║
+║  Oracle uses numeric codes (978, 840). Which system should   ║
+║  be treated as authoritative for the unified lookup table?    ║
+║                                                              ║
+║  Options:                                                    ║
+║    1. SAP (ISO alpha codes) - recommended for readability    ║
+║    2. Oracle (ISO numeric codes) - matches ISO standard      ║
+║    3. Map both to a canonical form you specify                ║
+║                                                              ║
+║  Respond:                                                    ║
+║  &gt; ghcs &quot;respond to DE-20260308-004: option 1&quot;               ║
+║  &gt; ghcs &quot;respond to DE-20260308-004: use SAP codes as the    ║
+║          canonical form but keep Oracle numeric as metadata&quot;  ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<p>The user can respond from ANY terminal. The skill resumes implementing after receiving the response.</p>
+<h3>Session Isolation</h3>
+<p>Each terminal session maintains its own conversation context with GHCP CLI. Project state is shared (via the workspace state store), but conversation history is not. This means:</p>
+<ul>
+<li>Terminal 1 working on Project A does NOT see the conversation stream from Terminal 2 working on Project B</li>
+<li>A user can open a fresh terminal at any time and query any project&#39;s status</li>
+<li>Context from one project never pollutes another project&#39;s session</li>
+<li><strong>Closing a terminal does NOT stop project execution.</strong> Projects run server-side in the Fabric workspace. The terminal is only a control surface for invoking, monitoring, and approving projects.</li>
 </ul>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">table: &quot;fact_orders&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">column: &quot;order_date&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">type: &quot;volume&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">aggregation: &quot;count_per_day&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">min_threshold: 100</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">max_threshold: 50000</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">severity: &quot;warning&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">description: &quot;Daily order volume should be between 100 and 50,000&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Data Governance Integration</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Data quality is foundational to governance. This skill integrates deeply:</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">1. <strong>Classification enforcement:</strong> All discovered PII is tagged in the governance catalog; untagged sensitive data blocks pipeline promotion</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">2. <strong>Quality gates:</strong> Tables below <code>quality_threshold</code> are flagged and cannot be promoted to Gold layer without explicit override</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">3. <strong>Audit logging:</strong> Every quality check, remediation, and override is logged with user identity and timestamp</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">4. <strong>Compliance reporting:</strong> Generates compliance-ready reports mapping data assets to regulatory requirements</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">5. <strong>Lineage enrichment:</strong> Quality metrics and classifications are attached to lineage records for downstream visibility</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">6. <strong>Masking enforcement:</strong> Recommends and can apply column-level masking policies for sensitive data</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Error Handling</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Error Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table access denied</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Skip table with warning; report permission issue; continue with accessible tables</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Profiling timeout</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Use sampling (10% of rows) for large tables; flag as approximate</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rule evaluation failure</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Log error for specific rule; continue evaluating remaining rules</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Remediation conflict</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">If two remediations conflict (e.g., dedup + null fill on same column), flag for human review</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Baseline not found</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Create new baseline; warn that drift detection requires a prior baseline</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Spark resource limits</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Reduce parallelism; process tables sequentially if needed</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Limitations (Current Version)</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Streaming/real-time quality monitoring not supported (batch assessment only)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Maximum 100 tables per single invocation</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">PII detection supports English-language patterns only; multilingual PII detection planned</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Custom rules limited to SQL-expressible predicates (no custom Python UDFs in rules)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Remediation is applied as new table versions (no in-place mutation of historical data)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">User cannot intervene mid-assessment (planned for future release)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Statistical drift detection requires minimum 10,000 rows per table for reliable results</li>
-</ul></div></div></div></div>
-<div class="acc-open"><div class="acc-heading">Databricks Migration Skill</div><div class="acc-body"><div class="acc-open"><div class="acc-heading">Overview</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The Databricks Data Migration skill enables the DataProjects Agent to autonomously plan and execute end-to-end migrations from Databricks (Unity Catalog, Hive Metastore, Delta Lake on DBFS/ADLS/S3) into Microsoft Fabric Lakehouses and Warehouses. This includes schema translation, data transfer, notebook conversion, pipeline migration, and post-migration validation.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; <strong>⚠️ Agent-Only Skill:</strong> This skill is exclusively invoked through the DataProjects Agent. It cannot be used as a standalone GitHub Copilot CLI skill. The DataProjects Agent provides the orchestration context, session management, cross-environment credential brokering, and governance controls required for safe migration execution.</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Capabilities</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">1. Source Assessment &amp; Discovery</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Unity Catalog crawl</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Enumerates catalogs, schemas, tables, views, and functions from Databricks Unity Catalog</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Hive Metastore crawl</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Discovers legacy Hive-managed and external tables</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Delta table introspection</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Reads Delta Lake table metadata — partitioning, Z-order columns, table properties, constraints</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebook inventory</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Catalogs Databricks notebooks (Python, SQL, Scala, R) with dependency analysis</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Job/workflow inventory</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maps existing Databricks Jobs and Workflows to understand orchestration patterns</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Volume estimation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Calculates data volumes per table for transfer planning and cost estimation</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Dependency mapping</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Builds a dependency graph across tables, notebooks, and jobs</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">2. Migration Planning</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema mapping</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maps Databricks schemas to Fabric Lakehouse tables with type translation and compatibility notes</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Partitioning strategy</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Translates Databricks partitioning (Hive-style, Z-order, liquid clustering) to Fabric-optimal strategies</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Migration wave planning</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Groups tables into migration waves based on dependencies, size, and business priority</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebook conversion assessment</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Classifies notebooks as auto-convertible, needs-review, or manual-only</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Risk assessment</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Identifies high-risk items: UDFs, custom SerDes, Databricks-specific APIs, MLflow references</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rollback plan</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Generates rollback procedures for each migration wave</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">3. Data Transfer</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Delta-to-Delta copy</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Copies Delta tables preserving history, partitioning, and table properties where possible</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Parquet/CSV transfer</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Handles non-Delta formats with automatic conversion to Delta on the Fabric side</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Incremental sync</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Supports initial full load followed by incremental sync for large tables during cutover</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Cross-cloud transfer</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Manages ADLS↔S3 transfers via Fabric Shortcuts or staged copy</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema evolution handling</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Detects and resolves schema differences between source snapshot and target during transfer</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">4. Notebook &amp; Pipeline Conversion</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">PySpark notebook conversion</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Converts Databricks PySpark notebooks to Fabric-compatible notebooks, replacing \`dbutils\`, \`display()\`, and Databricks-specific APIs</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">SQL notebook conversion</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Translates Databricks SQL to Fabric Spark SQL / T-SQL with syntax adaptation</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dbutils\` replacement</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maps \`dbutils.fs\`, \`dbutils.secrets\`, \`dbutils.widgets\` to Fabric equivalents</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Library dependency mapping</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Maps Databricks cluster libraries to Fabric Environment library specifications</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workflow → Pipeline mapping</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Translates Databricks Job orchestration to Fabric Pipeline definitions</td></tr>
-</table>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">5. Validation &amp; Reconciliation</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Capability</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Row count validation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Compares source and target row counts per table</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Checksum validation</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Computes column-level checksums for data integrity verification</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema comparison</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validates target schema matches source after type translation</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Query result comparison</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Runs sample analytical queries on both source and target, compares results</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Performance benchmarking</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Runs representative queries on migrated data to baseline Fabric performance</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Invocation</div><div class="acc-body"><h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via Direct Agent Selection</h4>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs --agent fabric-dataprojects \\</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">&quot;Migrate our Databricks Unity Catalog &#x27;prod_analytics&#x27; to Fabric</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">Lakehouse &#x27;analytics_lakehouse&#x27;. Start with the customer and orders</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">schemas. Include notebook conversion for the ETL notebooks in</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">/Repos/data-team/etl-pipelines/&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Via GHCP CLI Auto-Routing</h4>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code>bash</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">ghcs &quot;We&#x27;re moving from Databricks to Fabric. I need to migrate our</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">Delta Lake tables from the sales catalog and convert our</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">PySpark ETL notebooks&quot;</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0"><code>\`</code></p>
-<h4 style="margin:14px 0 4px;font-size:13px;font-weight:600">Skill Parameters</h4>
-<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Parameter</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Required</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`databricks_host\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Databricks workspace URL</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`source_catalog\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Unity Catalog name (or \`hive_metastore\` for legacy)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`source_schemas\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Specific schemas to migrate (default: all)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`target_lakehouse\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Target Fabric Lakehouse name or ID</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`target_workspace\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">string</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Yes</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Target Fabric Workspace name or ID</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`migration_mode\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`full\`, \`incremental\`, \`schema_only\`, \`notebooks_only\` (default: \`full\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`wave_strategy\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">enum</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dependency_order\`, \`size_ascending\`, \`priority_tagged\` (default: \`dependency_order\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`include_notebooks\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">bool</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Include notebook conversion (default: \`true\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`include_jobs\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">bool</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Include job/workflow migration (default: \`true\`)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`parallel_transfers\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">int</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Max concurrent table transfers (default: 4)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`governance_tags\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">list</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Data classification tags to apply to migrated assets</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dry_run\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">bool</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">No</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Generate plan and validation report without executing transfer (default: \`false\`)</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Progress Reporting</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Checkpoint</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Status Message</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Discovery complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Source assessment complete. {n} tables, {m} notebooks, {j} jobs discovered. Total data: {size}.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Plan generated</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Migration plan ready. {w} waves. Wave 1: {n} tables ({size}). Estimated transfer time: {t}.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Wave N started</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Wave {n}/{w} started. Migrating {tables} tables ({size}).\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table transferred</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Table {schema.table} transferred. {rows} rows. Checksum: ✓ Match.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Wave N complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Wave {n}/{w} complete. {passed}/{total} tables validated.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebooks converted</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Notebook conversion complete. {auto}/{total} auto-converted, {review} need review.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validation complete</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Full validation complete. {passed}/{total} checks passed. See report for details.\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Failed</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`[MIGRATION] Failed during wave {n}, table {table}: {error}. {completed}/{total} tables migrated before failure.\`</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Artifacts Produced</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Artifact</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Location</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Description</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Migration assessment report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source inventory with sizes, risks, and compatibility scores</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Migration plan</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream / Git</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Wave-by-wave plan with dependencies and estimated timelines</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Converted notebooks</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Workspace / Git repo</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fabric-compatible PySpark notebooks</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Conversion diff report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Review surface</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Side-by-side comparison of original vs. converted notebook code</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema mapping document</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Source-to-target schema mapping with type translations</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Validation report</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task activity stream</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Row counts, checksums, query result comparisons</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Rollback runbook</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Step-by-step rollback procedures per wave</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">API translation guide</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Task metadata</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Mapping of Databricks APIs → Fabric equivalents used in conversion</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Data Governance Integration</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">Migration preserves and extends governance:</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">1. <strong>Source governance extraction:</strong> Reads Unity Catalog tags, column descriptions, masking policies, and row filters</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">2. <strong>Governance mapping:</strong> Translates Databricks governance metadata to Fabric equivalents where supported</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">3. <strong>Classification continuity:</strong> Applies <code>governance_tags</code> to all migrated assets; PII classifications from source are preserved</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">4. <strong>Lineage preservation:</strong> Records migration lineage — every target table links back to its Databricks source</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">5. <strong>Access validation:</strong> Confirms user has appropriate permissions on both source (Databricks) and target (Fabric) before execution</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">6. <strong>Audit trail:</strong> Full migration audit log with timestamps, data volumes, and validation results</p>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Databricks API Translation Reference</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Databricks API</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fabric Equivalent</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dbutils.fs.ls()\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`mssparkutils.fs.ls()\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dbutils.fs.cp()\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`mssparkutils.fs.cp()\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dbutils.secrets.get()\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Azure Key Vault via \`mssparkutils.credentials\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`dbutils.widgets.get()\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebook parameters / \`mssparkutils.notebook.run()\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`display()\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`display()\` (Fabric-native)</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`spark.read.format(&quot;delta&quot;).load(&quot;dbfs:/...&quot;)\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`spark.read.format(&quot;delta&quot;).load(&quot;abfss://...&quot;)\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`DeltaTable.forPath(spark, &quot;dbfs:/...&quot;)\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`DeltaTable.forPath(spark, &quot;abfss://...&quot;)\`</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`spark.sql(&quot;CREATE CATALOG ...&quot;)\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Not applicable — Fabric uses workspaces/lakehouses</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`%run /path/to/notebook\`</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">\`mssparkutils.notebook.run(&quot;notebook_name&quot;)\`</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Error Handling</div><div class="acc-body"><table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">
-<tr><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Error Type</th><th style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Behavior</th></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Databricks auth failure</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Report credential issue; guide user to configure PAT or service principal</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Table not found in source</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Skip with warning; continue migration of remaining tables</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Schema incompatibility</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Report incompatible types; suggest manual resolution; do not force-cast</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Transfer timeout</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Retry with smaller batch; report partial progress</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Notebook conversion failure</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Mark as \`needs-review\`; provide original + partial conversion for manual completion</td></tr>
-<tr><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Fabric capacity exceeded</td><td style="padding:5px 8px;border:1px solid #e8e8e8;text-align:left">Pause migration; report capacity limits; suggest off-peak window</td></tr>
-</table>
-<p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
-<div class="acc-open"><div class="acc-heading">Limitations (Current Version)</div><div class="acc-body"><ul style="padding-left:18px;margin:4px 0">
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Scala and R notebook conversion not supported (PySpark and SQL only)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">MLflow model migration not supported (models must be re-registered manually)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Databricks SQL warehouse queries not migrated (only notebooks and jobs)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Streaming tables (Delta Live Tables) require manual re-implementation</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Maximum 200 tables per migration invocation</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">Cross-region transfers may incur significant egress costs (flagged in planning)</li>
-<li style="margin:2px 0;font-size:12.5px;line-height:1.6">User cannot intervene mid-migration (planned for future release)</li>
-</ul></div></div></div></div>
+<h2>Sandbox Model</h2>
+<h3>Naming Convention</h3>
+<p>All sandbox artifacts use the prefix <code>__sandbox_&lt;project_id&gt;_</code> followed by the artifact name:</p>
+<table>
+<thead>
+<tr>
+<th>Artifact Type</th>
+<th>Sandbox Name</th>
+<th>Production Name (after commit)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Notebook</td>
+<td><code>__sandbox_DE-20260308-001_bronze_ingest_finance</code></td>
+<td><code>bronze_ingest_finance</code></td>
+</tr>
+<tr>
+<td>Notebook</td>
+<td><code>__sandbox_DE-20260308-001_silver_transform_gl</code></td>
+<td><code>silver_transform_gl</code></td>
+</tr>
+<tr>
+<td>Delta Table</td>
+<td><code>__sandbox_DE-20260308-001_bronze.raw_finance_gl</code></td>
+<td><code>bronze.raw_finance_gl</code></td>
+</tr>
+<tr>
+<td>Delta Table</td>
+<td><code>__sandbox_DE-20260308-001_gold.daily_summary</code></td>
+<td><code>gold.daily_summary</code></td>
+</tr>
+</tbody></table>
+<h3>Inspecting the Sandbox via Fabric UI</h3>
+<p>Users can navigate to their Fabric workspace and:</p>
+<ol>
+<li>Filter by the sandbox prefix to see all artifacts for a project</li>
+<li>Open sandbox notebooks to review generated PySpark code</li>
+<li>Query sandbox tables via the SQL endpoint to verify data</li>
+<li>Compare sandbox table schemas with existing production tables</li>
+</ol>
+<h3>Commit Process</h3>
+<p>When the user approves a project:</p>
+<ol>
+<li>Sandbox notebooks are renamed to their production names (removing the <code>__sandbox_&lt;project_id&gt;_</code> prefix)</li>
+<li>Sandbox tables are either renamed in place or recreated at the production location (depending on whether production tables already exist)</li>
+<li>If production tables exist, the skill creates a backup before overwriting: <code>__backup_&lt;YYYYMMDD_HHMMSS&gt;_&lt;table_name&gt;</code></li>
+<li>The project state is updated to <code>committed</code></li>
+<li>Sandbox artifacts that were not promoted (intermediate test tables, alternative approaches) are cleaned up</li>
+</ol>
+<h3>Cleanup</h3>
+<p>Sandbox artifacts are automatically cleaned up in these scenarios:</p>
+<ul>
+<li>Project is committed (non-production sandbox artifacts are removed)</li>
+<li>Project is cancelled (all sandbox artifacts are removed)</li>
+<li>Project is older than 7 days in <code>failed</code> state (configurable)</li>
+</ul>
+<p>Users can also manually trigger cleanup:</p>
+<pre><code class="language-bash">ghcs &quot;clean up sandbox for project DE-20260308-001&quot;
+</code></pre>
+<h2>Multi-Option Testing</h2>
+<p>A distinguishing feature of the Fabric Data Engineer Skill is its ability to generate and test multiple implementation approaches before proposing a solution.</p>
+<h3>When Multiple Options Are Generated</h3>
+<p>The skill generates multiple options for:</p>
+<table>
+<thead>
+<tr>
+<th>Decision Type</th>
+<th>Example Options</th>
+<th>Selection Criteria</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Join strategy</strong></td>
+<td>Broadcast join, sort-merge join, bucketed join</td>
+<td>Execution time, memory usage, data skew handling</td>
+</tr>
+<tr>
+<td><strong>Schema design</strong></td>
+<td>Normalized, denormalized, hybrid</td>
+<td>Query patterns, storage efficiency, update frequency</td>
+</tr>
+<tr>
+<td><strong>Partitioning</strong></td>
+<td>Date-based, hash-based, range-based</td>
+<td>Query access patterns, partition pruning effectiveness</td>
+</tr>
+<tr>
+<td><strong>SCD handling</strong></td>
+<td>Type 1 (overwrite), Type 2 (history), Type 3 (previous value)</td>
+<td>Business requirements, storage cost, query complexity</td>
+</tr>
+<tr>
+<td><strong>Incremental strategy</strong></td>
+<td>Watermark-based, CDC, full reload</td>
+<td>Source capabilities, data volume, latency requirements</td>
+</tr>
+<tr>
+<td><strong>Transformation approach</strong></td>
+<td>PySpark DataFrame API, Spark SQL, hybrid</td>
+<td>Readability, performance, maintainability</td>
+</tr>
+</tbody></table>
+<h3>How Options Are Tested</h3>
+<ol>
+<li>The skill creates a small-scale test for each option using sampled data (or full data if volume permits)</li>
+<li>Each option is executed in the sandbox</li>
+<li>Results are compared on: correctness (output matches expected), performance (execution time, resource usage), and robustness (handling of nulls, edge cases, type mismatches)</li>
+<li>The skill recommends the best option and documents why alternatives were not selected</li>
+</ol>
+<h3>Option Results in the Review</h3>
+<p>During the approval phase, the user can see which options were evaluated:</p>
+<pre><code class="language-bash">ghcs &quot;show options evaluated for DE-20260308-001&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  OPTIONS EVALUATED: silver_transform_finance_gl              ║
+╠══════════════════════════════════════════════════════════════╣
+║  Decision: Join strategy for GL account lookup               ║
+║                                                              ║
+║  ✓ Option 1 (SELECTED): Broadcast join                       ║
+║    Time: 12s | Memory: 2.1 GB | Output: 100% match          ║
+║    Reason: Lookup table is 45 MB (fits in broadcast)         ║
+║                                                              ║
+║  ○ Option 2: Sort-merge join                                 ║
+║    Time: 47s | Memory: 1.8 GB | Output: 100% match          ║
+║    Not selected: 4x slower, no accuracy benefit              ║
+║                                                              ║
+║  ○ Option 3: Bucketed join                                   ║
+║    Time: 23s | Memory: 2.0 GB | Output: 100% match          ║
+║    Not selected: 2x slower, bucket setup overhead            ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<h1>User Journey: Teradata BTEQ Migration</h1>
+<p>This user journey follows a data engineer named Alex who needs to migrate Teradata BTEQ scripts for the finance department to PySpark notebooks in Microsoft Fabric.</p>
+<h2>Step 1: Invoke the Skill</h2>
+<p>Alex opens a GHCP CLI terminal and describes the task:</p>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;I need to migrate our Teradata BTEQ scripts for the finance
+department to PySpark notebooks. The source tables are in our Teradata warehouse
+at td-prod.contoso.com, and the target is the analytics-prod Fabric workspace.
+There are about 50 BTEQ scripts that handle GL, AP, and AR data.&quot;
+</code></pre>
+<pre><code>Routing to Fabric Data Engineer Skill...
+   Reason: Multi-step data migration project detected
+   Workspace: analytics-prod
+
+Project DE-20260308-001 created
+   Phase: Planning
+   Sandbox: __sandbox_DE-20260308-001_*
+   Estimated planning time: ~15 minutes
+
+Planning started. I will:
+  1. Connect to td-prod.contoso.com and profile the finance schemas
+  2. Analyze all BTEQ scripts in the finance directory
+  3. Identify table dependencies and transformation logic
+  4. Generate 2-3 migration approach options
+  5. Test each approach against sampled data
+  6. Present results for your review
+
+You can check progress anytime:
+  &gt; ghcs &quot;status DE-20260308-001&quot;
+</code></pre>
+<h2>Step 2: Check Progress</h2>
+<p>Fifteen minutes later, Alex checks progress:</p>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;status DE-20260308-001&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  Project: DE-20260308-001                                    ║
+║  Phase: PLANNING (complete)                                  ║
+╠══════════════════════════════════════════════════════════════╣
+║  DISCOVERY                                                   ║
+║  BTEQ scripts analyzed: 47 (of ~50 expected)                 ║
+║  Source tables: 32 (GL: 14, AP: 10, AR: 8)                   ║
+║  Total data volume: 280 GB                                   ║
+║  PII detected: 2 columns (vendor_tax_id, employee_ssn)       ║
+║                                                              ║
+║  APPROACH OPTIONS                                            ║
+║                                                              ║
+║  Option A (Recommended): Full Medallion Architecture         ║
+║    Bronze/Silver/Gold layers with quality gates               ║
+║    14 notebooks | ~3 hours | Tested: 32/32 tables OK         ║
+║                                                              ║
+║  Option B: Direct 1:1 Migration                              ║
+║    Flat transform from Teradata to Delta                      ║
+║    9 notebooks | ~1.5 hours | Tested: 29/32 tables OK        ║
+║    Note: 3 tables have Teradata QUALIFY clauses with no       ║
+║    direct equivalent; requires manual window function rewrite ║
+║                                                              ║
+║  Select an approach:                                         ║
+║  &gt; ghcs &quot;select option A for DE-20260308-001&quot;                ║
+║  &gt; ghcs &quot;select option B for DE-20260308-001&quot;                ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<h2>Step 3: Select an Approach</h2>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;select option A for DE-20260308-001&quot;
+</code></pre>
+<pre><code>Option A selected: Full Medallion Architecture
+Project DE-20260308-001 moving to: IMPLEMENTING
+Estimated implementation time: ~3 hours
+
+Implementing:
+  1. Generate Bronze ingestion notebooks (14 tables)
+  2. Generate Silver transformation notebooks
+  3. Generate Gold aggregation notebooks
+  4. Execute all notebooks in sandbox
+  5. Validate output against source data
+
+Sandbox artifacts will appear in Fabric UI:
+  Filter by: __sandbox_DE-20260308-001
+</code></pre>
+<h2>Step 4: Start a Second Project</h2>
+<p>While the first project runs, Alex opens a new terminal and starts a different project:</p>
+<pre><code class="language-bash"># Terminal 2
+alex@laptop:~$ ghcs &quot;Profile all tables in our customer-360 lakehouse and
+create a data quality baseline with null rate, uniqueness, and distribution
+metrics. Workspace: analytics-prod&quot;
+</code></pre>
+<pre><code>Routing to Fabric Data Engineer Skill...
+
+Project DE-20260308-002 created
+   Phase: Planning
+   Sandbox: __sandbox_DE-20260308-002_*
+
+Planning started. Profiling customer-360 lakehouse...
+</code></pre>
+<h2>Step 5: List All Projects</h2>
+<p>From either terminal, Alex can see all active projects:</p>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;list projects&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  ACTIVE PROJECTS                                             ║
+╠══════════════════════════════════════════════════════════════╣
+║  DE-20260308-001  Teradata BTEQ Migration    implementing    ║
+║                   analytics-prod             43% complete     ║
+║                                                              ║
+║  DE-20260308-002  Data Quality Baseline      planning         ║
+║                   analytics-prod             Profiling...     ║
+╠══════════════════════════════════════════════════════════════╣
+║  0 projects need attention                                   ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<h2>Step 6: First Project Reaches Approval</h2>
+<p>Three hours later, Alex returns to Terminal 1 and checks on the migration:</p>
+<pre><code class="language-bash"># Terminal 1
+alex@laptop:~$ ghcs &quot;status DE-20260308-001&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  Project: DE-20260308-001                                    ║
+║  Phase: APPROVAL REQUESTED                                   ║
+╠══════════════════════════════════════════════════════════════╣
+║  IMPLEMENTATION COMPLETE                                     ║
+║  Notebooks created: 14                                       ║
+║  Tables created: 42 (bronze: 14, silver: 14, gold: 14)       ║
+║  Spark executor-hours: 2.3                                   ║
+║                                                              ║
+║  VALIDATION RESULTS                                          ║
+║  Row count reconciliation: 32/32 tables PASS                 ║
+║  Checksum validation: 32/32 tables PASS                      ║
+║  Business rule checks: 47/47 rules PASS                      ║
+║  Data quality score: 0.98                                    ║
+║  PII columns tagged: 2 (vendor_tax_id, employee_ssn)         ║
+║                                                              ║
+║  MULTI-OPTION DECISIONS (3 decisions evaluated)              ║
+║  1. GL join strategy: broadcast (12s) over merge (47s)       ║
+║  2. AP partitioning: date-based over hash-based              ║
+║  3. AR dedup: row_number() over distinct (handles ties)      ║
+║                                                              ║
+║  Review sandbox in Fabric UI:                                ║
+║  Workspace: analytics-prod                                   ║
+║  Filter: __sandbox_DE-20260308-001                           ║
+║                                                              ║
+║  &gt; ghcs &quot;approve DE-20260308-001&quot;                            ║
+║  &gt; ghcs &quot;reject DE-20260308-001 feedback: ...&quot;               ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<h2>Step 7: Review and Approve</h2>
+<p>Alex opens the Fabric UI, navigates to the analytics-prod workspace, filters by <code>__sandbox_DE-20260308-001</code>, and reviews the generated notebooks and table data. Satisfied with the results:</p>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;approve DE-20260308-001&quot;
+</code></pre>
+<pre><code>Committing project DE-20260308-001...
+
+  ✓ Renamed 14 notebooks to production names
+  ✓ Promoted 42 tables to production locations
+  ✓ Created backups of 3 existing tables
+  ✓ Cleaned up sandbox test artifacts
+  ✓ Updated project state to: committed
+
+Project DE-20260308-001 committed successfully.
+
+Artifacts now in production:
+  Notebooks: bronze_ingest_finance, silver_transform_gl, ...
+  Tables: bronze.raw_finance_gl, silver.clean_finance_gl, ...
+
+Telemetry:
+  Total time: 3h 42m (planning: 15m, implementing: 3h 12m, review: 15m)
+  Data processed: 280 GB across 32 tables
+  Spark executor-hours: 2.3
+  Quality score: 0.98
+</code></pre>
+<h2>Step 8: Handle Cross-Project Input Request</h2>
+<p>Meanwhile, the data quality project (DE-20260308-002) encountered an ambiguity. Alex sees it when listing projects:</p>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;list projects&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  ACTIVE PROJECTS                                             ║
+╠══════════════════════════════════════════════════════════════╣
+║  DE-20260308-001  Teradata BTEQ Migration    committed   ✓   ║
+║                                                              ║
+║  DE-20260308-002  Data Quality Baseline      input_needed ⚠  ║
+║                   analytics-prod             1 pending input  ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;status DE-20260308-002&quot;
+</code></pre>
+<pre><code>╔══════════════════════════════════════════════════════════════╗
+║  Project: DE-20260308-002                                    ║
+║  Phase: IMPLEMENTING (paused - input needed)                 ║
+╠══════════════════════════════════════════════════════════════╣
+║  INPUT NEEDED                                                ║
+║                                                              ║
+║  Question: The customer_id column in dim_customer has 12%    ║
+║  null values. This exceeds the default null threshold (5%).  ║
+║  Should I:                                                   ║
+║                                                              ║
+║  1. Flag as a quality issue and continue (recommended)       ║
+║  2. Treat nulls as acceptable for this column                ║
+║  3. Set a custom threshold for customer_id                   ║
+║                                                              ║
+║  &gt; ghcs &quot;respond to DE-20260308-002: option 1&quot;               ║
+╚══════════════════════════════════════════════════════════════╝
+</code></pre>
+<p>Alex responds from whichever terminal is convenient:</p>
+<pre><code class="language-bash">alex@laptop:~$ ghcs &quot;respond to DE-20260308-002: option 1, flag it as a
+quality issue. 12% nulls in customer_id is definitely a data problem.&quot;
+</code></pre>
+<pre><code>Response recorded for DE-20260308-002.
+Project resuming implementation...
+</code></pre>
+<h1>Data Governance and Quality</h1>
+<h2>Built-In Governance</h2>
+<p>The Fabric Data Engineer Skill integrates governance into every phase:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Governance Actions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Planning</strong></td>
+<td>PII detection and classification across source schemas. Lineage mapping from source to target. Access validation (user has permissions on source and target)</td>
+</tr>
+<tr>
+<td><strong>Implementing</strong></td>
+<td>Column-level lineage tracked for every transformation. PII columns tagged in sandbox metadata. Quality checks at each transformation layer (null rates, uniqueness, referential integrity)</td>
+</tr>
+<tr>
+<td><strong>Approval</strong></td>
+<td>Governance summary in review (PII columns, lineage records, quality scores). Quality gates enforced: if quality score falls below threshold, commit is blocked with explanation</td>
+</tr>
+</tbody></table>
+<h2>Quality Gates</h2>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Threshold</th>
+<th>Action if Failed</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Row count reconciliation</td>
+<td>Source rows = target rows (within 0.1% tolerance)</td>
+<td>Block commit, report discrepancy</td>
+</tr>
+<tr>
+<td>Schema validation</td>
+<td>All expected columns present with correct types</td>
+<td>Block commit, report mismatches</td>
+</tr>
+<tr>
+<td>Null rate</td>
+<td>Column null rate within expected bounds (configurable)</td>
+<td>Warn or block based on severity</td>
+</tr>
+<tr>
+<td>Data quality score</td>
+<td>Minimum 0.90 (configurable)</td>
+<td>Block commit if below threshold</td>
+</tr>
+<tr>
+<td>PII detection</td>
+<td>All PII columns must be tagged</td>
+<td>Block commit until tagged</td>
+</tr>
+</tbody></table>
+<h2>Lineage Tracking</h2>
+<p>The skill records column-level lineage for every transformation:</p>
+<pre><code class="language-json">{
+  &quot;project_id&quot;: &quot;DE-20260308-001&quot;,
+  &quot;lineage&quot;: [
+    {
+      &quot;source&quot;: {&quot;system&quot;: &quot;teradata&quot;, &quot;table&quot;: &quot;fin.gl_journal&quot;, &quot;column&quot;: &quot;acct_no&quot;},
+      &quot;target&quot;: {&quot;lakehouse&quot;: &quot;analytics-prod&quot;, &quot;table&quot;: &quot;silver.clean_gl_journal&quot;, &quot;column&quot;: &quot;account_number&quot;},
+      &quot;transformation&quot;: &quot;CAST(acct_no AS STRING), trimmed, validated against chart_of_accounts&quot;
+    }
+  ]
+}
+</code></pre>
+<h1>Requirements</h1>
+<h2>R-1000: Installation and Authentication</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-1001</td>
+<td>The skill is registered within the existing FabricSkills plugin</td>
+<td>P0</td>
+<td>No separate plugin installation</td>
+</tr>
+<tr>
+<td>R-1002</td>
+<td>Authentication uses Azure AD tokens (OBO the user)</td>
+<td>P0</td>
+<td>Same auth as other FabricSkills</td>
+</tr>
+<tr>
+<td>R-1003</td>
+<td>The skill validates workspace access before creating a project</td>
+<td>P0</td>
+<td>Fail fast if no permissions</td>
+</tr>
+<tr>
+<td>R-1004</td>
+<td>Users can verify skill availability via <code>ghcs &quot;list fabric skills&quot;</code></td>
+<td>P1</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2>R-2000: Project Creation and Invocation</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-2001</td>
+<td>Users can invoke the skill explicitly or via GHCP auto-routing</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-2002</td>
+<td>Each project receives a unique ID in the format <code>DE-&lt;YYYYMMDD&gt;-&lt;NNN&gt;</code></td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-2003</td>
+<td>Project creation confirms workspace, sandbox prefix, and estimated planning time</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-2004</td>
+<td>The skill supports natural language invocation (no specific command syntax required)</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-2005</td>
+<td>Projects are always scoped to a single workspace</td>
+<td>P0</td>
+<td>Cross-workspace is a non-goal</td>
+</tr>
+</tbody></table>
+<h2>R-3000: Project Lifecycle (Planning, Implementing, Approval)</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-3001</td>
+<td>Every project follows the three-phase lifecycle: planning, implementing, approval</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3002</td>
+<td>During planning, the skill profiles sources and generates 2+ approach options</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3003</td>
+<td>Each approach option is tested against real or sampled data before being presented</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3004</td>
+<td>The skill recommends an approach and documents the reasoning</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3005</td>
+<td>During implementing, all artifacts are created in the sandbox (never production)</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3006</td>
+<td>The skill validates results at each transformation stage (not just at the end)</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3007</td>
+<td>At the approval boundary, the skill presents a complete review summary</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3008</td>
+<td>Users can approve, reject with feedback, or cancel at the approval boundary</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3009</td>
+<td>Rejection returns the project to implementing with user feedback incorporated</td>
+<td>P1</td>
+<td></td>
+</tr>
+<tr>
+<td>R-3010</td>
+<td>The skill can be paused and resumed by the user at any phase</td>
+<td>P1</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2>R-4000: Sandbox and Commit Model</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-4001</td>
+<td>Sandbox artifacts use the naming convention <code>__sandbox_&lt;project_id&gt;_&lt;name&gt;</code></td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-4002</td>
+<td>Sandbox notebooks and tables are visible and browseable in the Fabric UI</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-4003</td>
+<td>Commit renames sandbox artifacts to production names</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-4004</td>
+<td>If production artifacts exist, backups are created before overwriting</td>
+<td>P0</td>
+<td>Backup naming: <code>__backup_&lt;timestamp&gt;_&lt;name&gt;</code></td>
+</tr>
+<tr>
+<td>R-4005</td>
+<td>Non-promoted sandbox artifacts (test tables, alternative approaches) are cleaned up after commit</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-4006</td>
+<td>Cancelled or failed projects trigger sandbox cleanup after a configurable period (default: 7 days)</td>
+<td>P1</td>
+<td></td>
+</tr>
+<tr>
+<td>R-4007</td>
+<td>Users can manually trigger sandbox cleanup for any project</td>
+<td>P1</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2>R-5000: Multi-Session and Cross-Project Management</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-5001</td>
+<td>Users can run multiple terminal sessions, each working on different projects</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5002</td>
+<td>Project state is stored in the workspace, accessible from any terminal</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5003</td>
+<td><code>ghcs &quot;list projects&quot;</code> shows all active projects with status</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5004</td>
+<td><code>ghcs &quot;status &lt;project_id&gt;&quot;</code> returns detailed progress from any terminal</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5005</td>
+<td>Session isolation: conversation context from one project does not appear in another project&#39;s session</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5006</td>
+<td>Input requests are queued in the project state store and visible via <code>list projects</code> and <code>status</code></td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5007</td>
+<td>Users can respond to input requests from ANY terminal, not just the originating one</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5008</td>
+<td>Input requests display a warning badge on the project listing</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5009</td>
+<td>When a user is working in a terminal on Project A, they are NOT interrupted with input requests from Project B</td>
+<td>P0</td>
+<td>Input is pulled, not pushed</td>
+</tr>
+<tr>
+<td>R-5010</td>
+<td>A new terminal can immediately list and query all projects without any setup</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-5011</td>
+<td>Project execution continues server-side even if the user closes their terminal session</td>
+<td>P0</td>
+<td>Terminal is a control surface, not the execution engine</td>
+</tr>
+<tr>
+<td>R-5012</td>
+<td>Each invocation reads the state of ALL projects from the workspace state store</td>
+<td>P0</td>
+<td>Enables any session to see and manage any project</td>
+</tr>
+</tbody></table>
+<h2>R-6000: Multi-Option Testing</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-6001</td>
+<td>The skill generates 2+ implementation options for key architectural decisions</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-6002</td>
+<td>Each option is tested against real or sampled data</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-6003</td>
+<td>Test results include correctness, performance, and robustness metrics</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-6004</td>
+<td>The skill selects the best option and documents why alternatives were not selected</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-6005</td>
+<td>Users can view all evaluated options and their test results</td>
+<td>P1</td>
+<td><code>ghcs &quot;show options for &lt;project_id&gt;&quot;</code></td>
+</tr>
+<tr>
+<td>R-6006</td>
+<td>Users can override the skill&#39;s recommendation and select a different option</td>
+<td>P1</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2>R-7000: Governance and Quality</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-7001</td>
+<td>PII detection runs during the planning phase on all source schemas</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-7002</td>
+<td>Column-level lineage is tracked for every transformation</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-7003</td>
+<td>Data quality checks (null rate, uniqueness, referential integrity) run at every transformation stage</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-7004</td>
+<td>Quality gates block commit if quality score falls below threshold (default: 0.90)</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-7005</td>
+<td>PII columns must be tagged before commit is allowed</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-7006</td>
+<td>Governance summary is included in the approval review</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-7007</td>
+<td>Row count reconciliation is mandatory at approval (source rows = target rows within 0.1%)</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-7008</td>
+<td>Quality thresholds are configurable per project</td>
+<td>P1</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2>R-8000: Progress Reporting</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+<th>Priority</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R-8001</td>
+<td>Progress is reported at the phase level (planning %, implementing %, approval status)</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-8002</td>
+<td>During implementing, progress includes sub-stage detail (e.g., &quot;Silver transforms: 31/47&quot;)</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-8003</td>
+<td>Sandbox artifact names are included in progress output</td>
+<td>P0</td>
+<td></td>
+</tr>
+<tr>
+<td>R-8004</td>
+<td>Estimated remaining time is reported when possible</td>
+<td>P1</td>
+<td></td>
+</tr>
+<tr>
+<td>R-8005</td>
+<td>Completion telemetry includes timing, data volume, compute usage, and quality metrics</td>
+<td>P0</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1>Non-Goals (Current Release)</h1>
+<ul>
+<li><strong>In-Fabric experience</strong>: No Fabric UI integration beyond sandbox artifact visibility. No Project Mode toggle, no DataProjects Panel. These are part of the DataProjects product.</li>
+<li><strong>Team projects</strong>: Projects are personal to the user who created them. No shared ownership or team visibility. Team support comes with DataProjects.</li>
+<li><strong>Milestone-based delivery</strong>: Projects are a single unit of work with three phases. No milestone decomposition. Milestones come with DataProjects.</li>
+<li><strong>Production monitors</strong>: No continuous post-commit monitoring. DataProjects will add this.</li>
+<li><strong>Cross-workspace projects</strong>: Projects are scoped to one workspace.</li>
+<li><strong>Real-time/streaming pipelines</strong>: Batch transformations only.</li>
+<li><strong>Interactive mid-phase intervention</strong>: Users cannot intervene during planning or implementing. They interact at phase boundaries.</li>
+<li><strong>Custom skill development</strong>: Users cannot extend the skill with custom capabilities.</li>
+<li><strong>Scala/R notebook generation</strong>: PySpark notebooks only.</li>
+<li><strong>Git integration</strong>: No git branching or PR workflow. The sandbox/commit model handles staging. Git integration comes with DataProjects.</li>
+<li><strong>Automatic project scheduling</strong>: No cron-like scheduling for recurring projects.</li>
+</ul>
+<h1>Success Criteria</h1>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Measurement</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>End-to-end project completion</td>
+<td>User can invoke skill, go through all three phases, and commit successfully</td>
+</tr>
+<tr>
+<td>Multi-session management</td>
+<td>User can run 3+ simultaneous projects across different terminals</td>
+</tr>
+<tr>
+<td>Cross-terminal status visibility</td>
+<td>Any terminal can list all projects and query status</td>
+</tr>
+<tr>
+<td>Cross-terminal input response</td>
+<td>User can respond to input requests from a terminal that did not originate the project</td>
+</tr>
+<tr>
+<td>Session isolation</td>
+<td>Working on Project A in Terminal 1 shows no conversation context from Project B in Terminal 2</td>
+</tr>
+<tr>
+<td>Multi-option evaluation</td>
+<td>Skill tests 2+ approaches for key decisions and selects the best one with evidence</td>
+</tr>
+<tr>
+<td>Sandbox browsability</td>
+<td>Sandbox artifacts are visible and inspectable in the Fabric UI</td>
+</tr>
+<tr>
+<td>Commit safety</td>
+<td>Existing production artifacts are backed up before overwriting</td>
+</tr>
+<tr>
+<td>Quality enforcement</td>
+<td>Commit is blocked if quality score falls below threshold</td>
+</tr>
+<tr>
+<td>PII detection</td>
+<td>All PII columns are detected and tagged before commit</td>
+</tr>
+<tr>
+<td>Data accuracy</td>
+<td>Row count reconciliation passes (within 0.1% tolerance) for all committed tables</td>
+</tr>
+</tbody></table>
+<h1>Open Questions and Future Work</h1>
+<h2>Open Questions</h2>
+<ol>
+<li><strong>Project state storage</strong>: Should project state be stored in a dedicated Delta table in the lakehouse, or in a lightweight metadata store (JSON files in a known location)?</li>
+<li><strong>Sandbox cleanup policy</strong>: Should failed projects auto-clean after 7 days, or require manual cleanup?</li>
+<li><strong>Concurrent sandbox writes</strong>: If two projects modify overlapping tables, how should conflicts be detected and resolved?</li>
+<li><strong>Compute cost visibility</strong>: Should the skill report estimated Fabric capacity unit (CU) cost before starting implementation?</li>
+<li><strong>Input request timeout</strong>: If the user does not respond to an input request within N days, should the project auto-cancel or stay paused indefinitely?</li>
+<li><strong>Maximum concurrent projects</strong>: Should there be a limit on the number of simultaneous projects per user?</li>
+</ol>
+<h2>Future Work (DataProjects Product)</h2>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>In-Fabric experience (Project Mode toggle, DataProjects Panel)</td>
+<td>DataProjects v1</td>
+</tr>
+<tr>
+<td>Team Projects with workspace-inherited permissions</td>
+<td>DataProjects v1</td>
+</tr>
+<tr>
+<td>Milestone-based delivery (multi-milestone projects)</td>
+<td>DataProjects v1</td>
+</tr>
+<tr>
+<td>Production monitors (post-commit quality monitoring)</td>
+<td>DataProjects v1</td>
+</tr>
+<tr>
+<td>Git integration (branch per project, PR workflow)</td>
+<td>DataProjects v1</td>
+</tr>
+<tr>
+<td>Two-orchestrator model (Fabric AI Orchestrator + DataProjects Orchestrator)</td>
+<td>DataProjects v1</td>
+</tr>
+<tr>
+<td>Interactive mid-phase intervention</td>
+<td>DataProjects v2</td>
+</tr>
+<tr>
+<td>Cross-workspace projects</td>
+<td>DataProjects v3</td>
+</tr>
+<tr>
+<td>Custom skill development by end users</td>
+<td>DataProjects v3</td>
+</tr>
+<tr>
+<td>Project templates</td>
+<td>DataProjects v2</td>
+</tr>
+<tr>
+<td>Scheduled/recurring projects</td>
+<td>DataProjects v2</td>
+</tr>
+</tbody></table>
+</div>
   `,
   twoorch: `
     <span class="card-tag tag-spec">SPEC</span>
