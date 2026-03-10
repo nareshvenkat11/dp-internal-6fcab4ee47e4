@@ -182,8 +182,8 @@ a{color:inherit;text-decoration:none}
       <div class="rm-root">
         <div class="rm-node rm-master" onclick="openModal('prd')">
           <div class="rm-pills"><span class="rm-pill pill-spec">SPEC</span></div>
-          <h3>DataProjects PRD (v1.5)</h3>
-          <p>Master specification — architecture, milestones, two-orchestrator model, user journey, API interface, governance</p>
+          <h3>DataProjects PRD</h3>
+          <p>Overarching PRD — architecture, milestones, two-orchestrator model, user journey, API interface, governance</p>
         </div>
       </div>
       <!-- Branches -->
@@ -193,7 +193,7 @@ a{color:inherit;text-decoration:none}
           <span class="rm-dot active"></span>
           <div class="rm-node" onclick="openModal('epocprd')">
             <div class="rm-pills"><span class="rm-pill pill-spec">SPEC</span><span class="rm-pill pill-epoc">EPOC</span></div>
-            <h3>DataProjects CLI EPOC (v1.2)</h3>
+            <h3>DataProjects CLI EPOC</h3>
             <p>Earliest proof of concept — CLI skill-only, implicit plan, one-way activity stream, all-or-nothing commit</p>
           </div>
         </div>
@@ -202,7 +202,7 @@ a{color:inherit;text-decoration:none}
           <span class="rm-dot planned"></span>
           <div class="rm-node" onclick="openModal('skillsprd')">
             <div class="rm-pills"><span class="rm-pill pill-spec">SPEC</span><span class="rm-pill pill-pvt">PRIVATE PREVIEW</span></div>
-            <h3>DataProjects Skill CLI</h3>
+            <h3>DataProjects CLI Skills</h3>
             <p>Skills-based CLI experience via FabricSkills plugin</p>
           </div>
         </div>
@@ -211,7 +211,7 @@ a{color:inherit;text-decoration:none}
           <span class="rm-dot planned"></span>
           <div class="rm-node rm-milestone">
             <div class="rm-pills"><span class="rm-pill pill-pub">PUBLIC PREVIEW</span></div>
-            <h3>DataProjects Skill CLI</h3>
+            <h3>DataProjects CLI Skills</h3>
             <p>Public preview of the DataProjects Skill CLI experience</p>
           </div>
         </div>
@@ -412,8 +412,8 @@ const content = {
   `,
   prd: `
     <span class="card-tag tag-spec">SPEC</span>
-    <h2>Full PRD (v1.5)</h2>
-    <p style="margin-bottom:16px"><em>Authored by Vijay Sarad &amp; Naresh Venkat — March 06, 2026</em></p>
+    <h2>DataProjects PRD</h2>
+    <p style="margin-bottom:16px"><em>Overarching PRD · Authored by Vijay Sarad &amp; Naresh Venkat — March 06, 2026</em></p>
     <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjects/Fabric_DataProjects_Agent_PRD.md" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
     <div class="prd-body"><p><strong>Fabric DataProjects</strong></p>
 <p>Product Requirements Document</p>
@@ -1626,7 +1626,7 @@ Lydia approves M3. FI and SD artifacts ship to production. Production monitor de
   `,
   epocprd: `
     <span class="card-tag tag-spec">SPEC</span>
-    <h2>EPOC Milestone PRD (v1.2)</h2>
+    <h2>DataProjects CLI EPOC</h2>
     <p style="margin-bottom:16px"><em>Authored by Vijay Sarad &amp; Naresh Venkat — March 10, 2026 · Internal only (Daily/DXT builds)</em></p>
     <a href="https://github.com/nareshvenkat_microsoft/osmos-product/blob/main/DataProjects_EPOC/Fabric_DataProjects_EPOC_PRD.md" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
     <div class="prd-body"><h1>Fabric DataProjects: EPOC Milestone PRD</h1>
@@ -2211,9 +2211,9 @@ OE: DataProject DP-20260310-003 - &quot;Migrate customer dimens...&quot;
   `,
   skillsprd: `
     <span class="card-tag tag-spec">SPEC</span>
-    <h2>DataProjects Skills PRD</h2>
+    <h2>DataProjects CLI Skills</h2>
     <p style="margin-bottom:16px"><em>Skill specifications for the DataProjects agent. Each skill defines capabilities, phases, inputs/outputs, and integration patterns.</em></p>
-    <a href="https://github.com/nareshvenkat_microsoft/osmos-product/tree/main/DataProjects/skills" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
+    <a href="https://github.com/nareshvenkat_microsoft/osmos-product/tree/main/DataProjectSkills" target="_blank" class="modal-gh-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> View on GitHub</a>
     <div class="acc-open"><div class="acc-heading">ETL Pipeline Skill</div><div class="acc-body"><div class="acc-open"><div class="acc-heading">Overview</div><div class="acc-body"><p style="font-size:12.5px;line-height:1.6;margin:4px 0">The ETL Pipeline Orchestration skill enables the DataProjects Agent to autonomously plan, build, execute, validate, and deploy end-to-end Extract-Transform-Load pipelines across Microsoft Fabric Lakehouses, Warehouses, and external data sources. This skill is purpose-built for long-running data engineering projects where pipeline logic spans multiple notebooks, tables, and transformation layers.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">&gt; <strong>⚠️ Agent-Only Skill:</strong> This skill is exclusively invoked through the DataProjects Agent. It cannot be used as a standalone GitHub Copilot CLI skill. The DataProjects Agent provides the orchestration context, session management, progress reporting, and governance guardrails required for safe ETL execution.</p>
 <p style="font-size:12.5px;line-height:1.6;margin:4px 0">---</p></div></div>
