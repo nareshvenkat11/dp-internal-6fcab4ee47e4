@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot - DataProjects POC</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    @font-face { font-family: 'Segoe UI Variable'; src: local('Segoe UI Variable'), local('Segoe UI'); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI Variable', 'Segoe UI', -apple-system, system-ui, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; color: #242424; }
+    button { font-family: inherit; }
+
+    .page { display: flex; height: 100vh; }
+
+    /* === SIDEBAR === */
+    .sidebar {
+      display: flex; flex-direction: column; justify-content: space-between;
+      width: 68px; background: #f3f3f3; border-right: 1px solid #e0e0e0;
+      padding: 4px 0 8px; overflow-y: auto; flex-shrink: 0;
+    }
+    .sb-top, .sb-bot { display: flex; flex-direction: column; align-items: center; }
+    .sb-item {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1px; padding: 7px 0 5px; width: 60px; border-radius: 8px;
+      cursor: pointer; border: none; background: none; text-decoration: none; position: relative;
+    }
+    .sb-item:hover { background: rgba(0,0,0,0.04); }
+    .sb-item.active { background: rgba(0,0,0,0.06); }
+    .sb-item.active::before {
+      content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 3px; height: 16px; background: #0f6cbd; border-radius: 0 4px 4px 0;
+    }
+    .sb-icon { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+    .sb-icon svg { width: 20px; height: 20px; }
+    .sb-label { font-size: 10px; color: #424242; line-height: 1.1; text-align: center; max-width: 58px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; }
+    .sb-dots { padding: 10px; color: #616161; cursor: pointer; font-size: 20px; text-align: center; letter-spacing: 2px; }
+
+    /* Copilot gradient icon */
+    .copilot-icon-wrap { width: 24px; height: 24px; }
+
+    /* === MAIN === */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; }
+
+    /* === HEADER === */
+    .hdr {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 20px; min-height: 44px;
+      border-bottom: 1px solid #f0f0f0; background: #fff;
+    }
+    .hdr-left { display: flex; align-items: center; gap: 8px; }
+    .hdr-title { font-size: 14px; font-weight: 600; color: #242424; }
+    .hdr-badge { font-size: 11px; color: #707070; background: #f5f5f5; padding: 1px 7px; border-radius: 3px; border: 1px solid #e0e0e0; font-weight: 400; }
+    .hdr-right { display: flex; align-items: center; gap: 14px; }
+    .hdr-btn { display: flex; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; color: #707070; font-size: 13px; font-family: inherit; }
+    .hdr-btn:hover { color: #424242; }
+    .hdr-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* === CONTENT === */
+    .content {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      padding: 36px 32px 24px; overflow-y: auto; background: #fafafa;
+    }
+
+    /* === MODE TOGGLE === */
+    .toggle-wrap { margin-bottom: 28px; }
+    .toggle {
+      display: inline-flex; background: #ebebeb; border-radius: 8px; padding: 3px;
+    }
+    .toggle-btn {
+      font-size: 13px; font-weight: 600; color: #616161; background: transparent;
+      border: none; border-radius: 6px; padding: 6px 18px; cursor: pointer;
+      transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+    }
+    .toggle-btn:hover:not(.t-active) { color: #424242; background: rgba(255,255,255,0.5); }
+    .t-active { background: #fff; color: #242424; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .toggle-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* === CONVERSATION GREETING === */
+    .c-greeting { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; }
+    .c-greeting h1 { font-size: 28px; font-weight: 700; color: #242424; letter-spacing: -0.3px; }
+    .c-sub { font-size: 14px; color: #616161; margin-bottom: 36px; font-weight: 400; }
+
+    /* === DP GREETING === */
+    .dp-logo-img { width: 52px; height: 52px; object-fit: contain; margin-bottom: 4px; }
+    .dp-name { font-size: 14px; font-weight: 600; color: #616161; margin-bottom: 16px; }
+    .dp-h1 { font-size: 26px; font-weight: 600; color: #242424; text-align: center; max-width: 540px; line-height: 1.35; margin-bottom: 10px; letter-spacing: -0.2px; }
+    .dp-desc { font-size: 13px; color: #616161; text-align: center; max-width: 500px; line-height: 1.6; margin-bottom: 30px; font-weight: 400; }
+
+    /* === INPUT === */
+    .input-area { width: 100%; max-width: 680px; margin-bottom: 20px; }
+    .input-box {
+      background: #fff; border: 1px solid #d1d1d1; border-radius: 12px;
+      padding: 10px 14px 6px; transition: border-color 0.15s;
+    }
+    .input-box:focus-within { border-color: #0f6cbd; box-shadow: 0 0 0 1px #0f6cbd; }
+    textarea {
+      width: 100%; border: none; outline: none; resize: none;
+      font-family: inherit; font-size: 14px; line-height: 1.5; color: #242424;
+      background: transparent; min-height: 20px;
+    }
+    textarea::placeholder { color: #a0a0a0; }
+
+    /* Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #e8f0fe; border-radius: 4px; padding: 2px 6px 2px 8px;
+      font-size: 12px; font-weight: 500; color: #0f6cbd;
+    }
+    .chip-x {
+      background: none; border: none; cursor: pointer; color: #0f6cbd;
+      font-size: 14px; line-height: 1; padding: 0 1px; opacity: 0.6;
+    }
+    .chip-x:hover { opacity: 1; }
+
+    /* Footer */
+    .input-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+    .foot-left { display: flex; align-items: center; gap: 2px; }
+    .f-btn {
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer; padding: 5px;
+      color: #616161; border-radius: 4px;
+    }
+    .f-btn:hover { background: #f5f5f5; color: #424242; }
+    .f-btn svg { width: 18px; height: 18px; fill: currentColor; }
+    .f-mode {
+      display: flex; align-items: center; gap: 4px;
+      background: none; border: none; cursor: pointer; padding: 3px 8px;
+      color: #616161; border-radius: 4px; font-size: 12px; font-family: inherit; font-weight: 400;
+    }
+    .f-mode:hover { background: #f5f5f5; color: #424242; }
+    .f-mode svg { width: 16px; height: 16px; fill: currentColor; }
+    .send {
+      display: flex; align-items: center; justify-content: center;
+      background: #0f6cbd; color: #fff; border: none; border-radius: 50%;
+      width: 28px; height: 28px; cursor: pointer; transition: background 0.15s;
+    }
+    .send:hover { background: #115ea3; }
+    .send:disabled { background: #c7c7c7; cursor: default; }
+    .send svg { width: 14px; height: 14px; fill: #fff; }
+
+    /* Dropdown */
+    .dd-wrap { position: relative; }
+    .dd {
+      position: absolute; bottom: 100%; left: 0; margin-bottom: 4px;
+      background: #fff; border: 1px solid #e0e0e0; border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14); min-width: 190px; padding: 4px; z-index: 100;
+    }
+    .dd-item {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      background: none; border: none; cursor: pointer; padding: 8px 12px;
+      font-family: inherit; font-size: 13px; color: #242424; border-radius: 4px; text-align: start;
+    }
+    .dd-item:hover { background: #f5f5f5; }
+    .dd-item svg { width: 18px; height: 18px; fill: #424242; }
+
+    /* === SUGGESTIONS === */
+    .sugs { display: flex; gap: 12px; width: 100%; max-width: 680px; margin-bottom: 6px; }
+    .sug {
+      display: flex; flex-direction: column; gap: 12px; flex: 1;
+      padding: 14px 16px; background: #fff; border: 1px solid #e8e8e8;
+      border-radius: 12px; cursor: pointer; text-align: start; font-family: inherit;
+      font-size: 13px; font-weight: 600; color: #242424; line-height: 1.4;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .sug:hover { border-color: #d0d0d0; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .sug em { color: #0f6cbd; font-style: normal; font-weight: 600; }
+    .sug-ic { width: 20px; height: 20px; }
+    .see-m {
+      display: flex; align-items: center; gap: 3px;
+      align-self: flex-end; max-width: 680px; width: 100%; justify-content: flex-end;
+      background: none; border: none; cursor: pointer; font-family: inherit;
+      font-size: 13px; color: #616161; padding: 4px 0;
+    }
+    .see-m:hover { color: #424242; }
+    .see-m svg { width: 12px; height: 12px; fill: currentColor; }
+
+    .fade { animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .col { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useCallback, useRef } = React;
+
+/* Inline SVG icons matching Fluent style */
+const I = {
+  home: <svg viewBox="0 0 20 20"><path d="M10.45 2.15a.75.75 0 00-.9 0l-6.25 4.8A.75.75 0 003 7.6V16a1 1 0 001 1h3.25a.75.75 0 00.75-.75v-4.5a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v4.5c0 .414.336.75.75.75H16a1 1 0 001-1V7.6a.75.75 0 00-.3-.65l-6.25-4.8z" fill="#424242"/></svg>,
+  create: <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.5"/><path d="M10 7v6M7 10h6" stroke="#424242" strokeWidth="1.5" strokeLinecap="round"/></svg>,
+  browse: <svg viewBox="0 0 20 20"><path d="M2 5.5A1.5 1.5 0 013.5 4h3.59a1.5 1.5 0 011.06.44L9.56 5.85a.5.5 0 00.35.15H16.5A1.5 1.5 0 0118 7.5v7a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 14.5v-9z" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>,
+  catalog: <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.3"/><circle cx="10" cy="10" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M10 3v2M10 15v2M3 10h2M15 10h2" stroke="#424242" strokeWidth="1.3"/></svg>,
+  apps: <svg viewBox="0 0 20 20"><rect x="3" y="3" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/><rect x="11" y="3" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/><rect x="3" y="11" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/><rect x="11" y="11" width="6" height="6" rx="1" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>,
+  scores: <svg viewBox="0 0 20 20"><path d="M4 14V8M8 14V6M12 14V4M16 14v-4" stroke="#424242" strokeWidth="1.5" strokeLinecap="round"/><path d="M2 16h16" stroke="#424242" strokeWidth="1.3"/></svg>,
+  db: <svg viewBox="0 0 20 20"><ellipse cx="10" cy="5" rx="6" ry="2.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M4 5v10c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5V5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M4 10c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>,
+  monitor: <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M10 6v4l2.5 2.5" stroke="#424242" strokeWidth="1.3" strokeLinecap="round"/></svg>,
+  workspace: <svg viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="12" rx="1.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M3 8h14" stroke="#424242" strokeWidth="1.3"/></svg>,
+  people: <svg viewBox="0 0 20 20"><circle cx="8" cy="7" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M2 16c0-2.76 2.69-5 6-5s6 2.24 6 5" fill="none" stroke="#424242" strokeWidth="1.3"/><circle cx="14" cy="6" r="2" fill="none" stroke="#424242" strokeWidth="1.2"/><path d="M15 11c2.21.56 3.5 2.1 3.5 4" fill="none" stroke="#424242" strokeWidth="1.2"/></svg>,
+  lake: <svg viewBox="0 0 20 20"><rect x="4" y="3" width="12" height="14" rx="1.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M7 7h6M7 10h4" stroke="#424242" strokeWidth="1.2" strokeLinecap="round"/></svg>,
+  plus: <svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>,
+  settings: <svg viewBox="0 0 20 20"><path d="M3.5 5h13M3.5 10h13M3.5 15h13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/><circle cx="7" cy="5" r="1.5" fill="#fff" stroke="currentColor" strokeWidth="1.2"/><circle cx="13" cy="10" r="1.5" fill="#fff" stroke="currentColor" strokeWidth="1.2"/><circle cx="9" cy="15" r="1.5" fill="#fff" stroke="currentColor" strokeWidth="1.2"/></svg>,
+  chevDown: <svg viewBox="0 0 12 12"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>,
+  arrowR: <svg viewBox="0 0 16 16"><path d="M3 8h9M8.5 4.5L12 8l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>,
+  database: <svg viewBox="0 0 20 20"><ellipse cx="10" cy="5" rx="6" ry="2.5" fill="none" stroke="currentColor" strokeWidth="1.3"/><path d="M4 5v10c0 1.38 2.69 2.5 6 2.5s6-1.12 6-2.5V5" fill="none" stroke="currentColor" strokeWidth="1.3"/></svg>,
+  upload: <svg viewBox="0 0 20 20"><path d="M10 13V4M7 6.5L10 3.5l3 3" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/><path d="M4 13v2.5A1.5 1.5 0 005.5 17h9a1.5 1.5 0 001.5-1.5V13" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" fill="none"/></svg>,
+  doc: <svg viewBox="0 0 20 20"><path d="M6 2.5h5.5L15 6v11a1.5 1.5 0 01-1.5 1.5h-7A1.5 1.5 0 015 17V4A1.5 1.5 0 016 2.5z" fill="none" stroke="currentColor" strokeWidth="1.2"/><path d="M11 2.5V6h3.5" fill="none" stroke="currentColor" strokeWidth="1.2"/><path d="M7.5 10h5M7.5 13h3" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/></svg>,
+  sparkle: <svg viewBox="0 0 20 20"><path d="M10 2l1.5 5.5L17 9l-5.5 1.5L10 16l-1.5-5.5L3 9l5.5-1.5z" fill="currentColor"/></svg>,
+  chat: <svg viewBox="0 0 16 16"><path d="M2 3.5A1.5 1.5 0 013.5 2h9A1.5 1.5 0 0114 3.5v6a1.5 1.5 0 01-1.5 1.5H6L3 14v-3H3.5A1.5 1.5 0 012 9.5v-6z" fill="currentColor"/></svg>,
+  project: <svg viewBox="0 0 16 16"><path d="M2 3h12v2H2zM2 7h8v2H2zM2 11h10v2H2z" fill="currentColor"/><circle cx="13" cy="12" r="2" fill="currentColor"/></svg>,
+  scissors: <svg viewBox="0 0 16 16"><path d="M5.5 3.5a2 2 0 10-1.42 3.41L7.17 8l-3.09 1.09A2 2 0 105.5 12.5L8 10.83l2.5 1.67a2 2 0 101.42-3.41L8.83 8l3.09-1.09A2 2 0 1010.5 3.5L8 5.17z" fill="none" stroke="currentColor" strokeWidth="1.2"/></svg>,
+};
+
+const CopilotLogo = ({size=40}) => (
+  <svg width={size} height={size} viewBox="0 0 40 40" fill="none">
+    <path d="M20 6L9 12.5v5.5l11 6.5 11-6.5v-5.5L20 6z" fill="#6264A7" opacity=".85"/>
+    <path d="M20 18L9 11.5V18l11 6.5V18z" fill="#E74856" opacity=".85"/>
+    <path d="M20 18l11-6.5V18l-11 6.5V18z" fill="#05A6F0" opacity=".85"/>
+    <path d="M20 6l11 6.5L20 18 9 12.5 20 6z" fill="#FFB900" opacity=".9"/>
+    <path d="M20 24.5l11-6.5v5l-11 6.5v-5z" fill="#05A6F0" opacity=".6"/>
+    <path d="M20 24.5L9 18v5l11 6.5v-5z" fill="#E74856" opacity=".6"/>
+  </svg>
+);
+
+const CopilotSmall = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <path d="M10 3L4.5 6.5v3L10 13l5.5-3.5v-3L10 3z" fill="#6264A7" opacity=".85"/>
+    <path d="M10 9.5L4.5 6v3.5L10 13V9.5z" fill="#E74856" opacity=".85"/>
+    <path d="M10 9.5l5.5-3.5v3.5L10 13V9.5z" fill="#05A6F0" opacity=".85"/>
+    <path d="M10 3l5.5 3.5L10 9.5 4.5 6.5 10 3z" fill="#FFB900" opacity=".9"/>
+  </svg>
+);
+
+function App() {
+  const [mode, setMode] = useState("conversation");
+  const [text, setText] = useState("");
+  const [resources, setResources] = useState([]);
+  const [addOpen, setAddOpen] = useState(false);
+  const [modeOpen, setModeOpen] = useState(false);
+  const [planMode, setPlanMode] = useState("default");
+  const ref = useRef(null);
+
+  const planModes = {default: "Default mode", deep: "Deep plan mode", auto: "Deep plan (auto approve)"};
+
+  const switchMode = (m) => {
+    setMode(m); setText(m==="dp" ? "I uploaded a dump from SAP R3 into #SAP_R3\nImport that into #Vendors #PurchaseOrders #Invoices #Payments tables in this lakehouse.\nIf you think we need to write data to any other table, put it in the plan for my approval." : "");
+    setResources(m === "dp" ? [{id:"1",name:"ERP_Dump"},{id:"2",name:"SAP_R3"},{id:"3",name:"Vendors"},{id:"4",name:"PurchaseOrders"}] : []);
+    setPlanMode(m === "dp" ? "deep" : "default");
+  };
+  const onInput = (e) => { setText(e.target.value); e.target.style.height="auto"; e.target.style.height=e.target.scrollHeight+"px"; };
+  const fill = (t) => { setText(t); ref.current?.focus(); };
+  const isDP = mode === "dp";
+
+  return (
+    <div className="page">
+      <nav className="sidebar">
+        <div className="sb-top">
+          <button className="sb-item" style={{padding:"10px 0 8px"}}><span className="sb-icon" style={{fontSize:16,color:"#424242"}}>⊞</span></button>
+          <SB icon={I.home} label="Home" />
+          <SB icon={<CopilotSmall/>} label="Copilot" active raw />
+          <SB icon={I.create} label="Create" />
+          <SB icon={I.browse} label="Browse" />
+          <SB icon={I.catalog} label="OneLake catalog" />
+          <SB icon={I.apps} label="Apps" />
+          <SB icon={I.scores} label="Scorecards" />
+          <SB icon={I.db} label="Databases" />
+          <SB icon={I.monitor} label="Monitor" />
+          <SB icon={I.workspace} label="Workspaces" />
+        </div>
+        <div className="sb-bot">
+          <SB icon={I.people} label="Naresh-Osmos" />
+          <SB icon={I.lake} label="naresh_daily_lh2" />
+          <div className="sb-dots">···</div>
+        </div>
+      </nav>
+
+      <div className="main">
+        <div className="hdr">
+          <div className="hdr-left">
+            <span className="hdr-title">Copilot</span>
+            <span className="hdr-badge">Preview</span>
+          </div>
+          <div className="hdr-right">
+            <button className="hdr-btn">{I.scissors} Clear chat</button>
+            <button className="hdr-btn" style={{fontSize:18,letterSpacing:1}}>···</button>
+          </div>
+        </div>
+
+        <div className="content">
+          {/* Toggle */}
+          <div className="toggle-wrap">
+            <div className="toggle">
+              <button className={`toggle-btn ${!isDP?"t-active":""}`} onClick={()=>switchMode("conversation")}>
+                <span style={{width:14,height:14,display:"flex"}}>{I.chat}</span> Conversation
+              </button>
+              <button className={`toggle-btn ${isDP?"t-active":""}`} onClick={()=>switchMode("dp")}>
+                <span style={{width:14,height:14,display:"flex"}}>{I.project}</span> Data Project
+              </button>
+            </div>
+          </div>
+
+          <div className="fade col" key={mode}>
+          {!isDP ? (<>
+            <div className="c-greeting"><CopilotLogo/><h1>Hi Naresh</h1></div>
+            <p className="c-sub">Uncover insights in your data with the help of AI</p>
+            <div className="input-area"><div className="input-box">
+              <textarea ref={ref} placeholder="Ask a question about your data" value={text} onChange={onInput} rows={1}/>
+              <div className="input-foot">
+                <div className="foot-left">
+                  <button className="f-btn">{I.plus}</button>
+                  <div className="dd-wrap">
+                    <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{I.settings} {planModes[planMode]} <span style={{display:"flex"}}>{I.chevDown}</span></button>
+                    {modeOpen && <div className="dd">
+                      <button className="dd-item" onClick={()=>{setPlanMode("default");setModeOpen(false);}}>Default mode</button>
+                      <button className="dd-item" onClick={()=>{setPlanMode("deep");setModeOpen(false);}}>Deep plan mode</button>
+                      <button className="dd-item" onClick={()=>{setPlanMode("auto");setModeOpen(false);}}>Deep plan (auto approve)</button>
+                    </div>}
+                  </div>
+                </div>
+                <button className="send" disabled={!text.trim()}>{I.arrowR}</button>
+              </div>
+            </div></div>
+            <div className="sugs">
+              <button className="sug" onClick={()=>fill("Find reports about [a topic]")}>
+                <span className="sug-ic" style={{color:"#0f6cbd"}}>{I.sparkle}</span>
+                <span>Find reports about <em>[a topic]</em></span>
+              </button>
+              <button className="sug" onClick={()=>fill("Prep a summary for my team")}>
+                <span className="sug-ic" style={{color:"#8764b8"}}>{I.sparkle}</span>
+                <span>Prep a summary for my team about <em>report</em></span>
+              </button>
+              <button className="sug" onClick={()=>fill("What can Copilot help me with?")}>
+                <span className="sug-ic" style={{color:"#d83b01"}}>{I.sparkle}</span>
+                <span>What can Copilot help me with?</span>
+              </button>
+            </div>
+            <button className="see-m">See more <span style={{display:"flex"}}>{I.chevDown}</span></button>
+          </>) : (<>
+            <img src="dataprojects-logo.png" alt="DataProjects" className="dp-logo-img"/>
+            <span className="dp-name">DataProjects</span>
+            <h1 className="dp-h1">What would you like to build, migrate, or optimize?</h1>
+            <p className="dp-desc">DataProjects manages long-running data engineering projects with milestones, autonomous execution, and production monitoring. Review each milestone and approve before it ships.</p>
+            <div className="input-area"><div className="input-box">
+              {resources.length>0 && <div className="chips">{resources.map(r=>(
+                <span key={r.id} className="chip">{r.name}<button className="chip-x" onClick={()=>setResources(x=>x.filter(y=>y.id!==r.id))}>×</button></span>
+              ))}</div>}
+              <textarea ref={ref} placeholder="Describe your project or provide instructions..." value={text} onChange={onInput} rows={3}/>
+              <div className="input-foot">
+                <div className="foot-left">
+                  <div className="dd-wrap">
+                    <button className="f-btn" onClick={()=>setAddOpen(!addOpen)}>{I.plus}</button>
+                    {addOpen && <div className="dd">
+                      <button className="dd-item" onClick={()=>setAddOpen(false)}>{I.database} OneLake catalog</button>
+                      <button className="dd-item" onClick={()=>setAddOpen(false)}>{I.upload} Upload files</button>
+                    </div>}
+                  </div>
+                  <div className="dd-wrap">
+                    <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{I.settings} {planModes[planMode]} <span style={{display:"flex"}}>{I.chevDown}</span></button>
+                    {modeOpen && <div className="dd">
+                      <button className="dd-item" onClick={()=>{setPlanMode("default");setModeOpen(false);}}>Default mode</button>
+                      <button className="dd-item" onClick={()=>{setPlanMode("deep");setModeOpen(false);}}>Deep plan mode</button>
+                      <button className="dd-item" onClick={()=>{setPlanMode("auto");setModeOpen(false);}}>Deep plan (auto approve)</button>
+                    </div>}
+                  </div>
+                </div>
+                <button className="send" disabled={!text.trim()}>{I.arrowR}</button>
+              </div>
+            </div></div>
+            <div className="sugs">
+              <button className="sug" onClick={()=>fill("Migrate 2,000 tables from Teradata to Fabric")}>
+                <span className="sug-ic" style={{color:"#616161"}}>{I.doc}</span>
+                <span>Migrate Teradata to Fabric</span>
+              </button>
+              <button className="sug" onClick={()=>fill("Run data quality assessment across 500 tables")}>
+                <span className="sug-ic" style={{color:"#616161"}}>{I.doc}</span>
+                <span>Run data quality assessment</span>
+              </button>
+              <button className="sug" onClick={()=>fill("Consolidate 130 ERP systems into unified lakehouse")}>
+                <span className="sug-ic" style={{color:"#616161"}}>{I.doc}</span>
+                <span>Consolidate ERP data sources</span>
+              </button>
+            </div>
+            <button className="see-m">See more <span style={{display:"flex"}}>{I.chevDown}</span></button>
+          </>)}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SB({icon, label, active, raw}) {
+  return (
+    <button className={`sb-item ${active?"active":""}`}>
+      <span className="sb-icon">{raw ? icon : <span style={{display:"flex",width:20,height:20}}>{icon}</span>}</span>
+      <span className="sb-label">{label}</span>
+    </button>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
