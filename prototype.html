@@ -429,7 +429,7 @@ const SAMPLE_PROJECTS = [
   {id:'p1',name:'SAP P2P Silver Ingestion',status:'running',statusLabel:'Executing',desc:'Migrating SAP R3 P2P data into Silver lakehouse tables with quality checks and production monitors.',progress:65,milestones:'2/3',started:'Mar 9, 2:15 PM',updated:'2 min ago',projId:'DP-20260309-001',health:['green','green','gray']},
   {id:'p2',name:'Teradata Migration – Finance',status:'review',statusLabel:'Awaiting Review',desc:'Migrating 847 Teradata tables to Fabric lakehouse. Milestone 4 of 6 ready for review.',progress:67,milestones:'4/6',started:'Mar 7, 10:30 AM',updated:'1 hr ago',projId:'DP-20260307-002',health:['green','green','green','yellow']},
   {id:'p3',name:'Data Quality Assessment',status:'queued',statusLabel:'Queued',desc:'Full quality scan of 500+ tables: null rates, schema drift, freshness SLA, referential integrity.',progress:0,milestones:'0/4',started:'Mar 9, 3:00 PM',updated:'Pending',projId:'DP-20260309-003',health:[]},
-  {id:'p4',name:'ERP Consolidation – Phase 1',status:'done',statusLabel:'Completed',desc:'Consolidated 130 ERP sources into unified Bronze lakehouse. All monitors healthy.',progress:100,milestones:'5/5',started:'Feb 28, 9:00 AM',updated:'Mar 5, 4:22 PM',projId:'DP-20260228-001',health:['green','green','green','green','green']},
+  {id:'p4',name:'ERP Consolidation – Phase 1',status:'done',statusLabel:'Archived',desc:'Consolidated 130 ERP sources into unified Bronze lakehouse. All monitors healthy.',progress:100,milestones:'5/5',started:'Feb 28, 9:00 AM',updated:'Mar 5, 4:22 PM',projId:'DP-20260228-001',health:['green','green','green','green','green']},
 ];
 
 const EXEC_STEPS = [
@@ -1010,9 +1010,9 @@ function App() {
                   </div>
 
                   <div className="recap-actions">
-                    <button className="recap-action" onClick={()=>setStep(STEPS.START)}>Archive this conversation</button>
+                    <button className="recap-action" onClick={()=>setStep(STEPS.START)}>Archive this DataProject</button>
                     <button className="recap-action">Continue with improvements</button>
-                    <button className="recap-action" onClick={()=>{setStep(STEPS.START);switchMode('dp')}}>Start a new conversation</button>
+                    <button className="recap-action" onClick={()=>{setStep(STEPS.START);switchMode('dp')}}>Start a new DataProject</button>
                   </div>
                 </div>
               )}
@@ -1162,7 +1162,7 @@ function ProjectsPanel({onClose, tab, setTab}) {
         </div>
         <div className="pp-tabs">
           <button className={`pp-tab ${tab==='active'?'pp-active':''}`} onClick={()=>setTab('active')}>Active ({activeProjects.length})</button>
-          <button className={`pp-tab ${tab==='completed'?'pp-active':''}`} onClick={()=>setTab('completed')}>Completed ({completedProjects.length})</button>
+          <button className={`pp-tab ${tab==='completed'?'pp-active':''}`} onClick={()=>setTab('completed')}>Archived ({completedProjects.length})</button>
         </div>
         <div className="pp-body">
           {displayed.length === 0 ? (
