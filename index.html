@@ -193,8 +193,8 @@ a{color:inherit;text-decoration:none}
     <div class="cards" style="margin-top:16px">
       <div class="card" onclick="openModal('lydia')">
         <span class="card-tag tag-scenario">SCENARIO</span>
-        <h3>Lydia's ERP Consolidation</h3>
-        <p>End-to-end walkthrough: 130 ERP systems, milestone-based delivery, production monitors, zero big-bang deployment.</p>
+        <h3>Lydia's SAP P2P Data Ingestion</h3>
+        <p>Video walkthrough: SAP R3 P2P data into Silver tables with business rules, quality checks, and production monitors.</p>
       </div>
     </div>
   </div>
@@ -3628,18 +3628,11 @@ Project resuming implementation...
   `,
   lydia: `
     <span class="card-tag tag-scenario">SCENARIO</span>
-    <h2>Lydia's ERP Consolidation</h2>
+    <h2>Lydia's SAP P2P Data Ingestion</h2>
     <div style="background:#fff8f0;border:1px solid #f0d8a8;border-radius:8px;padding:12px 16px;margin-bottom:12px;font-size:14px;color:#8a6d3b;line-height:1.5"><strong>⚠ Note:</strong> This is an older version of the video and has not been updated with the DataProject terminology and features.</div>
     <p style="margin-bottom:16px"><a href="https://microsoft.sharepoint.com/teams/Osmonauts/_layouts/15/stream.aspx?id=%2Fteams%2FOsmonauts%2FShared%20Documents%2FProduct%2FLydia%20%2D%20AI%20Data%20Engineer%20User%20Story%2FLydia%20%2D%20AI%20Data%20Engineer%20%2D%20user%20journey%2Emp4&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E6f2a536d%2Dfd49%2D46f5%2Dafcb%2D9390bea7f512&mode=View" target="_blank" class="modal-gh-link" style="background:#0f6cbd;color:#fff;border-color:#0f6cbd;font-size:15px;padding:10px 24px">▶ Watch Video Walkthrough</a></p>
-    <p>Lydia is a data engineer consolidating 130 ERP systems (SAP R3, Oracle EBS, JD Edwards) into Fabric. The planning phase alone would traditionally take weeks.</p>
-    <p>With Project Mode, Lydia toggles it on, types her instructions, attaches an Excel file with business rules, references her Bronze Lakehouse, and submits. The DataProjects engine plans milestones (one per group of SAP modules), generates PySpark notebooks, runs Spark jobs, and stages results for review.</p>
-    <ul>
-      <li><strong>Milestone 1</strong> (FI and SD modules): reviewed, approved, shipped to production with a monitor. Green.</li>
-      <li><strong>Milestone 2</strong> (CO and MM): ships. Green.</li>
-      <li><strong>Milestone 5</strong>: the monitor catches a freshness SLA violation on the PM module. Lydia is alerted, fixes the pipeline config, monitor returns to green.</li>
-    </ul>
-    <p>By the end, all 12 modules are live with continuous monitoring. Each milestone was reviewed, approved, and shipped independently. No big-bang deployment. No sleepless production nights.</p>
-    <p><em>The result: what used to take a team months of coordination is delivered incrementally, with governance built in and production monitoring from day one.</em></p>
+    <p>Lydia is a data engineer at a global manufacturer. As part of a broader initiative to consolidate 130 ERP systems into Fabric, she needs to ingest Procure-to-Pay (P2P) data from SAP R3 into Silver layer tables.</p>
+    <p>She enters instructions, attaches an Excel file with P2P business rules, references her Bronze Lakehouse with the SAP R3 dump, and submits. The AI agent profiles the source data, builds a plan, generates PySpark notebooks, executes transformations, and stages results for her review.</p>
   `,
   etl: `
     <span class="card-tag tag-skill">SKILL</span>
