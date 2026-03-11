@@ -347,6 +347,51 @@ button{font-family:inherit;cursor:pointer}
 
 /* Project ID badge */
 .proj-id{font-size:10px;font-weight:500;color:#a0a0a0;font-family:'Cascadia Code','Consolas',monospace;letter-spacing:0.3px}
+
+/* Milestone progress bar */
+.ms-bar{display:flex;align-items:center;gap:0;margin-bottom:20px;max-width:720px;width:100%}
+.ms-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#a0a0a0;white-space:nowrap}
+.ms-item.msi-done{color:#1a7f37}
+.ms-item.msi-active{color:#0f6cbd}
+.ms-item .msi-dot{width:10px;height:10px;border-radius:50%;background:#d0d0d0;flex-shrink:0}
+.ms-item.msi-done .msi-dot{background:#1a7f37}
+.ms-item.msi-active .msi-dot{background:#0f6cbd;box-shadow:0 0 0 3px rgba(15,108,189,0.2)}
+.ms-connector{flex:1;height:2px;background:#e0e0e0;margin:0 8px;min-width:20px}
+.ms-connector.msc-done{background:#1a7f37}
+
+/* Question card */
+.question-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
+.q-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid #f0f0f0;background:#fff8f0}
+.q-badge{width:28px;height:28px;border-radius:50%;background:#fff3e0;color:#c77700;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.q-header h3{font-size:14px;font-weight:600;color:#c77700;margin:0}
+.q-body{padding:16px 20px}
+.q-body p{font-size:14px;line-height:1.7;color:#424242;margin:0 0 16px}
+.q-options{display:flex;gap:8px;flex-wrap:wrap}
+.q-opt{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #d0d0d0;background:#fff;color:#242424;cursor:pointer;transition:all 0.15s}
+.q-opt:hover{border-color:#0f6cbd;background:#f0f6ff;color:#0f6cbd}
+.q-opt.q-primary{background:#0f6cbd;color:#fff;border-color:#0f6cbd}
+.q-opt.q-primary:hover{background:#115ea3}
+
+/* Light review card (M1/M2) */
+.light-review{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
+.lr-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #f0f0f0}
+.lr-check{width:24px;height:24px;border-radius:50%;background:#1a7f37;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.lr-title{font-size:16px;font-weight:600;color:#242424}
+.lr-body{padding:16px 20px}
+.lr-body p{font-size:14px;line-height:1.7;color:#424242;margin:0 0 12px}
+.lr-stats{display:flex;gap:0;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;margin-bottom:16px}
+.lr-stat{flex:1;padding:12px 14px;border-right:1px solid #e8e8e8;text-align:center}
+.lr-stat:last-child{border-right:none}
+.lr-stat-val{font-size:18px;font-weight:700;color:#242424}
+.lr-stat-label{font-size:11px;color:#616161;margin-top:2px}
+
+/* Milestone health in recap */
+.ms-health-list{margin:0 20px 16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.ms-health-row{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px}
+.ms-health-row:last-child{border-bottom:none}
+.ms-health-name{flex:1;font-weight:500;color:#242424}
+.ms-health-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#1a7f37}
+.ms-health-monitor{font-size:12px;color:#616161;margin-left:12px}
 </style>
 </head>
 <body>
@@ -360,6 +405,7 @@ const STEPS = {
   RESEARCHING: 'researching',
   PLAN: 'plan',
   EXECUTING: 'executing',
+  QUESTION: 'question',
   REVIEW: 'review',
   DONE: 'done',
 };
@@ -396,6 +442,40 @@ const EXEC_STEPS = [
   {tool:'execute_pipeline', action:'Execute pipeline', detail:'Loading data into Silver tables...', result:'4 Silver tables loaded — 273,713 total rows'},
 ];
 
+const MILESTONES = [
+  {id:'m1', name:'M1: Assessment', shortName:'Assessment', desc:'Profile sources, discover schemas, identify quality issues',
+    execSteps:[
+      {tool:'read_file', action:'Scanning ERP_Dump lakehouse', detail:'Discovering tables and schemas', result:'Found 4 source tables: EKKO, EKPO, LFA1, BSEG'},
+      {tool:'read_file', action:'Reading P2P Business Rules.xlsx', detail:null, result:'Extracted 28 transformation rules, 30 validation rules, 3 lookup tables'},
+      {tool:'execute_query', action:'Profiling source data volumes', detail:'Row counts, null rates, cardinality analysis', result:'2.3M total rows. 1 PII column detected (email in LFA1)'},
+    ],
+    reviewTitle:'M1 Assessment Complete', reviewSummary:'Profiled all source systems. 4 SAP tables discovered with 2.3M rows total. 1 PII column flagged.',
+    reviewStats:[{label:'Tables Found',value:'4'},{label:'Total Rows',value:'2.3M'},{label:'PII Detected',value:'1 col'}],
+    hasMonitor:false, hasDiffs:false, question:null},
+  {id:'m2', name:'M2: Planning', shortName:'Planning', desc:'Build transformation plan, map fields, define validation rules',
+    execSteps:[
+      {tool:'analyze', action:'Mapping SAP fields to Silver schema', detail:'EKKO→PurchaseOrders, EKPO→Lines, LFA1→Vendors, BSEG→Invoices', result:'47 fields mapped across 4 target tables'},
+      {tool:'analyze', action:'Building transformation dependency graph', detail:null, result:'6-step pipeline: Parse → Transform → Match → Validate → Write → Monitor'},
+    ],
+    question:{text:"I found 4 source tables in ERP_Dump but your Excel references a 5th table (RSEG for invoice line-item verification). The RSEG table doesn't exist in the lakehouse.\n\nShould I proceed with the 4 available tables, or do you want to upload RSEG first?", options:['Proceed with 4 tables','Wait — I\'ll upload RSEG']},
+    reviewTitle:'M2 Planning Complete', reviewSummary:'Execution plan built with 6-step pipeline. 47 field mappings and 30 validation rules defined.',
+    reviewStats:[{label:'Pipeline Steps',value:'6'},{label:'Fields Mapped',value:'47'},{label:'Validations',value:'30'}],
+    hasMonitor:false, hasDiffs:false},
+  {id:'m3', name:'M3: Build Wave 1', shortName:'Wave 1 (Vendor + PO)', desc:'Generate notebooks, execute pipeline, validate data, deploy monitor',
+    execSteps:[
+      {tool:'edit_notebook', action:'Modify sap_mm_transformations.pynb', detail:'Adding transformations for EKKO, EKPO, RSEG, BSEG', result:'+147 lines added'},
+      {tool:'edit_notebook', action:'Update data_quality_checks.pynb', detail:'Adding null checks, range validations, referential integrity', result:'+64 lines added'},
+      {tool:'edit_notebook', action:'Configure silver_table_writer.pynb', detail:'Setting merge keys for incremental loads', result:'+23 lines modified'},
+      {tool:'create_notebook', action:'Create p2p_invoice_matching.pynb', detail:'Three-way match logic with 2% tolerance threshold', result:'+89 lines added'},
+      {tool:'create_notebook', action:'Create p2p_orchestrator.pynb', detail:'Chaining: Bronze → Transform → Match → DQ → Silver', result:'+56 lines added'},
+      {tool:'execute_pipeline', action:'Execute pipeline', detail:'Loading data into Silver tables...', result:'4 Silver tables loaded — 273,713 total rows'},
+    ],
+    question:null,
+    reviewTitle:'M3 Wave 1 Complete — Review & Ship', reviewSummary:'Notebooks created, pipeline executed, 4 Silver tables loaded. Review before committing to production.',
+    reviewStats:[{label:'Notebooks',value:'5'},{label:'Tables Loaded',value:'4'},{label:'Validations',value:'4/4 ✓'}],
+    hasMonitor:true, hasDiffs:true},
+];
+
 function App() {
   const [mode, setMode] = useState('conversation');
   const [step, setStep] = useState(STEPS.START);
@@ -413,6 +493,8 @@ function App() {
   const chatRef = useRef(null);
   const toastId = useRef(0);
   const [permDropdownId, setPermDropdownId] = useState(null);
+  const [currentMilestone, setCurrentMilestone] = useState(0);
+  const [milestoneStatuses, setMilestoneStatuses] = useState(['pending','pending','pending']);
 
   const addToast = (toast) => {
     const id = ++toastId.current;
@@ -427,6 +509,8 @@ function App() {
     setText(m === 'dp' ? DEFAULT_TEXT : '');
     setResources(m === 'dp' ? RESOURCES.map(r=>({...r})) : []);
     setPlanMode(m === 'dp' ? 'deep' : 'default');
+    setCurrentMilestone(0);
+    setMilestoneStatuses(['pending','pending','pending']);
   };
 
   const setPerm = (id, perm) => {
@@ -441,23 +525,45 @@ function App() {
     setTimeout(() => setStep(STEPS.PLAN), 3000);
   };
 
-  const executePlan = () => {
+  const startMilestone = (msIdx) => {
+    setCurrentMilestone(msIdx);
     setStep(STEPS.EXECUTING);
     setExecStep(0);
-    for (let i = 1; i <= EXEC_STEPS.length; i++) {
+    setMilestoneStatuses(prev => {const next=[...prev];next[msIdx]='executing';return next;});
+    const steps = MILESTONES[msIdx].execSteps;
+    for (let i = 1; i <= steps.length; i++) {
       setTimeout(() => {
         setExecStep(i);
-        if (i === EXEC_STEPS.length) {
-          addToast({type:'info', title:'Draft ready for review', body:'Review changes for SAP_R3 → Silver pipeline', actions:['Review conversation'], source:'Lakehouse'});
-          setTimeout(() => setStep(STEPS.REVIEW), 1200);
+        if (i === steps.length) {
+          if (MILESTONES[msIdx].question) {
+            setTimeout(() => setStep(STEPS.QUESTION), 1200);
+          } else {
+            addToast({type:'info', title:`${MILESTONES[msIdx].name} execution complete`, body:'Review the results before approving.', actions:['Review'], source:'DataProjects'});
+            setTimeout(() => setStep(STEPS.REVIEW), 1200);
+          }
         }
       }, i * 1800);
     }
   };
 
-  const commitChanges = () => {
-    addToast({type:'success', title:'Conversation complete!', body:'Execution finished. Notebooks, diffs, and tables ready for review.', actions:['Review','Dismiss'], source:'Lakehouse'});
-    setStep(STEPS.DONE);
+  const approveMilestone = () => {
+    const msIdx = currentMilestone;
+    setMilestoneStatuses(prev => {const next=[...prev];next[msIdx]='shipped';return next;});
+    if (MILESTONES[msIdx].hasMonitor) {
+      addToast({type:'success', title:`${MILESTONES[msIdx].name} shipped to production`, body:'Monitor deployed · Pipeline committed to production.', actions:['View Monitor'], source:'DataProjects'});
+    } else {
+      addToast({type:'success', title:`${MILESTONES[msIdx].name} approved ✓`, body:'Milestone completed successfully.', actions:['Dismiss'], source:'DataProjects'});
+    }
+    if (msIdx < MILESTONES.length - 1) {
+      setTimeout(() => startMilestone(msIdx + 1), 1500);
+    } else {
+      setTimeout(() => setStep(STEPS.DONE), 1500);
+    }
+  };
+
+  const answerQuestion = (idx) => {
+    addToast({type:'info', title:'Answer received', body:`Selected: "${MILESTONES[currentMilestone].question.options[idx]}"`, source:'DataProjects'});
+    setTimeout(() => setStep(STEPS.REVIEW), 800);
   };
 
   useEffect(() => {
@@ -584,14 +690,10 @@ function App() {
                   </div>
                   <div className="plan-section">
                     <h4>Execution Plan - Milestones</h4>
-                    {[
-                      {n:1,title:'Vendor Master Ingestion',desc:'Transform LFA1 → Vendors table. Dedup, standardize addresses, validate tax IDs.'},
-                      {n:2,title:'Purchase Order Pipeline',desc:'Transform EKKO+EKPO → PurchaseOrders + PurchaseOrderLines. Apply business rules from Excel, validate amounts.'},
-                      {n:3,title:'Invoice Matching & Quality',desc:'Transform BSEG → Invoices. 3-way match (PO, receipt, invoice). Deploy quality monitor.'},
-                    ].map(ms=>(
-                      <div className="plan-milestone" key={ms.n}>
-                        <div className="ms-num pending">{ms.n}</div>
-                        <div className="ms-content"><h5>{ms.title}</h5><p>{ms.desc}</p></div>
+                    {MILESTONES.map((ms,i)=>(
+                      <div className="plan-milestone" key={ms.id}>
+                        <div className="ms-num pending">{i+1}</div>
+                        <div className="ms-content"><h5>{ms.name}</h5><p>{ms.desc}</p></div>
                       </div>
                     ))}
                   </div>
@@ -606,115 +708,195 @@ function App() {
                   </div>
                   <div className="plan-actions">
                     <button className="btn" onClick={()=>setStep(STEPS.START)}>Edit the plan</button>
-                    <button className="btn btn-primary" onClick={executePlan}>Execute plan</button>
+                    <button className="btn btn-primary" onClick={()=>startMilestone(0)}>Execute plan</button>
                   </div>
                 </div>
               )}
 
               {/* Executing - streaming tool call log */}
               {step === STEPS.EXECUTING && (
-                <div className="exec-log fade">
-                  <div className="exec-heading">Executing the plan...</div>
-                  <div className="exec-status">
-                    <span>{execStep < EXEC_STEPS.length ? 'Running...' : '✓ Complete'}</span>
-                    <button title="Copy log">📋</button>
-                  </div>
-                  <div className="exec-entries">
-                    {EXEC_STEPS.map((s, i) => {
-                      if (i > execStep) return null;
-                      const isComplete = i < execStep;
-                      const isRunning = i === execStep && execStep < EXEC_STEPS.length;
-                      return (
-                        <div className="exec-entry" key={i}>
-                          <div><span className="exec-tool">[{s.tool}]</span> <span className="exec-action">{s.action}</span></div>
-                          {s.detail && <div className="exec-detail">{'\u00A0\u00A0\u00A0\u00A0'}{s.detail}</div>}
-                          {isComplete && <div className="exec-result">{'\u00A0\u00A0\u00A0\u00A0'}✓ {s.result}</div>}
-                          {isRunning && !s.detail && <div className="exec-running"><span className="mini-spin"></span></div>}
+                <div style={{marginTop:16,maxWidth:720,width:'100%'}}>
+                  <div className="ms-bar">
+                    {MILESTONES.map((ms, i) => (
+                      <React.Fragment key={ms.id}>
+                        <div className={`ms-item ${milestoneStatuses[i]==='shipped'?'msi-done':i===currentMilestone?'msi-active':''}`}>
+                          <span className="msi-dot">{milestoneStatuses[i]==='shipped'?'✓':''}</span>
+                          <span>{ms.shortName}</span>
                         </div>
-                      );
-                    })}
+                        {i < MILESTONES.length-1 && <div className={`ms-connector ${milestoneStatuses[i]==='shipped'?'msc-done':''}`}></div>}
+                      </React.Fragment>
+                    ))}
                   </div>
-                  <div className="resources-bar">
-                    <span>Resources</span>
-                    <div className="r-icons">
-                      <span className="r-icon">📊</span>
-                      <span className="r-icon">📈</span>
-                      <span className="r-icon">🔗</span>
+                  <div className="exec-log fade">
+                    <div className="exec-heading">Executing {MILESTONES[currentMilestone].name}...</div>
+                    <div className="exec-status">
+                      <span>{execStep < MILESTONES[currentMilestone].execSteps.length ? 'Running...' : '✓ Complete'}</span>
+                      <button title="Copy log">📋</button>
                     </div>
-                    <span className="r-arrow">›</span>
-                  </div>
-                  <div className="exec-feedback">
-                    <button title="Copy">📋</button>
-                    <button title="Share">↗</button>
-                    <button title="Like">👍</button>
-                    <button title="Dislike">👎</button>
-                    <button title="More">···</button>
+                    <div className="exec-entries">
+                      {MILESTONES[currentMilestone].execSteps.map((s, i) => {
+                        if (i > execStep) return null;
+                        const isComplete = i < execStep;
+                        const isRunning = i === execStep && execStep < MILESTONES[currentMilestone].execSteps.length;
+                        return (
+                          <div className="exec-entry" key={i}>
+                            <div><span className="exec-tool">[{s.tool}]</span> <span className="exec-action">{s.action}</span></div>
+                            {s.detail && <div className="exec-detail">{'\u00A0\u00A0\u00A0\u00A0'}{s.detail}</div>}
+                            {isComplete && <div className="exec-result">{'\u00A0\u00A0\u00A0\u00A0'}✓ {s.result}</div>}
+                            {isRunning && !s.detail && <div className="exec-running"><span className="mini-spin"></span></div>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div className="resources-bar">
+                      <span>Resources</span>
+                      <div className="r-icons">
+                        <span className="r-icon">📊</span>
+                        <span className="r-icon">📈</span>
+                        <span className="r-icon">🔗</span>
+                      </div>
+                      <span className="r-arrow">›</span>
+                    </div>
+                    <div className="exec-feedback">
+                      <button title="Copy">📋</button>
+                      <button title="Share">↗</button>
+                      <button title="Like">👍</button>
+                      <button title="Dislike">👎</button>
+                      <button title="More">···</button>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* Commit review */}
+              {/* Question - input needed from user */}
+              {step === STEPS.QUESTION && MILESTONES[currentMilestone].question && (
+                <div style={{marginTop:16,maxWidth:720,width:'100%'}}>
+                  <div className="ms-bar">
+                    {MILESTONES.map((ms, i) => (
+                      <React.Fragment key={ms.id}>
+                        <div className={`ms-item ${milestoneStatuses[i]==='shipped'?'msi-done':i===currentMilestone?'msi-active':''}`}>
+                          <span className="msi-dot">{milestoneStatuses[i]==='shipped'?'✓':''}</span>
+                          <span>{ms.shortName}</span>
+                        </div>
+                        {i < MILESTONES.length-1 && <div className={`ms-connector ${milestoneStatuses[i]==='shipped'?'msc-done':''}`}></div>}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  <div className="question-card fade">
+                    <div className="q-header">
+                      <div className="q-badge">⚠</div>
+                      <h3>Input Needed — {MILESTONES[currentMilestone].name}</h3>
+                    </div>
+                    <div className="q-body">
+                      <p style={{whiteSpace:'pre-line'}}>{MILESTONES[currentMilestone].question.text}</p>
+                      <div className="q-options">
+                        {MILESTONES[currentMilestone].question.options.map((opt, i) => (
+                          <button key={i} className={`q-opt ${i===0?'q-primary':''}`} onClick={()=>answerQuestion(i)}>{opt}</button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Commit review - milestone aware */}
               {step === STEPS.REVIEW && (
-                <div className="commit fade" style={{marginTop:16}}>
-                  <div className="commit-header">
-                    <h3>Draft SAP P2P Silver Ingestion</h3>
-                    <p>Review staged artifacts before committing · <span className="proj-id">DP-20260309-001</span></p>
+                <div style={{marginTop:16,maxWidth:720,width:'100%'}}>
+                  <div className="ms-bar">
+                    {MILESTONES.map((ms, i) => (
+                      <React.Fragment key={ms.id}>
+                        <div className={`ms-item ${milestoneStatuses[i]==='shipped'?'msi-done':i===currentMilestone?'msi-active':''}`}>
+                          <span className="msi-dot">{milestoneStatuses[i]==='shipped'?'✓':''}</span>
+                          <span>{ms.shortName}</span>
+                        </div>
+                        {i < MILESTONES.length-1 && <div className={`ms-connector ${milestoneStatuses[i]==='shipped'?'msc-done':''}`}></div>}
+                      </React.Fragment>
+                    ))}
                   </div>
-                  <div className="commit-stats">
-                    <div className="stat-box"><div className="stat-icon">📓</div><div className="stat-num">5</div><div className="stat-label">Notebooks</div></div>
-                    <div className="stat-box"><div className="stat-icon">📊</div><div className="stat-num">4</div><div className="stat-label">Tables loaded</div></div>
-                  </div>
-                  <div className="file-list">
-                    <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">sap_mm_transformations.pynb</span></div>
-                    <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">data_quality_checks.pynb</span></div>
-                    <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">silver_table_writer.pynb</span></div>
-                    <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_invoice_matching.pynb</span></div>
-                    <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_orchestrator.pynb</span></div>
-                  </div>
-                  <div className="diff-panel">
-                    <div className="diff-header">⟨/⟩ Notebook diff &nbsp;&nbsp;<span style={{fontWeight:400,color:'#616161'}}>data_quality_checks.pynb</span></div>
-                    <div className="diff-desc">Added 12 validation rules including mandatory field checks, amount validations, referential integrity between PO header/items</div>
-                    <div className="diff-view">
-                      <div className="diff-side">
-                        <div className="diff-line diff-old"><span className="diff-ln">6</span>declare @vendorId varchar(5)</div>
-                        <div className="diff-line diff-old"><span className="diff-ln">7</span>declare @DynamicSQL varchar(80</div>
-                        <div className="diff-line diff-normal"><span className="diff-ln">8</span></div>
-                        <div className="diff-line diff-old"><span className="diff-ln">9</span>-- Get the partition to backup</div>
-                        <div className="diff-line diff-old"><span className="diff-ln">10</span>select @vendorId = dbo.getPart</div>
+
+                  {MILESTONES[currentMilestone].hasDiffs ? (
+                    <div className="commit fade">
+                      <div className="commit-header">
+                        <h3>{MILESTONES[currentMilestone].reviewTitle}</h3>
+                        <p>{MILESTONES[currentMilestone].reviewSummary} · <span className="proj-id">DP-20260309-001</span></p>
                       </div>
-                      <div className="diff-side" style={{borderLeft:'1px solid #e0e0e0'}}>
-                        <div className="diff-line diff-new"><span className="diff-ln">6</span>-- AutoFix: replace the partiti</div>
-                        <div className="diff-line diff-new"><span className="diff-ln">7</span>declare @dt datetime2;</div>
-                        <div className="diff-line diff-normal"><span className="diff-ln">8</span>declare @DynamicSQL varchar(80</div>
-                        <div className="diff-line diff-new"><span className="diff-ln">9</span>set @dt = getdate();</div>
-                        <div className="diff-line diff-new"><span className="diff-ln">10</span>set @DynamicSQL = 'CREATE TABL</div>
+                      <div className="commit-stats">
+                        <div className="stat-box"><div className="stat-icon">📓</div><div className="stat-num">5</div><div className="stat-label">Notebooks</div></div>
+                        <div className="stat-box"><div className="stat-icon">📊</div><div className="stat-num">4</div><div className="stat-label">Tables loaded</div></div>
+                      </div>
+                      <div className="file-list">
+                        <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">sap_mm_transformations.pynb</span></div>
+                        <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">data_quality_checks.pynb</span></div>
+                        <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">silver_table_writer.pynb</span></div>
+                        <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_invoice_matching.pynb</span></div>
+                        <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_orchestrator.pynb</span></div>
+                      </div>
+                      <div className="diff-panel">
+                        <div className="diff-header">⟨/⟩ Notebook diff &nbsp;&nbsp;<span style={{fontWeight:400,color:'#616161'}}>data_quality_checks.pynb</span></div>
+                        <div className="diff-desc">Added 12 validation rules including mandatory field checks, amount validations, referential integrity between PO header/items</div>
+                        <div className="diff-view">
+                          <div className="diff-side">
+                            <div className="diff-line diff-old"><span className="diff-ln">6</span>declare @vendorId varchar(5)</div>
+                            <div className="diff-line diff-old"><span className="diff-ln">7</span>declare @DynamicSQL varchar(80</div>
+                            <div className="diff-line diff-normal"><span className="diff-ln">8</span></div>
+                            <div className="diff-line diff-old"><span className="diff-ln">9</span>-- Get the partition to backup</div>
+                            <div className="diff-line diff-old"><span className="diff-ln">10</span>select @vendorId = dbo.getPart</div>
+                          </div>
+                          <div className="diff-side" style={{borderLeft:'1px solid #e0e0e0'}}>
+                            <div className="diff-line diff-new"><span className="diff-ln">6</span>-- AutoFix: replace the partiti</div>
+                            <div className="diff-line diff-new"><span className="diff-ln">7</span>declare @dt datetime2;</div>
+                            <div className="diff-line diff-normal"><span className="diff-ln">8</span>declare @DynamicSQL varchar(80</div>
+                            <div className="diff-line diff-new"><span className="diff-ln">9</span>set @dt = getdate();</div>
+                            <div className="diff-line diff-new"><span className="diff-ln">10</span>set @DynamicSQL = 'CREATE TABL</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="data-diff">
+                        <div className="data-diff-title">📊 Data Diffs — Schema & Row Changes</div>
+                        <table className="schema-tbl">
+                          <thead><tr><th>Column</th><th>Type</th><th>Change</th></tr></thead>
+                          <tbody>
+                            <tr className="schema-add"><td>transaction_amount_usd</td><td>DECIMAL(18,2)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
+                            <tr className="schema-add"><td>currency_code</td><td>VARCHAR(3)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
+                            <tr className="schema-mod"><td>vendor_name</td><td>VARCHAR(100) → VARCHAR(200)</td><td style={{color:'#c77700',fontWeight:600}}>~ Modified</td></tr>
+                            <tr><td>vendor_id</td><td>INT</td><td style={{color:'#a0a0a0'}}>—</td></tr>
+                            <tr><td>po_number</td><td>VARCHAR(20)</td><td style={{color:'#a0a0a0'}}>—</td></tr>
+                          </tbody>
+                        </table>
+                        <div className="row-counts">
+                          <div className="row-ct"><span>Vendors</span><strong>8,432</strong><small>+8,432 new</small></div>
+                          <div className="row-ct"><span>PurchaseOrders</span><strong>45,891</strong><small>+45,891 new</small></div>
+                          <div className="row-ct"><span>Invoices</span><strong>32,156</strong><small>+32,156 new</small></div>
+                          <div className="row-ct"><span>PO Lines</span><strong>187,234</strong><small>+187,234 new</small></div>
+                        </div>
+                      </div>
+                      <div className="plan-actions">
+                        <button className="btn">Request clarifications</button>
+                        <button className="btn btn-primary" onClick={approveMilestone}>Approve & Ship to Production →</button>
                       </div>
                     </div>
-                  </div>
-                  <div className="data-diff">
-                    <div className="data-diff-title">📊 Data Diffs — Schema & Row Changes</div>
-                    <table className="schema-tbl">
-                      <thead><tr><th>Column</th><th>Type</th><th>Change</th></tr></thead>
-                      <tbody>
-                        <tr className="schema-add"><td>transaction_amount_usd</td><td>DECIMAL(18,2)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
-                        <tr className="schema-add"><td>currency_code</td><td>VARCHAR(3)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
-                        <tr className="schema-mod"><td>vendor_name</td><td>VARCHAR(100) → VARCHAR(200)</td><td style={{color:'#c77700',fontWeight:600}}>~ Modified</td></tr>
-                        <tr><td>vendor_id</td><td>INT</td><td style={{color:'#a0a0a0'}}>—</td></tr>
-                        <tr><td>po_number</td><td>VARCHAR(20)</td><td style={{color:'#a0a0a0'}}>—</td></tr>
-                      </tbody>
-                    </table>
-                    <div className="row-counts">
-                      <div className="row-ct"><span>Vendors</span><strong>8,432</strong><small>+8,432 new</small></div>
-                      <div className="row-ct"><span>PurchaseOrders</span><strong>45,891</strong><small>+45,891 new</small></div>
-                      <div className="row-ct"><span>Invoices</span><strong>32,156</strong><small>+32,156 new</small></div>
-                      <div className="row-ct"><span>PO Lines</span><strong>187,234</strong><small>+187,234 new</small></div>
+                  ) : (
+                    <div className="light-review fade">
+                      <div className="lr-header">
+                        <div className="lr-check">✓</div>
+                        <span className="lr-title">{MILESTONES[currentMilestone].reviewTitle}</span>
+                      </div>
+                      <div className="lr-body">
+                        <p>{MILESTONES[currentMilestone].reviewSummary}</p>
+                        <div className="lr-stats">
+                          {MILESTONES[currentMilestone].reviewStats.map((s,i)=>(
+                            <div className="lr-stat" key={i}>
+                              <div className="lr-stat-val">{s.value}</div>
+                              <div className="lr-stat-label">{s.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                        <div style={{display:'flex',justifyContent:'flex-end'}}>
+                          <button className="btn btn-primary" onClick={approveMilestone}>Approve {MILESTONES[currentMilestone].shortName} →</button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="plan-actions">
-                    <button className="btn">Request clarifications</button>
-                    <button className="btn">Edit the plan and create another review</button>
-                    <button className="btn btn-primary" onClick={commitChanges}>Commit changes on my behalf</button>
-                  </div>
+                  )}
                 </div>
               )}
 
@@ -746,6 +928,16 @@ function App() {
                       <div className="rs-label">Validations passed</div>
                       <div className="rs-sub">All reported as passing</div>
                     </div>
+                  </div>
+
+                  <div className="ms-health-list">
+                    {MILESTONES.map((ms,i)=>(
+                      <div className="ms-health-row" key={ms.id}>
+                        <span className="ms-health-name">{ms.name}</span>
+                        <span className="ms-health-status">✓ Shipped</span>
+                        {ms.hasMonitor && <span className="ms-health-monitor">🟢 Monitor healthy</span>}
+                      </div>
+                    ))}
                   </div>
 
                   <div className="recap-section">
