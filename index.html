@@ -138,6 +138,36 @@ a{color:inherit;text-decoration:none}
 </head>
 <body>
 
+<!-- Password Gate -->
+<div id="pw-gate" style="position:fixed;inset:0;z-index:99999;background:#f5f5f5;display:flex;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,.12);padding:48px 40px;width:380px;text-align:center">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" style="margin-bottom:16px"><path d="M12 2C9.24 2 7 4.24 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.76-2.24-5-5-5zm-3 5c0-1.66 1.34-3 3-3s3 1.34 3 3v3H9V7zm3 9a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" fill="#0f6cbd"/></svg>
+    <h2 style="font-size:18px;font-weight:600;color:#242424;margin-bottom:4px">Fabric DataProjects</h2>
+    <p style="font-size:13px;color:#707070;margin-bottom:24px">Microsoft Internal — Enter password to continue</p>
+    <input id="pw-input" type="password" placeholder="Password" autofocus
+      style="width:100%;padding:10px 14px;border:1px solid #d1d1d1;border-radius:6px;font-size:14px;outline:none;margin-bottom:8px"
+      onfocus="this.style.borderColor='#0f6cbd'" onblur="this.style.borderColor='#d1d1d1'"/>
+    <p id="pw-err" style="font-size:12px;color:#d13438;margin-bottom:12px;min-height:18px"></p>
+    <button id="pw-btn" onclick="checkPw()"
+      style="width:100%;padding:10px;background:#0f6cbd;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer">
+      Sign in</button>
+  </div>
+</div>
+<script>
+(function(){
+  var HASH='b2b4e944788f9c93883a503e8c60dc4a03e2a0b6caf7d111bea86ef02072635b';
+  if(sessionStorage.getItem('dp_auth')==='1'){document.getElementById('pw-gate').style.display='none';return;}
+  document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw();});
+  window.checkPw=async function(){
+    var v=document.getElementById('pw-input').value;
+    var buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v));
+    var hex=Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    if(hex===HASH){sessionStorage.setItem('dp_auth','1');document.getElementById('pw-gate').style.display='none';}
+    else{document.getElementById('pw-err').textContent='Incorrect password';document.getElementById('pw-input').value='';document.getElementById('pw-input').focus();}
+  };
+})();
+</script>
+
 <header class="site-header">
   <img src="logo.png" alt="DataProjects"/>
   <h1>Fabric DataProjects</h1>
