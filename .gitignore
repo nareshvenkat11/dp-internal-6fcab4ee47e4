@@ -1,1 +1,4 @@
 node_modules/
+react.min.js
+react-dom.min.js
+babel.min.js

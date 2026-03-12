@@ -392,6 +392,17 @@ button{font-family:inherit;cursor:pointer}
 .ms-health-name{flex:1;font-weight:500;color:#242424}
 .ms-health-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#1a7f37}
 .ms-health-monitor{font-size:12px;color:#616161;margin-left:12px}
+/* FAIO message intro */
+.faio-intro{display:flex;gap:10px;max-width:720px;width:100%;margin-bottom:12px}
+.faio-av{width:28px;height:28px;flex-shrink:0;margin-top:2px}
+.faio-name{font-size:13px;font-weight:600;color:#242424;margin-bottom:2px}
+.faio-text{font-size:14px;color:#424242;line-height:1.6;margin:0}
+
+/* Centered start input */
+.start-input{width:100%;max-width:720px;margin-bottom:24px}
+
+/* Header mode pill */
+.hdr-mode-pill{font-size:11px;font-weight:600;color:#6264A7;background:rgba(98,100,167,0.1);padding:3px 10px;border-radius:12px;margin-left:8px}
 </style>
 </head>
 <body>
@@ -627,7 +638,8 @@ function App() {
         {/* Header */}
         <div className="hdr">
           <div className="hdr-tabs">
-            <button className="hdr-tab active">{isDP ? 'SAP R/3 Materi...' : 'Copilot'}</button>
+            <button className="hdr-tab active">Copilot</button>
+            {isDP && <span className="hdr-mode-pill">📐 Project Mode</span>}
           </div>
           <div className="hdr-right">
             {isDP && <button onClick={()=>setShowProjects(true)} style={{fontWeight:600,color:'#0f6cbd'}}>📐 My Projects ({SAMPLE_PROJECTS.filter(p=>p.status!=='done').length})</button>}
@@ -648,23 +660,96 @@ function App() {
         <div className="content" ref={chatRef}>
           {step === STEPS.START && (
             <div className="chat col fade" style={{justifyContent:'center',flex:1}}>
-              <div className="toggle">
-                <button className={`t-btn ${!isDP?'t-act':''}`} onClick={()=>switchMode('conversation')}>💬 Conversation</button>
-                <button className={`t-btn ${isDP?'t-act':''}`} onClick={()=>switchMode('dp')}>📐 Data Project</button>
+              <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Naresh</h1></div></div>
+              <p className="greet-sub">{isDP ? 'What would you like to build, migrate, or optimize?' : 'Uncover insights in your data with the help of AI'}</p>
+
+              <div className="start-input">
+                {isDP && (
+                  <div className="dp-input-label" style={{maxWidth:720,margin:'0 auto 0'}}>
+                    <span className="dp-il-left">
+                      <span className="dp-il-dot"></span>
+                      Project Mode
+                    </span>
+                    <div className="scope-toggle">
+                      <span className={`scope-label ${projectScope==='my'?'scope-act':''}`}>My Project</span>
+                      <button className={`scope-switch ${projectScope==='team'?'on':''}`} onClick={()=>setProjectScope(projectScope==='my'?'team':'my')} title={projectScope==='my'?'Switch to Team Project':'Switch to My Project'}>
+                        <span className="scope-knob"></span>
+                      </button>
+                      <span className={`scope-label ${projectScope==='team'?'scope-act':''}`}>Team Project</span>
+                    </div>
+                  </div>
+                )}
+                <div className={`input-box${isDP ? ' dp-glow' : ''}`}>
+                  {isDP && resources.length > 0 && (
+                    <div className="chips">
+                      {resources.slice(0, MAX_VISIBLE).map(r => (
+                        <span key={r.id} className="chip">
+                          <span className={`chip-type ${TYPE_CSS[r.type]||'tbl'}`}>{TYPE_ICONS[r.type]||'⊞'}</span>
+                          {r.name}
+                          <span className="chip-perm-wrap">
+                            <button className="perm-toggle" onClick={e=>{e.stopPropagation();setPermDropdownId(permDropdownId===r.id?null:r.id)}}>
+                              {r.perm==='ro'?'✂':'✏'}<span style={{fontSize:9,marginLeft:1}}>▾</span>
+                            </button>
+                            {permDropdownId===r.id && (
+                              <div className="perm-dd-menu">
+                                <button className="perm-opt" onClick={()=>setPerm(r.id,'ro')}>
+                                  <span className="perm-chk">{r.perm==='ro'?'✓':'\u00A0'}</span>
+                                  ✂ Read-only
+                                </button>
+                                <button className="perm-opt" onClick={()=>setPerm(r.id,'rw')}>
+                                  <span className="perm-chk">{r.perm==='rw'?'✓':'\u00A0'}</span>
+                                  ✏ Read & write
+                                </button>
+                              </div>
+                            )}
+                          </span>
+                          <button className="chip-x" onClick={()=>setResources(x=>x.filter(y=>y.id!==r.id))}>×</button>
+                        </span>
+                      ))}
+                      {resources.length > MAX_VISIBLE && (
+                        <button className="chip-overflow" title={resources.slice(MAX_VISIBLE).map(r=>r.name).join(', ')}>+{resources.length - MAX_VISIBLE}</button>
+                      )}
+                    </div>
+                  )}
+                  <textarea ref={ref} placeholder={isDP?'Describe your project or provide instructions...':'Ask a question about your data'} value={text} onChange={e=>{setText(e.target.value);e.target.style.height='auto';e.target.style.height=e.target.scrollHeight+'px'}} rows={isDP?3:1}/>
+                  <div className="input-foot">
+                    <div className="foot-left">
+                      <div className="dd-wrap">
+                        <button className="f-btn" onClick={()=>setAddOpen(!addOpen)}>+</button>
+                        {addOpen && <div className="dd">
+                          <button className="dd-item" onClick={()=>setAddOpen(false)}>🗄 OneLake catalog</button>
+                          <button className="dd-item" onClick={()=>setAddOpen(false)}>📤 Upload files</button>
+                        </div>}
+                      </div>
+                      <div className="dd-wrap">
+                        <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{isDP ? (planMode==='default'?'⚡':planMode==='deep'?'⚙':'🤖') : '⚡'} {isDP ? planModes[planMode] : 'Default mode'} ▾</button>
+                        {modeOpen && <div className="mode-dd">
+                          <button className={`mode-item ${!isDP?'mode-sel':''}`} onClick={()=>{if(isDP)switchMode('conversation');setPlanMode('default');setModeOpen(false)}}>
+                            <span className="mode-icon">⚡</span>
+                            <div><div className="mode-title">Default mode</div><div className="mode-desc">Standard Copilot conversation for quick questions and tasks</div></div>
+                          </button>
+                          <div style={{height:1,background:'#e8e8e8',margin:'4px 12px'}}></div>
+                          <div style={{padding:'8px 14px 4px',fontSize:11,fontWeight:600,color:'#a0a0a0',textTransform:'uppercase',letterSpacing:'0.5px'}}>Project Modes</div>
+                          <button className={`mode-item ${isDP && planMode==='default'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('default');setModeOpen(false)}}>
+                            <span className="mode-icon">⚡</span>
+                            <div><div className="mode-title">Normal</div><div className="mode-desc">Starts a lightweight plan immediately and runs in the background</div></div>
+                          </button>
+                          <button className={`mode-item ${isDP && planMode==='deep'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('deep');setModeOpen(false)}}>
+                            <span className="mode-icon">⚙</span>
+                            <div><div className="mode-title">Deep plan</div><div className="mode-desc">Builds a detailed plan and waits for your approval before running</div></div>
+                          </button>
+                          <button className={`mode-item ${isDP && planMode==='auto'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('auto');setModeOpen(false)}}>
+                            <span className="mode-icon">🤖</span>
+                            <div><div className="mode-title">Deep plan (automatic)</div><div className="mode-desc">Builds a detailed plan and runs it automatically</div></div>
+                          </button>
+                        </div>}
+                      </div>
+                    </div>
+                    <button className="send" disabled={!text.trim()} onClick={submit}>→</button>
+                  </div>
+                </div>
               </div>
-              {!isDP ? (
-                <>
-                  <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Naresh</h1></div></div>
-                  <p className="greet-sub">Uncover insights in your data with the help of AI</p>
-                </>
-              ) : (
-                <>
-                  <img src="dataprojects-logo.png" alt="DataProjects" className="dp-logo"/>
-                  <span className="dp-name">DataProjects</span>
-                  <h1 className="dp-h1">What would you like to build, migrate, or optimize?</h1>
-                  <p className="dp-desc">DataProjects manages long-running data engineering projects with milestones, autonomous execution, and production monitoring.</p>
-                </>
-              )}
+
               {!isDP && (
                 <div className="sugs">
                   <button className="sug" onClick={()=>setText('Find reports about [a topic]')}><span style={{color:'#0f6cbd'}}>✦</span><span>Find reports about <em>[a topic]</em></span></button>
@@ -692,6 +777,8 @@ function App() {
                 </div>
               </div>
 
+              {(step === STEPS.SUBMITTED || step === STEPS.RESEARCHING) && <FAIOIntro text="Setting up your DataProject. Analyzing resources and planning the approach..." />}
+
               {/* Researching */}
               {(step === STEPS.SUBMITTED || step === STEPS.RESEARCHING) && (
                 <div className="research fade">
@@ -699,6 +786,8 @@ function App() {
                   <span className="research-text">{step === STEPS.SUBMITTED ? 'Starting...' : 'Beginning research... Scanning SAP R3 dump, analyzing table structures, mapping P2P entities'}</span>
                 </div>
               )}
+
+              {step === STEPS.PLAN && <FAIOIntro text="I've created a DataProject and the orchestrator has built an execution plan. Review and approve to begin." />}
 
               {/* Plan */}
               {step === STEPS.PLAN && (
@@ -743,6 +832,8 @@ function App() {
                   </div>
                 </div>
               )}
+
+              {step === STEPS.EXECUTING && <FAIOIntro text={`The DataProjects orchestrator is executing ${MILESTONES[currentMilestone].name}. I'll relay progress updates below.`} />}
 
               {/* Executing - streaming tool call log */}
               {step === STEPS.EXECUTING && (
@@ -799,6 +890,8 @@ function App() {
                 </div>
               )}
 
+              {step === STEPS.QUESTION && <FAIOIntro text="The DataProjects orchestrator needs your input to continue." />}
+
               {/* Question - input needed from user */}
               {step === STEPS.QUESTION && MILESTONES[currentMilestone].question && (
                 <div style={{marginTop:16,maxWidth:720,width:'100%'}}>
@@ -829,6 +922,8 @@ function App() {
                   </div>
                 </div>
               )}
+
+              {step === STEPS.REVIEW && <FAIOIntro text={`${MILESTONES[currentMilestone].name} is complete. Review the results below before approving.`} />}
 
               {/* Commit review - milestone aware */}
               {step === STEPS.REVIEW && (
@@ -930,6 +1025,8 @@ function App() {
                   )}
                 </div>
               )}
+
+              {step === STEPS.DONE && <FAIOIntro text="Your DataProject is complete! Here's the full execution summary." />}
 
               {/* Recap / Execution Summary */}
               {step === STEPS.DONE && (
@@ -1051,87 +1148,18 @@ function App() {
           )}
         </div>
 
-        {/* Input */}
-        <div className="input-area">
-          {step === STEPS.START && isDP && (
-            <div className="dp-input-label" style={{maxWidth:720,margin:'0 auto 0'}}>
-              <span className="dp-il-left">
-                <span className="dp-il-dot"></span>
-                Data Project Mode
-              </span>
-              <div className="scope-toggle">
-                <span className={`scope-label ${projectScope==='my'?'scope-act':''}`}>My Project</span>
-                <button className={`scope-switch ${projectScope==='team'?'on':''}`} onClick={()=>setProjectScope(projectScope==='my'?'team':'my')} title={projectScope==='my'?'Switch to Team Project':'Switch to My Project'}>
-                  <span className="scope-knob"></span>
-                </button>
-                <span className={`scope-label ${projectScope==='team'?'scope-act':''}`}>Team Project</span>
+        {/* Input — bottom follow-up bar (hidden on START) */}
+        {step !== STEPS.START && (
+          <div className="input-area">
+            <div className="input-box">
+              <textarea placeholder="Ask Copilot a follow-up..." rows={1}/>
+              <div className="input-foot">
+                <div className="foot-left"><button className="f-btn">+</button></div>
+                <button className="send" disabled>→</button>
               </div>
-            </div>
-          )}
-          <div className={`input-box${step === STEPS.START && isDP ? ' dp-glow' : ''}`}>
-            {step === STEPS.START && isDP && resources.length > 0 && (
-              <div className="chips">
-                {resources.slice(0, MAX_VISIBLE).map(r => (
-                  <span key={r.id} className="chip">
-                    <span className={`chip-type ${TYPE_CSS[r.type]||'tbl'}`}>{TYPE_ICONS[r.type]||'⊞'}</span>
-                    {r.name}
-                    <span className="chip-perm-wrap">
-                      <button className="perm-toggle" onClick={e=>{e.stopPropagation();setPermDropdownId(permDropdownId===r.id?null:r.id)}}>
-                        {r.perm==='ro'?'✂':'✏'}<span style={{fontSize:9,marginLeft:1}}>▾</span>
-                      </button>
-                      {permDropdownId===r.id && (
-                        <div className="perm-dd-menu">
-                          <button className="perm-opt" onClick={()=>setPerm(r.id,'ro')}>
-                            <span className="perm-chk">{r.perm==='ro'?'✓':'\u00A0'}</span>
-                            ✂ Read-only
-                          </button>
-                          <button className="perm-opt" onClick={()=>setPerm(r.id,'rw')}>
-                            <span className="perm-chk">{r.perm==='rw'?'✓':'\u00A0'}</span>
-                            ✏ Read & write
-                          </button>
-                        </div>
-                      )}
-                    </span>
-                    <button className="chip-x" onClick={()=>setResources(x=>x.filter(y=>y.id!==r.id))}>×</button>
-                  </span>
-                ))}
-                {resources.length > MAX_VISIBLE && (
-                  <button className="chip-overflow" title={resources.slice(MAX_VISIBLE).map(r=>r.name).join(', ')}>+{resources.length - MAX_VISIBLE}</button>
-                )}
-              </div>
-            )}
-            <textarea ref={ref} placeholder={isDP?'Describe your project or provide instructions...':'Ask a question about your data'} value={text} onChange={e=>{setText(e.target.value);e.target.style.height='auto';e.target.style.height=e.target.scrollHeight+'px'}} rows={step===STEPS.START&&isDP?3:1}/>
-            <div className="input-foot">
-              <div className="foot-left">
-                <div className="dd-wrap">
-                  <button className="f-btn" onClick={()=>setAddOpen(!addOpen)}>+</button>
-                  {addOpen && <div className="dd">
-                    <button className="dd-item" onClick={()=>setAddOpen(false)}>🗄 OneLake catalog</button>
-                    <button className="dd-item" onClick={()=>setAddOpen(false)}>📤 Upload files</button>
-                  </div>}
-                </div>
-                <div className="dd-wrap">
-                  <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{planMode==='default'?'⚡':planMode==='deep'?'⚙':'🤖'} {planModes[planMode]} ▾</button>
-                  {modeOpen && <div className="mode-dd">
-                    <button className={`mode-item ${planMode==='default'?'mode-sel':''}`} onClick={()=>{setPlanMode('default');setModeOpen(false)}}>
-                      <span className="mode-icon">⚡</span>
-                      <div><div className="mode-title">Normal</div><div className="mode-desc">Starts a lightweight plan immediately and runs in the background</div></div>
-                    </button>
-                    <button className={`mode-item ${planMode==='deep'?'mode-sel':''}`} onClick={()=>{setPlanMode('deep');setModeOpen(false)}}>
-                      <span className="mode-icon">⚙</span>
-                      <div><div className="mode-title">Deep plan</div><div className="mode-desc">Builds a detailed plan and waits for your approval before running</div></div>
-                    </button>
-                    <button className={`mode-item ${planMode==='auto'?'mode-sel':''}`} onClick={()=>{setPlanMode('auto');setModeOpen(false)}}>
-                      <span className="mode-icon">🤖</span>
-                      <div><div className="mode-title">Deep plan (automatic)</div><div className="mode-desc">Builds a detailed plan and runs it automatically</div></div>
-                    </button>
-                  </div>}
-                </div>
-              </div>
-              <button className="send" disabled={!text.trim()} onClick={submit}>→</button>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Toasts */}
@@ -1230,6 +1258,15 @@ function ProjectsPanel({onClose, tab, setTab}) {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function FAIOIntro({text}) {
+  return (
+    <div className="faio-intro">
+      <div className="faio-av"><CopilotSmall/></div>
+      <div><div className="faio-name">Copilot</div><p className="faio-text">{text}</p></div>
     </div>
   );
 }

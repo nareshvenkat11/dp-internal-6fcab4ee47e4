@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "marked": "^17.0.4"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.29.0"
   }
 }
