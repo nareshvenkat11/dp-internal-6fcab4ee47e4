@@ -660,8 +660,21 @@ function App() {
         <div className="content" ref={chatRef}>
           {step === STEPS.START && (
             <div className="chat col fade" style={{justifyContent:'center',flex:1}}>
-              <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Naresh</h1></div></div>
-              <p className="greet-sub">{isDP ? 'What would you like to build, migrate, or optimize?' : 'Uncover insights in your data with the help of AI'}</p>
+              <div className="toggle">
+                <button className={`t-btn ${!isDP?'t-act':''}`} onClick={()=>switchMode('conversation')}>💬 Conversation</button>
+                <button className={`t-btn ${isDP?'t-act':''}`} onClick={()=>switchMode('dp')}>📐 DataProjects</button>
+              </div>
+              {!isDP ? (
+                <>
+                  <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Naresh</h1></div></div>
+                  <p className="greet-sub">Uncover insights in your data with the help of AI</p>
+                </>
+              ) : (
+                <>
+                  <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Naresh</h1></div></div>
+                  <p className="greet-sub">What would you like to build, migrate, or optimize?</p>
+                </>
+              )}
 
               <div className="start-input">
                 {isDP && (
