@@ -11,10 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI Variable','Segoe UI',-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#242424}
 button{font-family:inherit;cursor:pointer}
-
 .page{display:flex;height:100vh}
-
-/* Sidebar */
 .sb{display:flex;flex-direction:column;justify-content:space-between;width:68px;background:#f3f3f3;border-right:1px solid #e0e0e0;padding:4px 0 8px;flex-shrink:0}
 .sb-top,.sb-bot{display:flex;flex-direction:column;align-items:center}
 .sb-i{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 0 5px;width:60px;border-radius:8px;border:none;background:none;position:relative}
@@ -23,386 +20,368 @@ button{font-family:inherit;cursor:pointer}
 .sb-i.act::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:16px;background:#0f6cbd;border-radius:0 4px 4px 0}
 .sb-i svg{width:20px;height:20px}
 .sb-lbl{font-size:10px;color:#424242;text-align:center;max-width:58px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.workspace{flex:1;display:flex;flex-direction:column;background:#f3f3f3;overflow:hidden;min-width:0}
+.ws-topbar{display:flex;align-items:center;padding:0 16px;background:#fff;border-bottom:1px solid #e0e0e0;min-height:40px;gap:6px}
+.ws-bc{color:#616161;font-size:13px;white-space:nowrap}
+.ws-bc-sep{color:#b0b0b0;font-size:11px}
+.ws-bc-active{color:#242424;font-weight:600}
+.ws-tabs{display:flex;align-items:center;gap:0;padding:0 16px;background:#fff;border-bottom:1px solid #e0e0e0}
+.ws-tab{padding:8px 14px;font-size:13px;color:#616161;border:none;background:none;border-bottom:2px solid transparent;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.ws-tab.ws-tab-active{color:#242424;font-weight:600;border-bottom-color:#0f6cbd}
+.ws-nb-area{flex:1;overflow-y:auto}
 
-/* Main */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff;min-height:0}
-
-/* Header */
-.hdr{display:flex;justify-content:space-between;align-items:center;padding:0 16px;min-height:40px;border-bottom:1px solid #f0f0f0;background:#fff}
-.hdr-tabs{display:flex;gap:0}
-.hdr-tab{padding:10px 16px;font-size:13px;color:#616161;border:none;background:none;border-bottom:2px solid transparent}
-.hdr-tab:hover{color:#242424}
-.hdr-tab.active{color:#242424;font-weight:600;border-bottom-color:#0f6cbd}
-.hdr-right{display:flex;align-items:center;gap:12px;font-size:13px;color:#616161}
-.hdr-right button{background:none;border:none;color:#616161;font-size:13px}
-.hdr-right button:hover{color:#242424}
-
-/* Content */
-.content{flex:1;display:flex;flex-direction:column;overflow-y:auto;background:#fafafa;min-height:0}
-
-/* Chat area */
-.chat{flex:0 1 auto;display:flex;flex-direction:column;padding:24px 32px;gap:16px;align-items:center}
-
-/* Messages */
-.msg{max-width:720px;width:100%}
-.msg-user{align-self:flex-end;background:#e8f0fe;border-radius:12px 12px 4px 12px;padding:12px 16px;font-size:14px;line-height:1.6;color:#242424;white-space:pre-wrap}
-.msg-bot{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:16px 20px}
-.msg-bot-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.msg-bot-avatar{width:28px;height:28px;border-radius:50%;background:#0f6cbd;display:flex;align-items:center;justify-content:center}
-.msg-bot-avatar svg{width:16px;height:16px;fill:#fff}
-.msg-bot-name{font-size:13px;font-weight:600;color:#242424}
-.msg-bot p{font-size:14px;line-height:1.7;color:#424242;margin:6px 0}
-
-/* Research/loading */
-.research{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px}
-.spinner{width:20px;height:20px;border:2.5px solid #e0e0e0;border-top-color:#0f6cbd;border-radius:50%;animation:spin 0.8s linear infinite}
+/* Lakehouse view */
+.lh-toolbar{display:flex;align-items:center;gap:2px;padding:6px 12px;background:#fff;border-bottom:1px solid #e0e0e0;flex-wrap:wrap}
+.lh-tb-btn{padding:4px 10px;font-size:12px;color:#424242;background:none;border:none;display:flex;align-items:center;gap:4px;white-space:nowrap;cursor:pointer}
+.lh-tb-btn:hover{background:#f5f5f5;border-radius:4px}
+.lh-icon{font-size:14px;padding:4px 8px;color:#616161}
+.lh-banner{padding:6px 16px;font-size:12px;color:#424242;background:#fff8e6;border-bottom:1px solid #f0e8d0;display:flex;align-items:center;gap:8px}
+.lh-body{flex:1;display:flex;overflow:hidden}
+.lh-explorer{width:240px;border-right:1px solid #e0e0e0;background:#fff;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.lh-ex-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;font-size:14px}
+.lh-ex-add{padding:4px 12px 10px;font-size:12px;color:#0f6cbd;cursor:pointer;display:flex;align-items:center}
+.lh-tree{padding:0 4px;font-size:13px;color:#242424}
+.lh-tree-item{padding:3px 8px;cursor:pointer;display:flex;align-items:center;gap:4px;border-radius:4px;white-space:nowrap}
+.lh-tree-item:hover{background:#f5f5f5}
+.lh-tree-sel{background:#e6f0ff!important;color:#0f6cbd;font-weight:600}
+.lh-tree-root{font-weight:500}
+.lh-tree-group{padding-left:16px}
+.lh-tree-arrow{font-size:10px;color:#616161;width:12px;display:inline-block;text-align:center}
+.lh-tree-leaf{font-size:11px;color:#0f6cbd;width:12px;display:inline-block;text-align:center}
+.lh-tree-icon{font-size:13px}
+.lh-data{flex:1;display:flex;flex-direction:column;background:#fff;overflow:hidden;min-width:0}
+.lh-data-header{border-bottom:1px solid #e0e0e0;padding:0}
+.lh-tab-bar{display:flex;align-items:center;gap:6px;padding:8px 16px;font-size:13px;border-bottom:2px solid #0f6cbd;display:inline-flex}
+.lh-tab-icon{color:#0f6cbd;font-size:12px}
+.lh-tab-close{color:#a0a0a0;cursor:pointer;margin-left:8px;font-size:14px}
+.lh-data-meta{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 4px}
+.lh-table-name{font-size:16px;font-weight:600;color:#242424}
+.lh-row-count{font-size:13px;color:#0f6cbd;font-weight:500}
+.lh-view-toggle{padding:4px 16px 12px;font-size:13px;color:#242424;cursor:pointer;display:inline-flex;align-items:center;gap:4px;border:1px solid #d0d0d0;border-radius:4px;margin:0 16px 8px;width:fit-content;background:#fff}
+.lh-grid-wrap{flex:1;overflow:auto;border-top:1px solid #e0e0e0}
+.lh-grid{width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap}
+.lh-grid thead{position:sticky;top:0;z-index:1}
+.lh-grid th{background:#f5f5f5;padding:6px 12px;text-align:left;font-weight:600;color:#424242;border-bottom:2px solid #e0e0e0;font-size:11px}
+.lh-grid td{padding:5px 12px;border-bottom:1px solid #f0f0f0;color:#242424}
+.lh-grid tr:hover{background:#f9f9f9}
+.lh-grid .lh-row-sel{background:#e6f0ff}
+.lh-row-num{color:#a0a0a0;text-align:right;padding-right:8px;min-width:28px;font-size:11px}
+.lh-col-type{font-size:10px;color:#a0a0a0;margin-right:4px;font-weight:400}
+.lh-statusbar{display:flex;align-items:center;gap:8px;padding:6px 16px;font-size:12px;color:#424242;border-top:1px solid #e0e0e0;background:#fff;flex-shrink:0}
+.lh-status-dot{color:#1a7f37;font-size:8px}
+.copilot-panel{width:560px;display:flex;flex-direction:column;background:#fff;border-left:1px solid #e0e0e0;flex-shrink:0;position:relative;overflow:hidden}
+.cp-header{border-bottom:1px solid #e8e8e8;background:#fff;flex-shrink:0}
+.cp-header-top{display:flex;align-items:center;justify-content:space-between;padding:0 12px;min-height:40px}
+.cp-header-left{display:flex;align-items:center;gap:6px}
+.cp-title{font-size:14px;font-weight:600;color:#242424}
+.cp-collapse{background:none;border:none;font-size:16px;color:#616161;padding:4px 6px;border-radius:4px;display:flex;align-items:center;justify-content:center;width:28px;height:28px}
+.cp-collapse:hover{background:#f5f5f5;color:#242424}
+.cp-header-actions{display:flex;align-items:center;gap:4px}
+.cp-header-actions button{background:none;border:none;color:#616161;font-size:14px;padding:4px 6px;border-radius:4px}
+.cp-header-actions button:hover{background:#f5f5f5;color:#242424}
+.cp-tabs{display:flex;gap:0;padding:0 12px}
+.cp-tab{padding:8px 14px;font-size:13px;color:#616161;border:none;background:none;border-bottom:2px solid transparent}
+.cp-tab:hover{color:#242424}
+.cp-tab.cp-tab-active{color:#242424;font-weight:600;border-bottom-color:#0f6cbd}
+.cp-content{flex:1;display:flex;flex-direction:column;overflow-y:auto;background:#fafafa;min-height:0}
+.cp-expand{position:fixed;right:0;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;background:#fff;border:1px solid #e0e0e0;border-right:none;border-radius:8px 0 0 8px;padding:12px 6px;font-size:13px;font-weight:600;color:#0f6cbd;cursor:pointer;z-index:10;display:flex;align-items:center;gap:6px;box-shadow:-2px 0 8px rgba(0,0,0,0.06)}
+.cp-expand:hover{background:#f0f6ff}
+.chat{flex:0 1 auto;display:flex;flex-direction:column;padding:16px;gap:12px}
+.col{display:flex;flex-direction:column;align-items:center;width:100%}
+.msg{width:100%}
+.msg-user{background:#e8f0fe;border-radius:12px 12px 4px 12px;padding:10px 14px;font-size:13px;line-height:1.6;color:#242424;white-space:pre-wrap}
+.msg-bot{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:14px 16px}
+.msg-bot-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.msg-bot-avatar{width:24px;height:24px;border-radius:50%;background:#0f6cbd;display:flex;align-items:center;justify-content:center}
+.msg-bot-avatar svg{width:14px;height:14px;fill:#fff}
+.msg-bot-name{font-size:12px;font-weight:600;color:#242424}
+.msg-bot p{font-size:13px;line-height:1.6;color:#424242;margin:4px 0}
+.research{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1px solid #e8e8e8;border-radius:12px}
+.spinner{width:18px;height:18px;border:2.5px solid #e0e0e0;border-top-color:#0f6cbd;border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.research-text{font-size:14px;color:#616161}
-
-/* Plan card */
-.plan{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
-.plan-header{padding:16px 20px;border-bottom:1px solid #f0f0f0}
-.plan-header h3{font-size:16px;font-weight:600;margin-bottom:4px}
-.plan-header p{font-size:13px;color:#616161}
-.plan-section{padding:14px 20px;border-bottom:1px solid #f0f0f0}
-.plan-section h4{font-size:13px;font-weight:600;color:#0f6cbd;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
-.plan-section p,.plan-section li{font-size:13px;line-height:1.65;color:#424242}
-.plan-section ul{padding-left:18px;margin:4px 0}
+.research-text{font-size:13px;color:#616161}
+.plan{background:#fff;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden}
+.plan-header{padding:14px 16px;border-bottom:1px solid #f0f0f0}
+.plan-header h3{font-size:15px;font-weight:600;margin-bottom:3px}
+.plan-header p{font-size:12px;color:#616161}
+.plan-section{padding:12px 16px;border-bottom:1px solid #f0f0f0}
+.plan-section h4{font-size:12px;font-weight:600;color:#0f6cbd;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.plan-section p,.plan-section li{font-size:12px;line-height:1.6;color:#424242}
+.plan-section ul{padding-left:16px;margin:4px 0}
 .plan-section li{margin:3px 0}
-.plan-milestone{display:flex;align-items:flex-start;gap:10px;padding:10px 0}
-.ms-num{width:24px;height:24px;border-radius:50%;background:#0f6cbd;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plan-milestone{display:flex;align-items:flex-start;gap:8px;padding:8px 0}
+.ms-num{width:22px;height:22px;border-radius:50%;background:#0f6cbd;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ms-num.done{background:#1a7f37}
 .ms-num.active{background:#0f6cbd;box-shadow:0 0 0 3px rgba(15,108,189,0.2)}
 .ms-num.pending{background:#d0d0d0}
-.ms-content h5{font-size:13px;font-weight:600;color:#242424;margin-bottom:2px}
-.ms-content p{font-size:12px;color:#616161}
-.plan-actions{display:flex;gap:8px;padding:14px 20px;justify-content:flex-end;flex-wrap:wrap}
-.btn{padding:8px 18px;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #d0d0d0;background:#fff;color:#242424;transition:all 0.15s}
+.ms-content h5{font-size:12px;font-weight:600;color:#242424;margin-bottom:2px}
+.ms-content p{font-size:11px;color:#616161}
+.plan-actions{display:flex;gap:8px;padding:12px 16px;justify-content:flex-end;flex-wrap:wrap}
+.btn{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:600;border:1px solid #d0d0d0;background:#fff;color:#242424;transition:all 0.15s}
 .btn:hover{background:#f5f5f5}
 .btn-primary{background:#0f6cbd;color:#fff;border-color:#0f6cbd}
 .btn-primary:hover{background:#115ea3}
-
-/* Progress bar */
-.progress-bar{height:3px;background:#e0e0e0;border-radius:2px;margin:8px 0}
+.progress-bar{height:3px;background:#e0e0e0;border-radius:2px;margin:6px 0}
 .progress-fill{height:100%;background:#0f6cbd;border-radius:2px;transition:width 0.5s ease}
-
-/* Commit review */
-.commit{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
-.commit-header{padding:16px 20px;border-bottom:1px solid #f0f0f0}
-.commit-header h3{font-size:16px;font-weight:600;margin-bottom:4px}
-.commit-header p{font-size:13px;color:#616161}
-.commit-stats{display:flex;gap:24px;padding:14px 20px;border-bottom:1px solid #f0f0f0}
+.commit{background:#fff;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden}
+.commit-header{padding:14px 16px;border-bottom:1px solid #f0f0f0}
+.commit-header h3{font-size:15px;font-weight:600;margin-bottom:3px}
+.commit-header p{font-size:12px;color:#616161}
+.commit-stats{display:flex;gap:16px;padding:12px 16px;border-bottom:1px solid #f0f0f0;flex-wrap:wrap}
 .stat-box{display:flex;flex-direction:column;gap:2px}
-.stat-icon{font-size:18px}
-.stat-num{font-size:20px;font-weight:700;color:#242424}
-.stat-label{font-size:11px;color:#616161}
+.stat-icon{font-size:16px}
+.stat-num{font-size:18px;font-weight:700;color:#242424}
+.stat-label{font-size:10px;color:#616161}
 .file-list{padding:0}
-.file-item{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid #f0f0f0;font-size:13px;cursor:pointer}
+.file-item{display:flex;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid #f0f0f0;font-size:12px;cursor:pointer}
 .file-item:hover{background:#f9f9f9}
-.file-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+.file-badge{font-size:9px;font-weight:700;padding:2px 5px;border-radius:3px;text-transform:uppercase}
 .file-badge.mod{background:#fff3e0;color:#c77700}
 .file-badge.new{background:#e6f5ec;color:#1a7f37}
-.file-name{color:#242424;font-weight:500}
-.diff-panel{padding:16px 20px;border-bottom:1px solid #f0f0f0}
-.diff-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;font-weight:600;color:#242424}
-.diff-desc{font-size:12px;color:#616161;margin-bottom:12px}
-.diff-view{display:flex;gap:0;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;font-family:'Cascadia Code','Consolas',monospace;font-size:11px}
-.diff-side{flex:1;overflow-x:auto}
-.diff-line{display:flex;padding:1px 8px;min-height:20px;white-space:pre}
-.diff-ln{width:28px;text-align:right;color:#a0a0a0;padding-right:8px;flex-shrink:0;user-select:none}
+.file-name{color:#242424;font-weight:500;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.diff-panel{padding:14px 16px;border-bottom:1px solid #f0f0f0}
+.diff-header{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:12px;font-weight:600;color:#242424;flex-wrap:wrap}
+.diff-desc{font-size:11px;color:#616161;margin-bottom:10px;line-height:1.5}
+.diff-view{display:flex;flex-direction:column;gap:0;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;font-family:'Cascadia Code','Consolas',monospace;font-size:10px}
+.diff-side{overflow-x:auto}
+.diff-side+.diff-side{border-top:1px solid #e0e0e0}
+.diff-line{display:flex;padding:1px 6px;min-height:18px;white-space:pre}
+.diff-ln{width:24px;text-align:right;color:#a0a0a0;padding-right:6px;flex-shrink:0;user-select:none}
 .diff-old{background:#ffeef0}
 .diff-new{background:#e6ffec}
 .diff-normal{background:#fff}
-
-/* Input area */
-.input-area{padding:16px 24px 24px;border-top:1px solid #e0e0e0;background:#fff;box-shadow:0 -4px 12px rgba(0,0,0,0.04)}
-.input-box{background:#fff;border:1px solid #d0d0d0;border-radius:12px;padding:10px 14px 6px;max-width:720px;margin:0 auto}
+.diff-label{font-size:10px;font-weight:600;color:#616161;padding:3px 8px;background:#f5f5f5;border-bottom:1px solid #e0e0e0;text-transform:uppercase;letter-spacing:0.5px}
+.input-area{padding:12px 16px 16px;border-top:1px solid #e0e0e0;background:#fff;box-shadow:0 -2px 8px rgba(0,0,0,0.03);flex-shrink:0}
+.input-box{background:#fff;border:1px solid #d0d0d0;border-radius:12px;padding:8px 12px 4px}
 .input-box:focus-within{border-color:#0f6cbd;box-shadow:0 0 0 1px #0f6cbd}
-.input-box textarea{width:100%;border:none;outline:none;resize:none;font-family:inherit;font-size:14px;line-height:1.5;color:#242424;background:transparent;min-height:20px}
+.input-box textarea{width:100%;border:none;outline:none;resize:none;font-family:inherit;font-size:13px;line-height:1.5;color:#242424;background:transparent;min-height:20px}
 .input-box textarea::placeholder{color:#a0a0a0}
-.input-foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.input-foot{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .foot-left{display:flex;align-items:center;gap:2px}
-.f-btn{display:flex;align-items:center;background:none;border:none;padding:5px;color:#616161;border-radius:4px;font-size:14px}
+.f-btn{display:flex;align-items:center;background:none;border:none;padding:4px;color:#616161;border-radius:4px;font-size:13px}
 .f-btn:hover{background:#f5f5f5;color:#424242}
-.f-mode{display:flex;align-items:center;gap:4px;background:none;border:none;padding:3px 8px;color:#616161;border-radius:4px;font-size:12px}
+.f-mode{display:flex;align-items:center;gap:4px;background:none;border:none;padding:3px 6px;color:#616161;border-radius:4px;font-size:11px}
 .f-mode:hover{background:#f5f5f5;color:#424242}
-.send{display:flex;align-items:center;justify-content:center;background:#0f6cbd;color:#fff;border:none;border-radius:50%;width:28px;height:28px}
+.send{display:flex;align-items:center;justify-content:center;background:#0f6cbd;color:#fff;border:none;border-radius:50%;width:26px;height:26px}
 .send:disabled{background:#c7c7c7}
-
-/* Chips */
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
-.chip{display:inline-flex;align-items:center;gap:4px;background:#e8f0fe;border-radius:4px;padding:2px 6px 2px 8px;font-size:12px;font-weight:500;color:#0f6cbd;cursor:default}
-.chip-perm{font-size:10px;font-weight:600;padding:1px 5px;border-radius:3px;cursor:pointer;border:none;margin-left:2px;transition:background 0.15s}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.chip{display:inline-flex;align-items:center;gap:3px;background:#e8f0fe;border-radius:4px;padding:2px 5px 2px 6px;font-size:11px;font-weight:500;color:#0f6cbd;cursor:default}
+.chip-perm{font-size:10px;font-weight:600;padding:1px 4px;border-radius:3px;cursor:pointer;border:none;margin-left:2px;transition:background 0.15s}
 .chip-perm.ro{background:#e0e0e0;color:#616161}
 .chip-perm.rw{background:#e6f5ec;color:#1a7f37}
 .chip-perm:hover{filter:brightness(0.92)}
-.chip-x{background:none;border:none;color:#0f6cbd;font-size:14px;padding:0 1px;opacity:0.6}
+.chip-x{background:none;border:none;color:#0f6cbd;font-size:13px;padding:0 1px;opacity:0.6}
 .chip-x:hover{opacity:1}
-
-/* Dropdown */
 .dd-wrap{position:relative}
-.dd{position:absolute;bottom:100%;left:0;margin-bottom:4px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.14);min-width:190px;padding:4px;z-index:100}
-.dd-item{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;padding:8px 12px;font-size:13px;color:#242424;border-radius:4px;text-align:start}
+.dd{position:absolute;bottom:100%;left:0;margin-bottom:4px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.14);min-width:180px;padding:4px;z-index:100}
+.dd-item{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:7px 10px;font-size:12px;color:#242424;border-radius:4px;text-align:start}
 .dd-item:hover{background:#f5f5f5}
-
-/* Mode toggle */
-.toggle{display:inline-flex;background:#ebebeb;border-radius:8px;padding:3px;margin-bottom:20px}
-.t-btn{font-size:13px;font-weight:600;color:#616161;background:transparent;border:none;border-radius:6px;padding:6px 18px;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.toggle{display:flex;background:#ebebeb;border-radius:8px;padding:3px;margin-bottom:16px;width:100%}
+.t-btn{font-size:12px;font-weight:600;color:#616161;background:transparent;border:none;border-radius:6px;padding:6px 0;display:flex;align-items:center;justify-content:center;gap:5px;transition:all 0.2s;flex:1}
 .t-btn:hover:not(.t-act){color:#424242;background:rgba(255,255,255,0.5)}
 .t-act{background:#fff;color:#242424;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
-
-/* Greeting */
-.greet{display:flex;flex-direction:column;align-items:center;margin-bottom:8px}
-.greet h1{font-size:28px;font-weight:700;letter-spacing:-0.3px}
-.greet-row{display:flex;align-items:center;gap:14px;margin-bottom:6px}
-.greet-sub{font-size:14px;color:#616161;margin-bottom:36px}
-.dp-logo{width:52px;height:52px;object-fit:contain;margin-bottom:4px}
-.dp-name{font-size:14px;font-weight:600;color:#616161;margin-bottom:16px}
-.dp-h1{font-size:26px;font-weight:600;text-align:center;max-width:540px;line-height:1.35;margin-bottom:10px;letter-spacing:-0.2px}
-.dp-desc{font-size:13px;color:#616161;text-align:center;max-width:500px;line-height:1.6;margin-bottom:30px}
-
-/* Suggestions */
-.sugs{display:flex;gap:12px;width:100%;max-width:680px;margin-bottom:6px}
-.sug{display:flex;flex-direction:column;gap:12px;flex:1;padding:14px 16px;background:#fff;border:1px solid #e8e8e8;border-radius:12px;text-align:start;font-size:13px;font-weight:600;color:#242424;line-height:1.4;transition:border-color 0.15s,box-shadow 0.15s}
+.greet{display:flex;flex-direction:column;align-items:center;margin-bottom:6px}
+.greet h1{font-size:22px;font-weight:700;letter-spacing:-0.3px}
+.greet-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.greet-sub{font-size:13px;color:#616161;margin-bottom:24px;text-align:center}
+.dp-logo{width:44px;height:44px;object-fit:contain;margin-bottom:4px}
+.dp-name{font-size:13px;font-weight:600;color:#616161;margin-bottom:12px}
+.dp-h1{font-size:20px;font-weight:600;text-align:center;line-height:1.35;margin-bottom:8px;letter-spacing:-0.2px}
+.dp-desc{font-size:12px;color:#616161;text-align:center;line-height:1.6;margin-bottom:20px}
+.sugs{display:flex;flex-direction:column;gap:8px;width:100%;margin-bottom:6px}
+.sug{display:flex;flex-direction:column;gap:8px;padding:10px 14px;background:#fff;border:1px solid #e8e8e8;border-radius:10px;text-align:start;font-size:12px;font-weight:600;color:#242424;line-height:1.4;transition:border-color 0.15s,box-shadow 0.15s}
 .sug:hover{border-color:#d0d0d0;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
 .sug em{color:#0f6cbd;font-style:normal}
-
 .fade{animation:fadeIn 0.3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.col{display:flex;flex-direction:column;align-items:center;width:100%}
-
-/* Active projects banner */
-.active-banner{display:flex;align-items:center;gap:10px;padding:8px 16px;background:linear-gradient(90deg,#f0f6ff 0%,#f8f4ff 100%);border-bottom:1px solid #e0e8f0;font-size:13px;color:#424242;cursor:pointer;transition:background 0.15s}
+.active-banner{display:flex;align-items:center;gap:8px;padding:8px 14px;background:linear-gradient(90deg,#f0f6ff 0%,#f8f4ff 100%);border-bottom:1px solid #e0e8f0;font-size:12px;color:#424242;cursor:pointer;transition:background 0.15s}
 .active-banner:hover{background:linear-gradient(90deg,#e6effc 0%,#f0eaf8 100%)}
-.ab-dot{width:8px;height:8px;border-radius:50%;background:#0f6cbd;animation:pulse 2s ease-in-out infinite}
+.ab-dot{width:7px;height:7px;border-radius:50%;background:#0f6cbd;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
 .ab-count{font-weight:600;color:#0f6cbd}
-.ab-arrow{margin-left:auto;color:#616161;font-size:16px}
-
-/* Input glow for DP mode */
+.ab-arrow{margin-left:auto;color:#616161;font-size:14px}
 .input-box.dp-glow{border-color:#6264A7;box-shadow:0 0 0 2px rgba(98,100,167,0.15),0 0 12px rgba(98,100,167,0.08)}
 .input-box.dp-glow:focus-within{border-color:#6264A7;box-shadow:0 0 0 2px rgba(98,100,167,0.25),0 0 16px rgba(98,100,167,0.12)}
-.dp-input-label{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:600;color:#6264A7;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:6px}
-.dp-input-label .dp-il-left{display:flex;align-items:center;gap:6px}
-.dp-input-label .dp-il-dot{width:6px;height:6px;border-radius:50%;background:#6264A7;animation:pulse 2s ease-in-out infinite}
-.scope-toggle{display:inline-flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0}
-.scope-label{font-size:11px;font-weight:600;color:#616161;cursor:default}
+.dp-input-label{display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:600;color:#6264A7;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.dp-input-label .dp-il-left{display:flex;align-items:center;gap:5px}
+.dp-input-label .dp-il-dot{width:5px;height:5px;border-radius:50%;background:#6264A7;animation:pulse 2s ease-in-out infinite}
+.scope-toggle{display:inline-flex;align-items:center;gap:6px;text-transform:none;letter-spacing:0}
+.scope-label{font-size:10px;font-weight:600;color:#616161;cursor:default}
 .scope-label.scope-act{color:#242424}
-.scope-switch{position:relative;width:36px;height:20px;background:#c7c7c7;border-radius:10px;border:none;cursor:pointer;transition:background 0.2s;padding:0;flex-shrink:0}
+.scope-switch{position:relative;width:32px;height:18px;background:#c7c7c7;border-radius:9px;border:none;cursor:pointer;transition:background 0.2s;padding:0;flex-shrink:0}
 .scope-switch.on{background:#0f6cbd}
-.scope-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
-.scope-switch.on .scope-knob{transform:translateX(16px)}
-
-/* Projects panel overlay */
-.projects-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:200;display:flex;justify-content:flex-end;animation:fadeIn 0.2s ease}
-.projects-panel{width:520px;height:100%;background:#fff;box-shadow:-8px 0 32px rgba(0,0,0,0.12);display:flex;flex-direction:column;animation:slideIn 0.25s ease}
-@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
-.pp-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #e8e8e8}
-.pp-header h2{font-size:18px;font-weight:600;color:#242424}
-.pp-close{background:none;border:none;font-size:22px;color:#616161;width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center}
-.pp-close:hover{background:#f5f5f5;color:#242424}
-.pp-tabs{display:flex;gap:0;padding:0 20px;border-bottom:1px solid #e8e8e8}
-.pp-tab{padding:10px 16px;font-size:13px;color:#616161;border:none;background:none;border-bottom:2px solid transparent}
+.scope-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.15)}
+.scope-switch.on .scope-knob{transform:translateX(14px)}
+.pp-tabs{display:flex;gap:0;padding:0 16px;border-bottom:1px solid #e8e8e8}
+.pp-tab{padding:8px 12px;font-size:12px;color:#616161;border:none;background:none;border-bottom:2px solid transparent}
 .pp-tab:hover{color:#242424}
 .pp-tab.pp-active{color:#242424;font-weight:600;border-bottom-color:#0f6cbd}
-.pp-body{flex:1;overflow-y:auto;padding:12px 20px}
-.pp-card{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.pp-body{flex:1;overflow-y:auto;padding:10px 16px}
+.pp-card{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
 .pp-card:hover{border-color:#c8c8c8;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
-.pp-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
-.pp-card-title{font-size:14px;font-weight:600;color:#242424;line-height:1.3}
-.pp-status{font-size:11px;font-weight:600;padding:3px 8px;border-radius:12px;white-space:nowrap}
+.pp-card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:8px}
+.pp-card-title{font-size:13px;font-weight:600;color:#242424;line-height:1.3}
+.pp-status{font-size:10px;font-weight:600;padding:2px 7px;border-radius:12px;white-space:nowrap}
 .pp-status.running{background:#e6f0ff;color:#0f6cbd}
 .pp-status.review{background:#fff4e6;color:#c77700}
 .pp-status.done{background:#e6f5ec;color:#1a7f37}
 .pp-status.queued{background:#f0f0f0;color:#616161}
-.pp-card-desc{font-size:12px;color:#616161;line-height:1.5;margin-bottom:10px}
-.pp-card-meta{display:flex;gap:16px;font-size:11px;color:#a0a0a0}
-.pp-card-meta span{display:flex;align-items:center;gap:4px}
-.pp-card-progress{height:3px;background:#e8e8e8;border-radius:2px;margin-top:10px;overflow:hidden}
+.pp-card-desc{font-size:11px;color:#616161;line-height:1.5;margin-bottom:8px}
+.pp-card-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:10px;color:#a0a0a0}
+.pp-card-meta span{display:flex;align-items:center;gap:3px}
+.pp-card-progress{height:3px;background:#e8e8e8;border-radius:2px;margin-top:8px;overflow:hidden}
 .pp-card-progress-fill{height:100%;border-radius:2px;transition:width 0.3s ease}
-.pp-empty{text-align:center;padding:40px 20px;color:#a0a0a0;font-size:14px}
-
-/* Execution log */
-.exec-log{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
-.exec-heading{font-size:16px;font-weight:600;padding:16px 20px 12px;color:#242424}
-.exec-status{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;margin:0 16px 12px;background:#f5f5f5;border-radius:8px;font-size:13px;font-weight:600;color:#424242}
-.exec-status button{background:none;border:none;color:#616161;font-size:15px;cursor:pointer;padding:2px 4px;border-radius:4px}
+.pp-empty{text-align:center;padding:30px 16px;color:#a0a0a0;font-size:13px}
+.exec-log{background:#fff;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden}
+.exec-heading{font-size:14px;font-weight:600;padding:14px 16px 10px;color:#242424}
+.exec-status{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;margin:0 12px 10px;background:#f5f5f5;border-radius:6px;font-size:12px;font-weight:600;color:#424242}
+.exec-status button{background:none;border:none;color:#616161;font-size:13px;cursor:pointer;padding:2px 4px;border-radius:4px}
 .exec-status button:hover{background:#e8e8e8}
-.exec-entries{padding:4px 20px 16px;font-family:'Cascadia Code','Consolas','SF Mono',monospace;font-size:12.5px;line-height:1.8}
-.exec-entry{margin-bottom:14px;animation:fadeIn 0.4s ease}
+.exec-entries{padding:4px 16px 12px;font-family:'Cascadia Code','Consolas','SF Mono',monospace;font-size:11px;line-height:1.7}
+.exec-entry{margin-bottom:10px;animation:fadeIn 0.4s ease}
 .exec-tool{color:#0f6cbd;font-weight:700}
 .exec-action{color:#242424}
-.exec-detail{color:#008080;padding-left:24px}
-.exec-result{color:#1a7f37;padding-left:24px;font-weight:500}
-.exec-running{color:#616161;padding-left:24px;display:inline-flex;align-items:center;gap:6px}
-.mini-spin{width:12px;height:12px;border:2px solid #e0e0e0;border-top-color:#0f6cbd;border-radius:50%;animation:spin 0.8s linear infinite;display:inline-block;flex-shrink:0}
-.resources-bar{display:flex;align-items:center;gap:10px;padding:10px 20px;border-top:1px solid #f0f0f0;font-size:13px;color:#616161}
-.r-icons{display:flex;gap:6px}
-.r-icon{width:26px;height:26px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:background 0.15s}
+.exec-detail{color:#008080;padding-left:16px}
+.exec-result{color:#1a7f37;padding-left:16px;font-weight:500}
+.exec-running{color:#616161;padding-left:16px;display:inline-flex;align-items:center;gap:6px}
+.mini-spin{width:10px;height:10px;border:2px solid #e0e0e0;border-top-color:#0f6cbd;border-radius:50%;animation:spin 0.8s linear infinite;display:inline-block;flex-shrink:0}
+.resources-bar{display:flex;align-items:center;gap:8px;padding:8px 16px;border-top:1px solid #f0f0f0;font-size:12px;color:#616161}
+.r-icons{display:flex;gap:4px}
+.r-icon{width:24px;height:24px;background:#f0f0f0;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:background 0.15s}
 .r-icon:hover{background:#e0e0e0}
-.r-arrow{color:#616161;cursor:pointer;font-size:16px;margin-left:2px}
-.exec-feedback{display:flex;align-items:center;gap:12px;padding:10px 20px;border-top:1px solid #f0f0f0;font-size:16px;color:#a0a0a0}
-.exec-feedback button{background:none;border:none;color:#a0a0a0;font-size:16px;cursor:pointer;padding:4px;border-radius:4px}
+.r-arrow{color:#616161;cursor:pointer;font-size:14px;margin-left:2px}
+.exec-feedback{display:flex;align-items:center;gap:10px;padding:8px 16px;border-top:1px solid #f0f0f0;font-size:14px;color:#a0a0a0}
+.exec-feedback button{background:none;border:none;color:#a0a0a0;font-size:14px;cursor:pointer;padding:3px;border-radius:4px}
 .exec-feedback button:hover{color:#424242;background:#f5f5f5}
-
-/* Recap / Done body */
-.recap{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
-.recap-header{display:flex;align-items:flex-start;gap:12px;padding:20px 20px 16px}
-.recap-check{width:24px;height:24px;border-radius:50%;background:#1a7f37;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;margin-top:2px}
-.recap-title{font-size:16px;font-weight:600;color:#242424;margin-bottom:4px}
-.recap-subtitle{font-size:13px;color:#616161;line-height:1.5}
-.recap-duration{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-size:13px;color:#424242}
-.dur-badge{background:#f0f0f0;border-radius:4px;padding:3px 8px;font-size:11px;font-weight:600;color:#616161;text-transform:uppercase;letter-spacing:0.5px}
-.recap-stats{display:flex;gap:0;margin:0 20px 16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
-.recap-stat{flex:1;padding:14px 16px;border-right:1px solid #e8e8e8}
-.recap-stat:last-child{border-right:none}
-.rs-num{font-size:20px;font-weight:700;color:#242424;display:flex;align-items:center;gap:6px}
-.rs-label{font-size:12px;color:#616161;margin-top:2px}
-.rs-sub{font-size:11px;color:#a0a0a0;margin-top:1px}
-.recap-section{margin:0 20px 16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
-.recap-section-title{display:flex;align-items:center;gap:8px;padding:12px 16px;font-size:14px;font-weight:600;color:#242424;border-bottom:1px solid #f0f0f0}
-.recap-row{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px}
+.recap{background:#fff;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden}
+.recap-header{display:flex;align-items:flex-start;gap:10px;padding:16px 16px 12px}
+.recap-check{width:22px;height:22px;border-radius:50%;background:#1a7f37;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:2px}
+.recap-title{font-size:14px;font-weight:600;color:#242424;margin-bottom:3px}
+.recap-subtitle{font-size:12px;color:#616161;line-height:1.5}
+.recap-duration{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:12px;color:#424242}
+.dur-badge{background:#f0f0f0;border-radius:4px;padding:2px 6px;font-size:10px;font-weight:600;color:#616161;text-transform:uppercase;letter-spacing:0.5px}
+.recap-stats{display:flex;flex-wrap:wrap;gap:0;margin:0 16px 12px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.recap-stat{flex:1 1 45%;padding:10px 12px;border-right:1px solid #e8e8e8;border-bottom:1px solid #e8e8e8;min-width:0}
+.recap-stat:nth-child(2n){border-right:none}
+.recap-stat:nth-last-child(-n+2){border-bottom:none}
+.rs-num{font-size:16px;font-weight:700;color:#242424;display:flex;align-items:center;gap:4px}
+.rs-label{font-size:11px;color:#616161;margin-top:1px}
+.rs-sub{font-size:10px;color:#a0a0a0;margin-top:1px}
+.recap-section{margin:0 16px 12px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.recap-section-title{display:flex;align-items:center;gap:6px;padding:10px 12px;font-size:13px;font-weight:600;color:#242424;border-bottom:1px solid #f0f0f0}
+.recap-row{display:flex;align-items:center;padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:12px}
 .recap-row:last-child{border-bottom:none}
-.recap-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:3px;text-transform:uppercase;min-width:68px;text-align:center;flex-shrink:0}
+.recap-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;min-width:56px;text-align:center;flex-shrink:0}
 .recap-badge.mod{background:#fff3e0;color:#c77700}
 .recap-badge.new{background:#e6f5ec;color:#1a7f37}
 .recap-badge.loaded{background:#e6f0ff;color:#0f6cbd}
-.recap-row-name{flex:1;margin-left:12px;color:#424242}
-.recap-row-stat{color:#424242;font-weight:500;margin-right:10px;white-space:nowrap}
-.recap-row-link{color:#0f6cbd;cursor:pointer;font-size:15px;text-decoration:none;display:flex;align-items:center}
+.recap-row-name{flex:1;margin-left:8px;color:#424242;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.recap-row-stat{color:#424242;font-weight:500;margin-right:6px;white-space:nowrap;font-size:11px}
+.recap-row-link{color:#0f6cbd;cursor:pointer;font-size:14px;text-decoration:none;display:flex;align-items:center;flex-shrink:0}
 .recap-row-link:hover{color:#115ea3}
-.recap-passed{color:#1a7f37;font-weight:600;font-size:12px;display:flex;align-items:center;gap:4px;margin-left:auto;white-space:nowrap}
-.recap-actions{display:flex;gap:8px;padding:16px 20px;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid #f0f0f0}
-.recap-action{padding:8px 16px;border-radius:6px;font-size:13px;border:1px solid #d0d0d0;background:#fff;color:#242424;cursor:pointer;transition:background 0.15s}
+.recap-passed{color:#1a7f37;font-weight:600;font-size:11px;display:flex;align-items:center;gap:3px;margin-left:auto;white-space:nowrap}
+.recap-actions{display:flex;gap:6px;padding:12px 16px;justify-content:flex-end;flex-wrap:wrap;border-top:1px solid #f0f0f0}
+.recap-action{padding:6px 12px;border-radius:6px;font-size:12px;border:1px solid #d0d0d0;background:#fff;color:#242424;cursor:pointer;transition:background 0.15s}
 .recap-action:hover{background:#f5f5f5}
-
-/* Toast notifications */
-.toasts{position:fixed;top:16px;right:16px;z-index:300;display:flex;flex-direction:column;gap:10px;pointer-events:none}
-.toast{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.12);min-width:300px;max-width:380px;animation:toastIn 0.35s ease;pointer-events:auto}
-@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-.toast-top{display:flex;align-items:flex-start;gap:10px}
-.toast-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
+.toasts{position:absolute;top:8px;right:8px;z-index:300;display:flex;flex-direction:column;gap:8px;pointer-events:none;left:8px}
+.toast{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,0.12);animation:toastIn 0.35s ease;pointer-events:auto}
+@keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.toast-top{display:flex;align-items:flex-start;gap:8px}
+.toast-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px}
 .toast-icon.info{background:#e6f0ff;color:#0f6cbd}
 .toast-icon.success{background:#e6f5ec;color:#1a7f37}
-.toast-text{flex:1}
-.toast-title{font-size:14px;font-weight:600;color:#242424;margin-bottom:2px}
-.toast-body{font-size:13px;color:#616161;line-height:1.5}
-.toast-close{background:none;border:none;color:#a0a0a0;font-size:18px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.toast-text{flex:1;min-width:0}
+.toast-title{font-size:13px;font-weight:600;color:#242424;margin-bottom:2px}
+.toast-body{font-size:12px;color:#616161;line-height:1.4}
+.toast-close{background:none;border:none;color:#a0a0a0;font-size:16px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
 .toast-close:hover{color:#424242}
-.toast-actions{display:flex;gap:14px;margin-top:8px;padding-left:32px}
-.toast-actions button{background:none;border:none;color:#0f6cbd;font-size:13px;font-weight:600;cursor:pointer;padding:0}
+.toast-actions{display:flex;gap:10px;margin-top:6px;padding-left:28px}
+.toast-actions button{background:none;border:none;color:#0f6cbd;font-size:12px;font-weight:600;cursor:pointer;padding:0}
 .toast-actions button:hover{text-decoration:underline}
-.toast-source{font-size:11px;color:#a0a0a0;margin-top:6px;padding-left:32px}
-
-/* Mode dropdown - styled with icons + descriptions (slide 5) */
-.mode-dd{position:absolute;bottom:100%;left:0;margin-bottom:6px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.14);width:320px;padding:6px;z-index:100}
-.mode-item{display:flex;align-items:flex-start;gap:12px;width:100%;background:none;border:none;padding:12px 14px;color:#242424;border-radius:8px;text-align:start;cursor:pointer;transition:background 0.15s}
+.toast-source{font-size:10px;color:#a0a0a0;margin-top:4px;padding-left:28px}
+.mode-dd{position:absolute;bottom:100%;left:0;margin-bottom:6px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.14);width:280px;padding:6px;z-index:100}
+.mode-item{display:flex;align-items:flex-start;gap:10px;width:100%;background:none;border:none;padding:10px 12px;color:#242424;border-radius:8px;text-align:start;cursor:pointer;transition:background 0.15s}
 .mode-item:hover{background:#f5f5f5}
 .mode-item.mode-sel{background:#f0f6ff}
-.mode-icon{width:32px;height:32px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:1px}
+.mode-icon{width:28px;height:28px;border-radius:6px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:1px}
 .mode-item.mode-sel .mode-icon{background:#e6f0ff}
-.mode-title{font-size:13px;font-weight:600;margin-bottom:2px}
-.mode-desc{font-size:12px;color:#616161;line-height:1.4}
-
-/* Resource chip type icons (slide 4) */
-.chip-type{width:20px;height:20px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.mode-title{font-size:12px;font-weight:600;margin-bottom:2px}
+.mode-desc{font-size:11px;color:#616161;line-height:1.4}
+.chip-type{width:18px;height:18px;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
 .chip-type.lh{background:#e6f5ec;color:#1a7f37}
 .chip-type.fld{background:#fff3e0;color:#c77700}
 .chip-type.tbl{background:#e6f0ff;color:#0f6cbd}
 .chip-type.fl{background:#f0e6ff;color:#8764b8}
-
-/* Permission dropdown on chip (slide 4) */
 .chip-perm-wrap{position:relative;display:inline-flex}
-.perm-toggle{display:inline-flex;align-items:center;gap:2px;background:none;border:none;padding:2px 4px;border-radius:3px;cursor:pointer;font-size:13px;color:#616161;transition:background 0.15s}
+.perm-toggle{display:inline-flex;align-items:center;gap:2px;background:none;border:none;padding:2px 3px;border-radius:3px;cursor:pointer;font-size:12px;color:#616161;transition:background 0.15s}
 .perm-toggle:hover{background:rgba(0,0,0,0.06)}
-.perm-dd-menu{position:absolute;top:100%;right:0;margin-top:4px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);min-width:170px;padding:4px;z-index:110}
-.perm-opt{display:flex;align-items:center;gap:8px;width:100%;background:none;border:none;padding:8px 12px;font-size:13px;color:#242424;border-radius:6px;cursor:pointer;text-align:start}
+.perm-dd-menu{position:absolute;top:100%;right:0;margin-top:4px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);min-width:150px;padding:4px;z-index:110}
+.perm-opt{display:flex;align-items:center;gap:6px;width:100%;background:none;border:none;padding:7px 10px;font-size:12px;color:#242424;border-radius:6px;cursor:pointer;text-align:start}
 .perm-opt:hover{background:#f5f5f5}
-.perm-chk{width:16px;text-align:center;color:#0f6cbd;font-size:12px;font-weight:700}
-
-/* Overflow badge (slide 4) */
-.chip-overflow{display:inline-flex;align-items:center;justify-content:center;background:#f0f0f0;border-radius:4px;padding:4px 10px;font-size:12px;font-weight:600;color:#616161;cursor:pointer;border:none;transition:background 0.15s}
+.perm-chk{width:14px;text-align:center;color:#0f6cbd;font-size:11px;font-weight:700}
+.chip-overflow{display:inline-flex;align-items:center;justify-content:center;background:#f0f0f0;border-radius:4px;padding:3px 8px;font-size:11px;font-weight:600;color:#616161;cursor:pointer;border:none;transition:background 0.15s}
 .chip-overflow:hover{background:#e0e0e0}
-
-/* Health indicators in projects panel (PRD §7.3, R-2040) */
 .health-dots{display:flex;gap:3px;align-items:center}
-.health-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.health-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .health-dot.h-green{background:#1a7f37}
 .health-dot.h-yellow{background:#c77700}
 .health-dot.h-red{background:#d32f2f}
 .health-dot.h-gray{background:#d0d0d0}
-
-/* Data diffs in commit review (PRD §7.6) */
-.data-diff{padding:16px 20px;border-bottom:1px solid #f0f0f0}
-.data-diff-title{font-size:13px;font-weight:600;color:#242424;margin-bottom:12px;display:flex;align-items:center;gap:8px}
-.schema-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:16px}
-.schema-tbl th{background:#f5f5f5;padding:6px 10px;text-align:left;font-weight:600;color:#616161;border-bottom:1px solid #e0e0e0;font-size:11px}
-.schema-tbl td{padding:6px 10px;border-bottom:1px solid #f0f0f0;color:#424242}
+.data-diff{padding:14px 16px;border-bottom:1px solid #f0f0f0}
+.data-diff-title{font-size:12px;font-weight:600;color:#242424;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.schema-tbl{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:12px}
+.schema-tbl th{background:#f5f5f5;padding:5px 8px;text-align:left;font-weight:600;color:#616161;border-bottom:1px solid #e0e0e0;font-size:10px}
+.schema-tbl td{padding:5px 8px;border-bottom:1px solid #f0f0f0;color:#424242}
 .schema-add td{background:#e6f5ec}
 .schema-mod td{background:#fff3e0}
-.row-counts{display:flex;gap:12px;flex-wrap:wrap}
-.row-ct{display:flex;flex-direction:column;gap:2px;font-size:12px;color:#424242;padding:8px 12px;background:#f9f9f9;border-radius:6px;min-width:100px}
-.row-ct strong{font-size:15px;color:#242424}
-.row-ct small{color:#1a7f37;font-weight:600;font-size:11px}
-
-/* Project ID badge */
-.proj-id{font-size:10px;font-weight:500;color:#a0a0a0;font-family:'Cascadia Code','Consolas',monospace;letter-spacing:0.3px}
-
-/* Milestone progress bar */
-.ms-bar{display:flex;align-items:center;gap:0;margin-bottom:20px;max-width:720px;width:100%}
-.ms-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#a0a0a0;white-space:nowrap}
+.row-counts{display:flex;gap:8px;flex-wrap:wrap}
+.row-ct{display:flex;flex-direction:column;gap:2px;font-size:11px;color:#424242;padding:6px 10px;background:#f9f9f9;border-radius:6px;min-width:0;flex:1 1 45%}
+.row-ct strong{font-size:14px;color:#242424}
+.row-ct small{color:#1a7f37;font-weight:600;font-size:10px}
+.proj-id{font-size:9px;font-weight:500;color:#a0a0a0;font-family:'Cascadia Code','Consolas',monospace;letter-spacing:0.3px}
+.ms-bar{display:flex;align-items:center;gap:0;margin-bottom:12px;width:100%}
+.ms-item{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600;color:#a0a0a0;white-space:nowrap}
 .ms-item.msi-done{color:#1a7f37}
 .ms-item.msi-active{color:#0f6cbd}
-.ms-item .msi-dot{width:10px;height:10px;border-radius:50%;background:#d0d0d0;flex-shrink:0}
+.ms-item .msi-dot{width:8px;height:8px;border-radius:50%;background:#d0d0d0;flex-shrink:0}
 .ms-item.msi-done .msi-dot{background:#1a7f37}
-.ms-item.msi-active .msi-dot{background:#0f6cbd;box-shadow:0 0 0 3px rgba(15,108,189,0.2)}
-.ms-connector{flex:1;height:2px;background:#e0e0e0;margin:0 8px;min-width:20px}
+.ms-item.msi-active .msi-dot{background:#0f6cbd;box-shadow:0 0 0 2px rgba(15,108,189,0.2)}
+.ms-connector{flex:1;height:2px;background:#e0e0e0;margin:0 4px;min-width:12px}
 .ms-connector.msc-done{background:#1a7f37}
-
-/* Question card */
-.question-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
-.q-header{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid #f0f0f0;background:#fff8f0}
-.q-badge{width:28px;height:28px;border-radius:50%;background:#fff3e0;color:#c77700;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.q-header h3{font-size:14px;font-weight:600;color:#c77700;margin:0}
-.q-body{padding:16px 20px}
-.q-body p{font-size:14px;line-height:1.7;color:#424242;margin:0 0 16px}
-.q-options{display:flex;gap:8px;flex-wrap:wrap}
-.q-opt{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #d0d0d0;background:#fff;color:#242424;cursor:pointer;transition:all 0.15s}
+.question-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden}
+.q-header{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #f0f0f0;background:#fff8f0}
+.q-badge{width:24px;height:24px;border-radius:50%;background:#fff3e0;color:#c77700;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.q-header h3{font-size:13px;font-weight:600;color:#c77700;margin:0}
+.q-body{padding:14px 16px}
+.q-body p{font-size:13px;line-height:1.6;color:#424242;margin:0 0 12px}
+.q-options{display:flex;gap:6px;flex-wrap:wrap}
+.q-opt{padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid #d0d0d0;background:#fff;color:#242424;cursor:pointer;transition:all 0.15s}
 .q-opt:hover{border-color:#0f6cbd;background:#f0f6ff;color:#0f6cbd}
 .q-opt.q-primary{background:#0f6cbd;color:#fff;border-color:#0f6cbd}
 .q-opt.q-primary:hover{background:#115ea3}
-
-/* Light review card (M1/M2) */
-.light-review{background:#fff;border:1px solid #e8e8e8;border-radius:12px;max-width:720px;overflow:hidden}
-.lr-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #f0f0f0}
-.lr-check{width:24px;height:24px;border-radius:50%;background:#1a7f37;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.lr-title{font-size:16px;font-weight:600;color:#242424}
-.lr-body{padding:16px 20px}
-.lr-body p{font-size:14px;line-height:1.7;color:#424242;margin:0 0 12px}
-.lr-stats{display:flex;gap:0;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;margin-bottom:16px}
-.lr-stat{flex:1;padding:12px 14px;border-right:1px solid #e8e8e8;text-align:center}
+.light-review{background:#fff;border:1px solid #e8e8e8;border-radius:12px;overflow:hidden}
+.lr-header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #f0f0f0}
+.lr-check{width:22px;height:22px;border-radius:50%;background:#1a7f37;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.lr-title{font-size:14px;font-weight:600;color:#242424}
+.lr-body{padding:14px 16px}
+.lr-body p{font-size:13px;line-height:1.6;color:#424242;margin:0 0 10px}
+.lr-stats{display:flex;gap:0;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;margin-bottom:12px}
+.lr-stat{flex:1;padding:10px 10px;border-right:1px solid #e8e8e8;text-align:center}
 .lr-stat:last-child{border-right:none}
-.lr-stat-val{font-size:18px;font-weight:700;color:#242424}
-.lr-stat-label{font-size:11px;color:#616161;margin-top:2px}
-
-/* Milestone health in recap */
-.ms-health-list{margin:0 20px 16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
-.ms-health-row{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px}
+.lr-stat-val{font-size:16px;font-weight:700;color:#242424}
+.lr-stat-label{font-size:10px;color:#616161;margin-top:1px}
+.ms-health-list{margin:0 16px 12px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden}
+.ms-health-row{display:flex;align-items:center;padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:12px}
 .ms-health-row:last-child{border-bottom:none}
 .ms-health-name{flex:1;font-weight:500;color:#242424}
-.ms-health-status{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#1a7f37}
-.ms-health-monitor{font-size:12px;color:#616161;margin-left:12px}
-/* FAIO message intro */
-.faio-intro{display:flex;gap:10px;max-width:720px;width:100%;margin-bottom:12px}
-.faio-av{width:28px;height:28px;flex-shrink:0;margin-top:2px}
-.faio-name{font-size:13px;font-weight:600;color:#242424;margin-bottom:2px}
-.faio-text{font-size:14px;color:#424242;line-height:1.6;margin:0}
-
-/* Centered start input */
-.start-input{width:100%;max-width:720px;margin-bottom:24px}
-
-/* Header mode pill */
-.hdr-mode-pill{font-size:11px;font-weight:600;color:#6264A7;background:rgba(98,100,167,0.1);padding:3px 10px;border-radius:12px;margin-left:8px}
+.ms-health-status{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#1a7f37}
+.ms-health-monitor{font-size:11px;color:#616161;margin-left:8px}
+.faio-intro{display:flex;gap:8px;width:100%;margin-bottom:8px}
+.faio-av{width:24px;height:24px;flex-shrink:0;margin-top:2px}
+.faio-name{font-size:12px;font-weight:600;color:#242424;margin-bottom:2px}
+.faio-text{font-size:13px;color:#424242;line-height:1.5;margin:0}
+.start-input{width:100%;margin-bottom:16px}
+.hdr-mode-pill{font-size:10px;font-weight:600;color:#6264A7;background:rgba(98,100,167,0.1);padding:2px 8px;border-radius:12px;margin-left:6px}
 </style>
 </head>
 <body>
@@ -518,6 +497,7 @@ const MILESTONES = [
     hasMonitor:true, hasDiffs:true},
 ];
 
+
 function App() {
   const [mode, setMode] = useState('conversation');
   const [step, setStep] = useState(STEPS.START);
@@ -531,6 +511,7 @@ function App() {
   const [showProjects, setShowProjects] = useState(false);
   const [projectsTab, setProjectsTab] = useState('active');
   const [toasts, setToasts] = useState([]);
+  const [panelOpen, setPanelOpen] = useState(true);
   const ref = useRef(null);
   const chatRef = useRef(null);
   const toastId = useRef(0);
@@ -553,6 +534,7 @@ function App() {
     setPlanMode(m === 'dp' ? 'deep' : 'default');
     setCurrentMilestone(0);
     setMilestoneStatuses(['pending','pending','pending']);
+    setShowProjects(false);
   };
 
   const setPerm = (id, perm) => {
@@ -592,9 +574,9 @@ function App() {
     const msIdx = currentMilestone;
     setMilestoneStatuses(prev => {const next=[...prev];next[msIdx]='shipped';return next;});
     if (MILESTONES[msIdx].hasMonitor) {
-      addToast({type:'success', title:`${MILESTONES[msIdx].name} shipped to production`, body:'Monitor deployed · Pipeline committed to production.', actions:['View Monitor'], source:'DataProjects'});
+      addToast({type:'success', title:`${MILESTONES[msIdx].name} shipped to production`, body:'Monitor deployed \u00B7 Pipeline committed to production.', actions:['View Monitor'], source:'DataProjects'});
     } else {
-      addToast({type:'success', title:`${MILESTONES[msIdx].name} approved ✓`, body:'Milestone completed successfully.', actions:['Dismiss'], source:'DataProjects'});
+      addToast({type:'success', title:`${MILESTONES[msIdx].name} approved \u2713`, body:'Milestone completed successfully.', actions:['Dismiss'], source:'DataProjects'});
     }
     if (msIdx < MILESTONES.length - 1) {
       setTimeout(() => startMilestone(msIdx + 1), 1500);
@@ -615,12 +597,31 @@ function App() {
   const isDP = mode === 'dp';
   const planModes = {default:'Normal',deep:'Deep plan mode',auto:'Deep plan (automatic)'};
 
+  const activeProjects = SAMPLE_PROJECTS.filter(p => p.status !== 'done');
+  const completedProjects = SAMPLE_PROJECTS.filter(p => p.status === 'done');
+  const displayedProjects = projectsTab === 'active' ? activeProjects : completedProjects;
+  const progressColors = {running:'#0f6cbd',review:'#c77700',done:'#1a7f37',queued:'#d0d0d0'};
+
+  const MilestoneBar = () => (
+    <div className="ms-bar">
+      {MILESTONES.map((ms, i) => (
+        <React.Fragment key={ms.id}>
+          <div className={`ms-item ${milestoneStatuses[i]==='shipped'?'msi-done':i===currentMilestone?'msi-active':''}`}>
+            <span className="msi-dot">{milestoneStatuses[i]==='shipped'?'\u2713':''}</span>
+            <span>{ms.shortName}</span>
+          </div>
+          {i < MILESTONES.length-1 && <div className={`ms-connector ${milestoneStatuses[i]==='shipped'?'msc-done':''}`}></div>}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+
   return (
     <div className="page">
-      {/* Sidebar */}
+      {/* ── Sidebar ── */}
       <nav className="sb">
         <div className="sb-top">
-          <button className="sb-i" style={{padding:'10px 0 8px'}}><span style={{fontSize:16,color:'#424242'}}>⊞</span></button>
+          <button className="sb-i" style={{padding:'10px 0 8px'}}><span style={{fontSize:16,color:'#424242'}}>{'\u229E'}</span></button>
           <SB label="Home" icon={<svg viewBox="0 0 20 20"><path d="M10.45 2.15a.75.75 0 00-.9 0l-6.25 4.8A.75.75 0 003 7.6V16a1 1 0 001 1h3.25a.75.75 0 00.75-.75v-4.5a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v4.5c0 .414.336.75.75.75H16a1 1 0 001-1V7.6a.75.75 0 00-.3-.65l-6.25-4.8z" fill="#424242"/></svg>}/>
           <SB label="Copilot" active icon={<CopilotSmall/>}/>
           <SB label="Create" icon={<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.5"/><path d="M10 7v6M7 10h6" stroke="#424242" strokeWidth="1.5" strokeLinecap="round"/></svg>}/>
@@ -630,577 +631,704 @@ function App() {
         </div>
         <div className="sb-bot">
           <SB label="Naresh-Osmos" icon={<svg viewBox="0 0 20 20"><circle cx="8" cy="7" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M2 16c0-2.76 2.69-5 6-5s6 2.24 6 5" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>}/>
-          <div style={{padding:10,color:'#616161',fontSize:20,textAlign:'center',letterSpacing:2,cursor:'pointer'}}>···</div>
+          <div style={{padding:10,color:'#616161',fontSize:20,textAlign:'center',letterSpacing:2,cursor:'pointer'}}>{'\u00B7\u00B7\u00B7'}</div>
         </div>
       </nav>
 
-      <div className="main">
-        {/* Header */}
-        <div className="hdr">
-          <div className="hdr-tabs">
-            <button className="hdr-tab active">Copilot</button>
-            {isDP && <span className="hdr-mode-pill">📐 Project Mode</span>}
+      {/* ── Workspace Mock ── */}
+      <div className="workspace">
+        {/* Lakehouse top bar */}
+        <div className="ws-topbar">
+          <span className="ws-bc">Home</span>
+          <span className="ws-bc-sep">{'\u203A'}</span>
+          <span className="ws-bc ws-bc-active">Materialized lake views</span>
+        </div>
+        {/* Lakehouse toolbar */}
+        <div className="lh-toolbar">
+          <span className="lh-icon">⚙</span>
+          <button className="lh-tb-btn">📥 Get data ▾</button>
+          <button className="lh-tb-btn">📊 New semantic model</button>
+          <button className="lh-tb-btn">📓 Open notebook ▾</button>
+          <button className="lh-tb-btn">🤖 Add to data agent ▾</button>
+          <button className="lh-tb-btn">🔒 Manage OneLake security</button>
+          <button className="lh-tb-btn">⟳ Update all variables</button>
+        </div>
+        {/* Info banners */}
+        <div className="lh-banner">ℹ For optimal refresh to work efficiently, enable the delta CDF on both source tables and materialized lake views used as source.</div>
+        <div className="lh-banner">ℹ A SQL analytics endpoint for SQL querying was created with this item.</div>
+        {/* Lakehouse body: explorer + table view */}
+        <div className="lh-body">
+          {/* Explorer sidebar */}
+          <div className="lh-explorer">
+            <div className="lh-ex-header">
+              <strong>Explorer</strong>
+              <span style={{cursor:'pointer',color:'#616161'}}>◁</span>
+            </div>
+            <div className="lh-ex-add">Add lakehouses <span style={{color:'#616161',marginLeft:6}}>🔍</span></div>
+            <div className="lh-tree">
+              <div className="lh-tree-item lh-tree-root"><span className="lh-tree-arrow">▾</span> <span className="lh-tree-icon">🗄</span> ERP_Silver_LH</div>
+              <div className="lh-tree-group">
+                <div className="lh-tree-item"><span className="lh-tree-arrow">▾</span> 📁 Tables</div>
+                <div className="lh-tree-group">
+                  <div className="lh-tree-item"><span className="lh-tree-arrow">▾</span> 📁 dbo</div>
+                  <div className="lh-tree-group">
+                    <div className="lh-tree-item lh-tree-sel"><span className="lh-tree-leaf">⊞</span> Vendors</div>
+                    <div className="lh-tree-item"><span className="lh-tree-leaf">⊞</span> PurchaseOrders</div>
+                    <div className="lh-tree-item"><span className="lh-tree-leaf">⊞</span> PurchaseOrderLines</div>
+                    <div className="lh-tree-item"><span className="lh-tree-leaf">⊞</span> Invoices</div>
+                    <div className="lh-tree-item"><span className="lh-tree-leaf">⊞</span> Payments</div>
+                    <div className="lh-tree-item"><span className="lh-tree-leaf">⊞</span> CurrencyRates</div>
+                  </div>
+                </div>
+              </div>
+              <div className="lh-tree-item"><span className="lh-tree-arrow">▸</span> 📁 Files</div>
+            </div>
           </div>
-          <div className="hdr-right">
-            {isDP && <button onClick={()=>setShowProjects(true)} style={{fontWeight:600,color:'#0f6cbd'}}>📐 My Projects ({SAMPLE_PROJECTS.filter(p=>p.status!=='done').length})</button>}
-            <button onClick={()=>setShowProjects(true)}>Manage conversations</button>
+          {/* Table data view */}
+          <div className="lh-data">
+            <div className="lh-data-header">
+              <div className="lh-tab-bar"><span className="lh-tab-icon">⊞</span> <strong>Vendors</strong> <span className="lh-tab-close">×</span></div>
+            </div>
+            <div className="lh-data-meta">
+              <span className="lh-table-name">Vendors</span>
+              <span className="lh-row-count">Showing 1000 rows</span>
+            </div>
+            <div className="lh-view-toggle">Table view ▾</div>
+            <div className="lh-grid-wrap">
+              <table className="lh-grid">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th><span className="lh-col-type">123</span> vendor_id</th>
+                    <th><span className="lh-col-type">ABC</span> vendor_name</th>
+                    <th><span className="lh-col-type">ABC</span> country_code</th>
+                    <th><span className="lh-col-type">ABC</span> street_address</th>
+                    <th><span className="lh-col-type">ABC</span> region</th>
+                    <th><span className="lh-col-type">ABC</span> city</th>
+                    <th><span className="lh-col-type">123</span> payment_terms</th>
+                    <th><span className="lh-col-type">📅</span> last_updated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    [1,'10001','Contoso Electronics','US','1 Microsoft Way','Americas','Redmond','NET30','2026-03-09'],
+                    [2,'10002','Fabrikam Inc','US','456 Innovation Blvd','Americas','Seattle','NET45','2026-03-09'],
+                    [3,'10003','Northwind Traders','CA','789 Trade St','Americas','Toronto','NET30','2026-03-08'],
+                    [4,'10004','Adventure Works','DE','12 Bahnhofstr','Europe','Munich','NET60','2026-03-09'],
+                    [5,'10005','Litware Ltd','GB','33 High Street','Europe','London','NET30','2026-03-07'],
+                    [6,'10006','Proseware GmbH','DE','5 Industriestr','Europe','Berlin','NET45','2026-03-09'],
+                    [7,'10007','Tailspin Toys','US','88 Commerce Dr','Americas','Portland','NET30','2026-03-06'],
+                    [8,'10008','WingTip Systems','JP','2-1 Shibuya','APAC','Tokyo','NET60','2026-03-08'],
+                    [9,'10009','Datum Corp','AU','14 Harbour Rd','APAC','Sydney','NET30','2026-03-05'],
+                    [10,'10010','Coho Winery','US','99 Vineyard Ln','Americas','Napa','NET45','2026-03-09'],
+                    [11,'10011','Margie Travel','FR','7 Rue de Rivoli','Europe','Paris','NET30','2026-03-04'],
+                    [12,'10012','Relecloud SAS','FR','15 Ave Montaigne','Europe','Lyon','NET60','2026-03-09'],
+                    [13,'10013','Trey Research','US','200 Lab Pkwy','Americas','Austin','NET30','2026-03-08'],
+                    [14,'10014','Munson Pickles','US','44 Garden Way','Americas','Denver','NET45','2026-03-07'],
+                    [15,'10015','VanArsdel Ltd','NL','8 Keizersgracht','Europe','Amsterdam','NET30','2026-03-09'],
+                    [16,'10016','Bellows College','US','1 Campus Dr','Americas','Boston','NET30','2026-03-06'],
+                    [17,'10017','Graphic Design','IN','42 MG Road','APAC','Bangalore','NET60','2026-03-08'],
+                    [18,'10018','Wide World Imp','MX','55 Reforma','Americas','Mexico City','NET45','2026-03-05'],
+                  ].map((r,i)=>(
+                    <tr key={i} className={i===0?'lh-row-sel':''}>
+                      <td className="lh-row-num">{r[0]}</td>
+                      <td>{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td><td>{r[4]}</td><td>{r[5]}</td><td>{r[6]}</td><td>{r[7]}</td><td>{r[8]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="lh-statusbar"><span className="lh-status-dot">●</span> Succeeded (2 sec 278 ms) <span style={{marginLeft:'auto',color:'#616161'}}>Columns 8 Rows 8,432</span></div>
           </div>
         </div>
+      </div>
 
-        {/* Active projects banner - shows in DP mode when projects are running */}
-        {isDP && step === STEPS.START && (
-          <div className="active-banner" onClick={()=>setShowProjects(true)}>
-            <span className="ab-dot"></span>
-            <span><span className="ab-count">{SAMPLE_PROJECTS.filter(p=>p.status==='running').length} project{SAMPLE_PROJECTS.filter(p=>p.status==='running').length!==1?'s':''}</span> executing  ·  <span className="ab-count">{SAMPLE_PROJECTS.filter(p=>p.status==='review').length}</span> awaiting review</span>
-            <span className="ab-arrow">›</span>
-          </div>
-        )}
-
-        {/* Chat content */}
-        <div className="content" ref={chatRef}>
-          {step === STEPS.START && (
-            <div className="chat col fade" style={{justifyContent:'center',flex:1}}>
-              <div className="toggle">
-                <button className={`t-btn ${!isDP?'t-act':''}`} onClick={()=>switchMode('conversation')}>💬 Conversation</button>
-                <button className={`t-btn ${isDP?'t-act':''}`} onClick={()=>switchMode('dp')}>📐 DataProjects</button>
+      {/* ── Copilot Panel ── */}
+      {panelOpen ? (
+        <div className="copilot-panel">
+          {/* Panel Header */}
+          <div className="cp-header">
+            <div className="cp-header-top">
+              <div className="cp-header-left">
+                <button className="cp-collapse" onClick={()=>setPanelOpen(false)} title="Collapse panel">{'\u203A'}</button>
+                <span className="cp-title">Copilot</span>
+                {isDP && <span className="hdr-mode-pill">{'\uD83D\uDCD0'} Project Mode</span>}
               </div>
-              {!isDP ? (
-                <>
-                  <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Lydia</h1></div></div>
-                  <p className="greet-sub">Uncover insights in your data with the help of AI</p>
-                </>
-              ) : (
-                <>
-                  <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Lydia</h1></div></div>
-                  <p className="greet-sub">What would you like to build, migrate, or optimize?</p>
-                </>
-              )}
+              <div className="cp-header-actions">
+                <button title="More options">{'\u22EF'}</button>
+              </div>
+            </div>
+            <div className="cp-tabs">
+              <button className={`cp-tab ${!showProjects?'cp-tab-active':''}`} onClick={()=>setShowProjects(false)}>Chat</button>
+              <button className={`cp-tab ${showProjects?'cp-tab-active':''}`} onClick={()=>setShowProjects(true)}>Projects ({activeProjects.length})</button>
+            </div>
+          </div>
 
-              <div className="start-input">
-                {isDP && (
-                  <div className="dp-input-label" style={{maxWidth:720,margin:'0 auto 0'}}>
-                    <span className="dp-il-left">
-                      <span className="dp-il-dot"></span>
-                      Project Mode
-                    </span>
-                    <div className="scope-toggle">
-                      <span className={`scope-label ${projectScope==='my'?'scope-act':''}`}>My Project</span>
-                      <button className={`scope-switch ${projectScope==='team'?'on':''}`} onClick={()=>setProjectScope(projectScope==='my'?'team':'my')} title={projectScope==='my'?'Switch to Team Project':'Switch to My Project'}>
-                        <span className="scope-knob"></span>
-                      </button>
-                      <span className={`scope-label ${projectScope==='team'?'scope-act':''}`}>Team Project</span>
+          {/* ── Chat Tab ── */}
+          {!showProjects && (
+            <>
+              <div className="cp-content" ref={chatRef}>
+                {step === STEPS.START && (
+                  <div className="chat col fade" style={{justifyContent:'center',flex:1}}>
+                    <div className="toggle">
+                      <button className={`t-btn ${!isDP?'t-act':''}`} onClick={()=>switchMode('conversation')}>{'\uD83D\uDCAC'} Conversation</button>
+                      <button className={`t-btn ${isDP?'t-act':''}`} onClick={()=>switchMode('dp')}>{'\uD83D\uDCD0'} DataProjects</button>
                     </div>
+                    {!isDP ? (
+                      <>
+                        <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Lydia</h1></div></div>
+                        <p className="greet-sub">Uncover insights in your data with the help of AI</p>
+                      </>
+                    ) : (
+                      <>
+                        <div className="greet"><div className="greet-row"><CopilotLogo/><h1>Hi Lydia</h1></div></div>
+                        <p className="greet-sub">What would you like to build, migrate, or optimize?</p>
+                      </>
+                    )}
+
+                    {isDP && step === STEPS.START && (
+                      <div className="active-banner" onClick={()=>setShowProjects(true)} style={{borderRadius:8,marginBottom:12}}>
+                        <span className="ab-dot"></span>
+                        <span><span className="ab-count">{SAMPLE_PROJECTS.filter(p=>p.status==='running').length}</span> executing  {'\u00B7'}  <span className="ab-count">{SAMPLE_PROJECTS.filter(p=>p.status==='review').length}</span> awaiting review</span>
+                        <span className="ab-arrow">{'\u203A'}</span>
+                      </div>
+                    )}
+
+                    <div className="start-input">
+                      {isDP && (
+                        <div className="dp-input-label">
+                          <span className="dp-il-left">
+                            <span className="dp-il-dot"></span>
+                            Project Mode
+                          </span>
+                          <div className="scope-toggle">
+                            <span className={`scope-label ${projectScope==='my'?'scope-act':''}`}>My</span>
+                            <button className={`scope-switch ${projectScope==='team'?'on':''}`} onClick={()=>setProjectScope(projectScope==='my'?'team':'my')} title={projectScope==='my'?'Switch to Team Project':'Switch to My Project'}>
+                              <span className="scope-knob"></span>
+                            </button>
+                            <span className={`scope-label ${projectScope==='team'?'scope-act':''}`}>Team</span>
+                          </div>
+                        </div>
+                      )}
+                      <div className={`input-box${isDP ? ' dp-glow' : ''}`}>
+                        {isDP && resources.length > 0 && (
+                          <div className="chips">
+                            {resources.slice(0, MAX_VISIBLE).map(r => (
+                              <span key={r.id} className="chip">
+                                <span className={`chip-type ${TYPE_CSS[r.type]||'tbl'}`}>{TYPE_ICONS[r.type]||'\u229E'}</span>
+                                {r.name}
+                                <span className="chip-perm-wrap">
+                                  <button className="perm-toggle" onClick={e=>{e.stopPropagation();setPermDropdownId(permDropdownId===r.id?null:r.id)}}>
+                                    {r.perm==='ro'?'\u2702':'\u270F'}<span style={{fontSize:9,marginLeft:1}}>{'\u25BE'}</span>
+                                  </button>
+                                  {permDropdownId===r.id && (
+                                    <div className="perm-dd-menu">
+                                      <button className="perm-opt" onClick={()=>setPerm(r.id,'ro')}>
+                                        <span className="perm-chk">{r.perm==='ro'?'\u2713':'\u00A0'}</span>
+                                        {'\u2702'} Read-only
+                                      </button>
+                                      <button className="perm-opt" onClick={()=>setPerm(r.id,'rw')}>
+                                        <span className="perm-chk">{r.perm==='rw'?'\u2713':'\u00A0'}</span>
+                                        {'\u270F'} Read & write
+                                      </button>
+                                    </div>
+                                  )}
+                                </span>
+                                <button className="chip-x" onClick={()=>setResources(x=>x.filter(y=>y.id!==r.id))}>{'\u00D7'}</button>
+                              </span>
+                            ))}
+                            {resources.length > MAX_VISIBLE && (
+                              <button className="chip-overflow" title={resources.slice(MAX_VISIBLE).map(r=>r.name).join(', ')}>+{resources.length - MAX_VISIBLE}</button>
+                            )}
+                          </div>
+                        )}
+                        <textarea ref={ref} placeholder={isDP?'Describe your project or provide instructions...':'Ask a question about your data'} value={text} onChange={e=>{setText(e.target.value);e.target.style.height='auto';e.target.style.height=e.target.scrollHeight+'px'}} rows={isDP?3:1}/>
+                        <div className="input-foot">
+                          <div className="foot-left">
+                            <div className="dd-wrap">
+                              <button className="f-btn" onClick={()=>setAddOpen(!addOpen)}>+</button>
+                              {addOpen && <div className="dd">
+                                <button className="dd-item" onClick={()=>setAddOpen(false)}>{'\uD83D\uDDC4'} OneLake catalog</button>
+                                <button className="dd-item" onClick={()=>setAddOpen(false)}>{'\uD83D\uDCE4'} Upload files</button>
+                              </div>}
+                            </div>
+                            <div className="dd-wrap">
+                              <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{isDP ? (planMode==='default'?'\u26A1':planMode==='deep'?'\u2699':'\uD83E\uDD16') : '\u26A1'} {isDP ? planModes[planMode] : 'Default mode'} {'\u25BE'}</button>
+                              {modeOpen && <div className="mode-dd">
+                                <button className={`mode-item ${!isDP?'mode-sel':''}`} onClick={()=>{if(isDP)switchMode('conversation');setPlanMode('default');setModeOpen(false)}}>
+                                  <span className="mode-icon">{'\u26A1'}</span>
+                                  <div><div className="mode-title">Default mode</div><div className="mode-desc">Standard Copilot conversation for quick questions and tasks</div></div>
+                                </button>
+                                <div style={{height:1,background:'#e8e8e8',margin:'4px 12px'}}></div>
+                                <div style={{padding:'8px 12px 4px',fontSize:10,fontWeight:600,color:'#a0a0a0',textTransform:'uppercase',letterSpacing:'0.5px'}}>Project Modes</div>
+                                <button className={`mode-item ${isDP && planMode==='default'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('default');setModeOpen(false)}}>
+                                  <span className="mode-icon">{'\u26A1'}</span>
+                                  <div><div className="mode-title">Normal</div><div className="mode-desc">Starts a lightweight plan immediately and runs in the background</div></div>
+                                </button>
+                                <button className={`mode-item ${isDP && planMode==='deep'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('deep');setModeOpen(false)}}>
+                                  <span className="mode-icon">{'\u2699'}</span>
+                                  <div><div className="mode-title">Deep plan</div><div className="mode-desc">Builds a detailed plan and waits for your approval before running</div></div>
+                                </button>
+                                <button className={`mode-item ${isDP && planMode==='auto'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('auto');setModeOpen(false)}}>
+                                  <span className="mode-icon">{'\uD83E\uDD16'}</span>
+                                  <div><div className="mode-title">Deep plan (automatic)</div><div className="mode-desc">Builds a detailed plan and runs it automatically</div></div>
+                                </button>
+                              </div>}
+                            </div>
+                          </div>
+                          <button className="send" disabled={!text.trim()} onClick={submit}>{'\u2192'}</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {!isDP && (
+                      <div className="sugs">
+                        <button className="sug" onClick={()=>setText('Find reports about [a topic]')}><span style={{color:'#0f6cbd'}}>{'\u2726'}</span><span>Find reports about <em>[a topic]</em></span></button>
+                        <button className="sug" onClick={()=>setText('Prep a summary for my team')}><span style={{color:'#8764b8'}}>{'\u2726'}</span><span>Prep a summary about <em>report</em></span></button>
+                        <button className="sug" onClick={()=>setText('What can Copilot help me with?')}><span style={{color:'#d83b01'}}>{'\u2726'}</span><span>What can Copilot help me with?</span></button>
+                      </div>
+                    )}
+                    {isDP && (
+                      <div className="sugs">
+                        <button className="sug" onClick={()=>setText('Migrate 2,000 tables from Teradata to Fabric')}>{'\uD83D\uDCC4'} Migrate Teradata to Fabric</button>
+                        <button className="sug" onClick={()=>setText('Run data quality assessment across 500 tables')}>{'\uD83D\uDCC4'} Run data quality assessment</button>
+                        <button className="sug" onClick={()=>setText('Consolidate 130 ERP systems into unified lakehouse')}>{'\uD83D\uDCC4'} Consolidate ERP data sources</button>
+                      </div>
+                    )}
                   </div>
                 )}
-                <div className={`input-box${isDP ? ' dp-glow' : ''}`}>
-                  {isDP && resources.length > 0 && (
-                    <div className="chips">
-                      {resources.slice(0, MAX_VISIBLE).map(r => (
-                        <span key={r.id} className="chip">
-                          <span className={`chip-type ${TYPE_CSS[r.type]||'tbl'}`}>{TYPE_ICONS[r.type]||'⊞'}</span>
-                          {r.name}
-                          <span className="chip-perm-wrap">
-                            <button className="perm-toggle" onClick={e=>{e.stopPropagation();setPermDropdownId(permDropdownId===r.id?null:r.id)}}>
-                              {r.perm==='ro'?'✂':'✏'}<span style={{fontSize:9,marginLeft:1}}>▾</span>
-                            </button>
-                            {permDropdownId===r.id && (
-                              <div className="perm-dd-menu">
-                                <button className="perm-opt" onClick={()=>setPerm(r.id,'ro')}>
-                                  <span className="perm-chk">{r.perm==='ro'?'✓':'\u00A0'}</span>
-                                  ✂ Read-only
-                                </button>
-                                <button className="perm-opt" onClick={()=>setPerm(r.id,'rw')}>
-                                  <span className="perm-chk">{r.perm==='rw'?'✓':'\u00A0'}</span>
-                                  ✏ Read & write
-                                </button>
-                              </div>
-                            )}
-                          </span>
-                          <button className="chip-x" onClick={()=>setResources(x=>x.filter(y=>y.id!==r.id))}>×</button>
-                        </span>
-                      ))}
-                      {resources.length > MAX_VISIBLE && (
-                        <button className="chip-overflow" title={resources.slice(MAX_VISIBLE).map(r=>r.name).join(', ')}>+{resources.length - MAX_VISIBLE}</button>
-                      )}
-                    </div>
-                  )}
-                  <textarea ref={ref} placeholder={isDP?'Describe your project or provide instructions...':'Ask a question about your data'} value={text} onChange={e=>{setText(e.target.value);e.target.style.height='auto';e.target.style.height=e.target.scrollHeight+'px'}} rows={isDP?3:1}/>
-                  <div className="input-foot">
-                    <div className="foot-left">
-                      <div className="dd-wrap">
-                        <button className="f-btn" onClick={()=>setAddOpen(!addOpen)}>+</button>
-                        {addOpen && <div className="dd">
-                          <button className="dd-item" onClick={()=>setAddOpen(false)}>🗄 OneLake catalog</button>
-                          <button className="dd-item" onClick={()=>setAddOpen(false)}>📤 Upload files</button>
-                        </div>}
-                      </div>
-                      <div className="dd-wrap">
-                        <button className="f-mode" onClick={()=>setModeOpen(!modeOpen)}>{isDP ? (planMode==='default'?'⚡':planMode==='deep'?'⚙':'🤖') : '⚡'} {isDP ? planModes[planMode] : 'Default mode'} ▾</button>
-                        {modeOpen && <div className="mode-dd">
-                          <button className={`mode-item ${!isDP?'mode-sel':''}`} onClick={()=>{if(isDP)switchMode('conversation');setPlanMode('default');setModeOpen(false)}}>
-                            <span className="mode-icon">⚡</span>
-                            <div><div className="mode-title">Default mode</div><div className="mode-desc">Standard Copilot conversation for quick questions and tasks</div></div>
-                          </button>
-                          <div style={{height:1,background:'#e8e8e8',margin:'4px 12px'}}></div>
-                          <div style={{padding:'8px 14px 4px',fontSize:11,fontWeight:600,color:'#a0a0a0',textTransform:'uppercase',letterSpacing:'0.5px'}}>Project Modes</div>
-                          <button className={`mode-item ${isDP && planMode==='default'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('default');setModeOpen(false)}}>
-                            <span className="mode-icon">⚡</span>
-                            <div><div className="mode-title">Normal</div><div className="mode-desc">Starts a lightweight plan immediately and runs in the background</div></div>
-                          </button>
-                          <button className={`mode-item ${isDP && planMode==='deep'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('deep');setModeOpen(false)}}>
-                            <span className="mode-icon">⚙</span>
-                            <div><div className="mode-title">Deep plan</div><div className="mode-desc">Builds a detailed plan and waits for your approval before running</div></div>
-                          </button>
-                          <button className={`mode-item ${isDP && planMode==='auto'?'mode-sel':''}`} onClick={()=>{if(!isDP)switchMode('dp');setPlanMode('auto');setModeOpen(false)}}>
-                            <span className="mode-icon">🤖</span>
-                            <div><div className="mode-title">Deep plan (automatic)</div><div className="mode-desc">Builds a detailed plan and runs it automatically</div></div>
-                          </button>
-                        </div>}
+
+                {step !== STEPS.START && (
+                  <div className="chat fade" style={{justifyContent:'flex-start'}}>
+                    {/* User message */}
+                    <div className="msg">
+                      <div className="msg-user">
+                        {resources.length > 0 && <div className="chips" style={{marginBottom:6}}>{resources.map(r=><span key={r.id} className="chip">{r.name}</span>)}</div>}
+                        {DEFAULT_TEXT}
                       </div>
                     </div>
-                    <button className="send" disabled={!text.trim()} onClick={submit}>→</button>
-                  </div>
-                </div>
-              </div>
 
-              {!isDP && (
-                <div className="sugs">
-                  <button className="sug" onClick={()=>setText('Find reports about [a topic]')}><span style={{color:'#0f6cbd'}}>✦</span><span>Find reports about <em>[a topic]</em></span></button>
-                  <button className="sug" onClick={()=>setText('Prep a summary for my team')}><span style={{color:'#8764b8'}}>✦</span><span>Prep a summary about <em>report</em></span></button>
-                  <button className="sug" onClick={()=>setText('What can Copilot help me with?')}><span style={{color:'#d83b01'}}>✦</span><span>What can Copilot help me with?</span></button>
-                </div>
-              )}
-              {isDP && (
-                <div className="sugs">
-                  <button className="sug" onClick={()=>setText('Migrate 2,000 tables from Teradata to Fabric')}>📄 Migrate Teradata to Fabric</button>
-                  <button className="sug" onClick={()=>setText('Run data quality assessment across 500 tables')}>📄 Run data quality assessment</button>
-                  <button className="sug" onClick={()=>setText('Consolidate 130 ERP systems into unified lakehouse')}>📄 Consolidate ERP data sources</button>
-                </div>
-              )}
-            </div>
-          )}
+                    {(step === STEPS.SUBMITTED || step === STEPS.RESEARCHING) && <FAIOIntro text="Setting up your DataProject. Analyzing resources and planning the approach..." />}
 
-          {step !== STEPS.START && (
-            <div className="chat fade" style={{justifyContent:'flex-start'}}>
-              {/* User message */}
-              <div className="msg">
-                <div className="msg-user">
-                  {resources.length > 0 && <div className="chips" style={{marginBottom:8}}>{resources.map(r=><span key={r.id} className="chip">{r.name}</span>)}</div>}
-                  {DEFAULT_TEXT}
-                </div>
-              </div>
-
-              {(step === STEPS.SUBMITTED || step === STEPS.RESEARCHING) && <FAIOIntro text="Setting up your DataProject. Analyzing resources and planning the approach..." />}
-
-              {/* Researching */}
-              {(step === STEPS.SUBMITTED || step === STEPS.RESEARCHING) && (
-                <div className="research fade">
-                  <div className="spinner"></div>
-                  <span className="research-text">{step === STEPS.SUBMITTED ? 'Starting...' : 'Beginning research... Scanning SAP R3 dump, analyzing table structures, mapping P2P entities'}</span>
-                </div>
-              )}
-
-              {step === STEPS.PLAN && <FAIOIntro text="I've created a DataProject and the orchestrator has built an execution plan. Review and approve to begin." />}
-
-              {/* Plan */}
-              {step === STEPS.PLAN && (
-                <div className="plan fade">
-                  <div className="plan-header">
-                    <h3>SAP P2P Silver Ingestion Plan</h3>
-                    <p>Deep plan mode · 3 milestones identified · <span className="proj-id">DP-20260309-001</span></p>
-                  </div>
-                  <div className="plan-section">
-                    <h4>Understanding</h4>
-                    <p>You want to ingest Procure-to-Pay data from an SAP R3 dump into normalized Silver tables. The source is a raw dump in the Bronze lakehouse. I will create a medallion pipeline with validation, transformation, and quality checks.</p>
-                  </div>
-                  <div className="plan-section">
-                    <h4>Discovery</h4>
-                    <ul>
-                      <li>Found 4 source tables in ERP_Dump: EKKO (PO headers), EKPO (PO items), LFA1 (Vendors), BSEG (Invoices)</li>
-                      <li>P2P Business Rules.xlsx has 23 mapping rules and 12 validation constraints</li>
-                      <li>Target tables: Vendors, PurchaseOrders, PurchaseOrderLines, Invoices</li>
-                    </ul>
-                  </div>
-                  <div className="plan-section">
-                    <h4>Execution Plan - Milestones</h4>
-                    {MILESTONES.map((ms,i)=>(
-                      <div className="plan-milestone" key={ms.id}>
-                        <div className="ms-num pending">{i+1}</div>
-                        <div className="ms-content"><h5>{ms.name}</h5><p>{ms.desc}</p></div>
+                    {(step === STEPS.SUBMITTED || step === STEPS.RESEARCHING) && (
+                      <div className="research fade">
+                        <div className="spinner"></div>
+                        <span className="research-text">{step === STEPS.SUBMITTED ? 'Starting...' : 'Beginning research... Scanning SAP R3 dump, analyzing table structures'}</span>
                       </div>
-                    ))}
-                  </div>
-                  <div className="plan-section">
-                    <h4>What I'll Produce</h4>
-                    <ul>
-                      <li>5 PySpark notebooks (transformations, quality checks, orchestrator)</li>
-                      <li>4 Silver Delta tables with schema enforcement</li>
-                      <li>1 production monitor per milestone (freshness, row counts, null rates)</li>
-                      <li>Data lineage from Bronze → Silver for all tables</li>
-                    </ul>
-                  </div>
-                  <div className="plan-actions">
-                    <button className="btn" onClick={()=>setStep(STEPS.START)}>Edit the plan</button>
-                    <button className="btn btn-primary" onClick={()=>startMilestone(0)}>Execute plan</button>
-                  </div>
-                </div>
-              )}
+                    )}
 
-              {step === STEPS.EXECUTING && <FAIOIntro text={`The DataProjects orchestrator is executing ${MILESTONES[currentMilestone].name}. I'll relay progress updates below.`} />}
+                    {step === STEPS.PLAN && <FAIOIntro text="I've created a DataProject and the orchestrator has built an execution plan. Review and approve to begin." />}
 
-              {/* Executing - streaming tool call log */}
-              {step === STEPS.EXECUTING && (
-                <div style={{marginTop:16,maxWidth:720,width:'100%'}}>
-                  <div className="ms-bar">
-                    {MILESTONES.map((ms, i) => (
-                      <React.Fragment key={ms.id}>
-                        <div className={`ms-item ${milestoneStatuses[i]==='shipped'?'msi-done':i===currentMilestone?'msi-active':''}`}>
-                          <span className="msi-dot">{milestoneStatuses[i]==='shipped'?'✓':''}</span>
-                          <span>{ms.shortName}</span>
+                    {step === STEPS.PLAN && (
+                      <div className="plan fade">
+                        <div className="plan-header">
+                          <h3>SAP P2P Silver Ingestion Plan</h3>
+                          <p>Deep plan mode {'\u00B7'} 3 milestones {'\u00B7'} <span className="proj-id">DP-20260309-001</span></p>
                         </div>
-                        {i < MILESTONES.length-1 && <div className={`ms-connector ${milestoneStatuses[i]==='shipped'?'msc-done':''}`}></div>}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                  <div className="exec-log fade">
-                    <div className="exec-heading">Executing {MILESTONES[currentMilestone].name}...</div>
-                    <div className="exec-status">
-                      <span>{execStep < MILESTONES[currentMilestone].execSteps.length ? 'Running...' : '✓ Complete'}</span>
-                      <button title="Copy log">📋</button>
-                    </div>
-                    <div className="exec-entries">
-                      {MILESTONES[currentMilestone].execSteps.map((s, i) => {
-                        if (i > execStep) return null;
-                        const isComplete = i < execStep;
-                        const isRunning = i === execStep && execStep < MILESTONES[currentMilestone].execSteps.length;
-                        return (
-                          <div className="exec-entry" key={i}>
-                            <div><span className="exec-tool">[{s.tool}]</span> <span className="exec-action">{s.action}</span></div>
-                            {s.detail && <div className="exec-detail">{'\u00A0\u00A0\u00A0\u00A0'}{s.detail}</div>}
-                            {isComplete && <div className="exec-result">{'\u00A0\u00A0\u00A0\u00A0'}✓ {s.result}</div>}
-                            {isRunning && !s.detail && <div className="exec-running"><span className="mini-spin"></span></div>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                    <div className="resources-bar">
-                      <span>Resources</span>
-                      <div className="r-icons">
-                        <span className="r-icon">📊</span>
-                        <span className="r-icon">📈</span>
-                        <span className="r-icon">🔗</span>
-                      </div>
-                      <span className="r-arrow">›</span>
-                    </div>
-                    <div className="exec-feedback">
-                      <button title="Copy">📋</button>
-                      <button title="Share">↗</button>
-                      <button title="Like">👍</button>
-                      <button title="Dislike">👎</button>
-                      <button title="More">···</button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {step === STEPS.QUESTION && <FAIOIntro text="The DataProjects orchestrator needs your input to continue." />}
-
-              {/* Question - input needed from user */}
-              {step === STEPS.QUESTION && MILESTONES[currentMilestone].question && (
-                <div style={{marginTop:16,maxWidth:720,width:'100%'}}>
-                  <div className="ms-bar">
-                    {MILESTONES.map((ms, i) => (
-                      <React.Fragment key={ms.id}>
-                        <div className={`ms-item ${milestoneStatuses[i]==='shipped'?'msi-done':i===currentMilestone?'msi-active':''}`}>
-                          <span className="msi-dot">{milestoneStatuses[i]==='shipped'?'✓':''}</span>
-                          <span>{ms.shortName}</span>
+                        <div className="plan-section">
+                          <h4>Understanding</h4>
+                          <p>You want to ingest Procure-to-Pay data from an SAP R3 dump into normalized Silver tables. I will create a medallion pipeline with validation, transformation, and quality checks.</p>
                         </div>
-                        {i < MILESTONES.length-1 && <div className={`ms-connector ${milestoneStatuses[i]==='shipped'?'msc-done':''}`}></div>}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                  <div className="question-card fade">
-                    <div className="q-header">
-                      <div className="q-badge">⚠</div>
-                      <h3>Input Needed — {MILESTONES[currentMilestone].name}</h3>
-                    </div>
-                    <div className="q-body">
-                      <p style={{whiteSpace:'pre-line'}}>{MILESTONES[currentMilestone].question.text}</p>
-                      <div className="q-options">
-                        {MILESTONES[currentMilestone].question.options.map((opt, i) => (
-                          <button key={i} className={`q-opt ${i===0?'q-primary':''}`} onClick={()=>answerQuestion(i)}>{opt}</button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {step === STEPS.REVIEW && <FAIOIntro text={`${MILESTONES[currentMilestone].name} is complete. Review the results below before approving.`} />}
-
-              {/* Commit review - milestone aware */}
-              {step === STEPS.REVIEW && (
-                <div style={{marginTop:16,maxWidth:720,width:'100%'}}>
-                  <div className="ms-bar">
-                    {MILESTONES.map((ms, i) => (
-                      <React.Fragment key={ms.id}>
-                        <div className={`ms-item ${milestoneStatuses[i]==='shipped'?'msi-done':i===currentMilestone?'msi-active':''}`}>
-                          <span className="msi-dot">{milestoneStatuses[i]==='shipped'?'✓':''}</span>
-                          <span>{ms.shortName}</span>
+                        <div className="plan-section">
+                          <h4>Discovery</h4>
+                          <ul>
+                            <li>Found 4 source tables in ERP_Dump: EKKO, EKPO, LFA1, BSEG</li>
+                            <li>P2P Business Rules.xlsx has 23 mapping rules and 12 validation constraints</li>
+                            <li>Target tables: Vendors, PurchaseOrders, PurchaseOrderLines, Invoices</li>
+                          </ul>
                         </div>
-                        {i < MILESTONES.length-1 && <div className={`ms-connector ${milestoneStatuses[i]==='shipped'?'msc-done':''}`}></div>}
-                      </React.Fragment>
-                    ))}
-                  </div>
-
-                  {MILESTONES[currentMilestone].hasDiffs ? (
-                    <div className="commit fade">
-                      <div className="commit-header">
-                        <h3>{MILESTONES[currentMilestone].reviewTitle}</h3>
-                        <p>{MILESTONES[currentMilestone].reviewSummary} · <span className="proj-id">DP-20260309-001</span></p>
-                      </div>
-                      <div className="commit-stats">
-                        <div className="stat-box"><div className="stat-icon">📓</div><div className="stat-num">5</div><div className="stat-label">Notebooks</div></div>
-                        <div className="stat-box"><div className="stat-icon">📊</div><div className="stat-num">4</div><div className="stat-label">Tables loaded</div></div>
-                      </div>
-                      <div className="file-list">
-                        <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">sap_mm_transformations.pynb</span></div>
-                        <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">data_quality_checks.pynb</span></div>
-                        <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">silver_table_writer.pynb</span></div>
-                        <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_invoice_matching.pynb</span></div>
-                        <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_orchestrator.pynb</span></div>
-                      </div>
-                      <div className="diff-panel">
-                        <div className="diff-header">⟨/⟩ Notebook diff &nbsp;&nbsp;<span style={{fontWeight:400,color:'#616161'}}>data_quality_checks.pynb</span></div>
-                        <div className="diff-desc">Added 12 validation rules including mandatory field checks, amount validations, referential integrity between PO header/items</div>
-                        <div className="diff-view">
-                          <div className="diff-side">
-                            <div className="diff-line diff-old"><span className="diff-ln">6</span>declare @vendorId varchar(5)</div>
-                            <div className="diff-line diff-old"><span className="diff-ln">7</span>declare @DynamicSQL varchar(80</div>
-                            <div className="diff-line diff-normal"><span className="diff-ln">8</span></div>
-                            <div className="diff-line diff-old"><span className="diff-ln">9</span>-- Get the partition to backup</div>
-                            <div className="diff-line diff-old"><span className="diff-ln">10</span>select @vendorId = dbo.getPart</div>
-                          </div>
-                          <div className="diff-side" style={{borderLeft:'1px solid #e0e0e0'}}>
-                            <div className="diff-line diff-new"><span className="diff-ln">6</span>-- AutoFix: replace the partiti</div>
-                            <div className="diff-line diff-new"><span className="diff-ln">7</span>declare @dt datetime2;</div>
-                            <div className="diff-line diff-normal"><span className="diff-ln">8</span>declare @DynamicSQL varchar(80</div>
-                            <div className="diff-line diff-new"><span className="diff-ln">9</span>set @dt = getdate();</div>
-                            <div className="diff-line diff-new"><span className="diff-ln">10</span>set @DynamicSQL = 'CREATE TABL</div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="data-diff">
-                        <div className="data-diff-title">📊 Data Diffs — Schema & Row Changes</div>
-                        <table className="schema-tbl">
-                          <thead><tr><th>Column</th><th>Type</th><th>Change</th></tr></thead>
-                          <tbody>
-                            <tr className="schema-add"><td>transaction_amount_usd</td><td>DECIMAL(18,2)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
-                            <tr className="schema-add"><td>currency_code</td><td>VARCHAR(3)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
-                            <tr className="schema-mod"><td>vendor_name</td><td>VARCHAR(100) → VARCHAR(200)</td><td style={{color:'#c77700',fontWeight:600}}>~ Modified</td></tr>
-                            <tr><td>vendor_id</td><td>INT</td><td style={{color:'#a0a0a0'}}>—</td></tr>
-                            <tr><td>po_number</td><td>VARCHAR(20)</td><td style={{color:'#a0a0a0'}}>—</td></tr>
-                          </tbody>
-                        </table>
-                        <div className="row-counts">
-                          <div className="row-ct"><span>Vendors</span><strong>8,432</strong><small>+8,432 new</small></div>
-                          <div className="row-ct"><span>PurchaseOrders</span><strong>45,891</strong><small>+45,891 new</small></div>
-                          <div className="row-ct"><span>Invoices</span><strong>32,156</strong><small>+32,156 new</small></div>
-                          <div className="row-ct"><span>PO Lines</span><strong>187,234</strong><small>+187,234 new</small></div>
-                        </div>
-                      </div>
-                      <div className="plan-actions">
-                        <button className="btn">Request clarifications</button>
-                        <button className="btn btn-primary" onClick={approveMilestone}>Approve & Ship to Production →</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="light-review fade">
-                      <div className="lr-header">
-                        <div className="lr-check">✓</div>
-                        <span className="lr-title">{MILESTONES[currentMilestone].reviewTitle}</span>
-                      </div>
-                      <div className="lr-body">
-                        <p>{MILESTONES[currentMilestone].reviewSummary}</p>
-                        <div className="lr-stats">
-                          {MILESTONES[currentMilestone].reviewStats.map((s,i)=>(
-                            <div className="lr-stat" key={i}>
-                              <div className="lr-stat-val">{s.value}</div>
-                              <div className="lr-stat-label">{s.label}</div>
+                        <div className="plan-section">
+                          <h4>Execution Plan - Milestones</h4>
+                          {MILESTONES.map((ms,i)=>(
+                            <div className="plan-milestone" key={ms.id}>
+                              <div className="ms-num pending">{i+1}</div>
+                              <div className="ms-content"><h5>{ms.name}</h5><p>{ms.desc}</p></div>
                             </div>
                           ))}
                         </div>
-                        <div style={{display:'flex',justifyContent:'flex-end'}}>
-                          <button className="btn btn-primary" onClick={approveMilestone}>Approve {MILESTONES[currentMilestone].shortName} →</button>
+                        <div className="plan-section">
+                          <h4>What I'll Produce</h4>
+                          <ul>
+                            <li>5 PySpark notebooks (transformations, quality checks, orchestrator)</li>
+                            <li>4 Silver Delta tables with schema enforcement</li>
+                            <li>1 production monitor per milestone</li>
+                            <li>Data lineage from Bronze {'\u2192'} Silver for all tables</li>
+                          </ul>
+                        </div>
+                        <div className="plan-actions">
+                          <button className="btn" onClick={()=>setStep(STEPS.START)}>Edit the plan</button>
+                          <button className="btn btn-primary" onClick={()=>startMilestone(0)}>Execute plan</button>
                         </div>
                       </div>
+                    )}
+
+                    {step === STEPS.EXECUTING && <FAIOIntro text={`The DataProjects orchestrator is executing ${MILESTONES[currentMilestone].name}. Progress updates below.`} />}
+
+                    {step === STEPS.EXECUTING && (
+                      <div style={{marginTop:8,width:'100%'}}>
+                        <MilestoneBar />
+                        <div className="exec-log fade">
+                          <div className="exec-heading">Executing {MILESTONES[currentMilestone].name}...</div>
+                          <div className="exec-status">
+                            <span>{execStep < MILESTONES[currentMilestone].execSteps.length ? 'Running...' : '\u2713 Complete'}</span>
+                            <button title="Copy log">{'\uD83D\uDCCB'}</button>
+                          </div>
+                          <div className="exec-entries">
+                            {MILESTONES[currentMilestone].execSteps.map((s, i) => {
+                              if (i > execStep) return null;
+                              const isComplete = i < execStep;
+                              const isRunning = i === execStep && execStep < MILESTONES[currentMilestone].execSteps.length;
+                              return (
+                                <div className="exec-entry" key={i}>
+                                  <div><span className="exec-tool">[{s.tool}]</span> <span className="exec-action">{s.action}</span></div>
+                                  {s.detail && <div className="exec-detail">{'\u00A0\u00A0\u00A0\u00A0'}{s.detail}</div>}
+                                  {isComplete && <div className="exec-result">{'\u00A0\u00A0\u00A0\u00A0'}{'\u2713'} {s.result}</div>}
+                                  {isRunning && !s.detail && <div className="exec-running"><span className="mini-spin"></span></div>}
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <div className="resources-bar">
+                            <span>Resources</span>
+                            <div className="r-icons">
+                              <span className="r-icon">{'\uD83D\uDCCA'}</span>
+                              <span className="r-icon">{'\uD83D\uDCC8'}</span>
+                              <span className="r-icon">{'\uD83D\uDD17'}</span>
+                            </div>
+                            <span className="r-arrow">{'\u203A'}</span>
+                          </div>
+                          <div className="exec-feedback">
+                            <button title="Copy">{'\uD83D\uDCCB'}</button>
+                            <button title="Share">{'\u2197'}</button>
+                            <button title="Like">{'\uD83D\uDC4D'}</button>
+                            <button title="Dislike">{'\uD83D\uDC4E'}</button>
+                            <button title="More">{'\u00B7\u00B7\u00B7'}</button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {step === STEPS.QUESTION && <FAIOIntro text="The DataProjects orchestrator needs your input to continue." />}
+
+                    {step === STEPS.QUESTION && MILESTONES[currentMilestone].question && (
+                      <div style={{marginTop:8,width:'100%'}}>
+                        <MilestoneBar />
+                        <div className="question-card fade">
+                          <div className="q-header">
+                            <div className="q-badge">{'\u26A0'}</div>
+                            <h3>Input Needed {'\u2014'} {MILESTONES[currentMilestone].name}</h3>
+                          </div>
+                          <div className="q-body">
+                            <p style={{whiteSpace:'pre-line'}}>{MILESTONES[currentMilestone].question.text}</p>
+                            <div className="q-options">
+                              {MILESTONES[currentMilestone].question.options.map((opt, i) => (
+                                <button key={i} className={`q-opt ${i===0?'q-primary':''}`} onClick={()=>answerQuestion(i)}>{opt}</button>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {step === STEPS.REVIEW && <FAIOIntro text={`${MILESTONES[currentMilestone].name} is complete. Review the results below before approving.`} />}
+
+                    {step === STEPS.REVIEW && (
+                      <div style={{marginTop:8,width:'100%'}}>
+                        <MilestoneBar />
+                        {MILESTONES[currentMilestone].hasDiffs ? (
+                          <div className="commit fade">
+                            <div className="commit-header">
+                              <h3>{MILESTONES[currentMilestone].reviewTitle}</h3>
+                              <p>{MILESTONES[currentMilestone].reviewSummary} {'\u00B7'} <span className="proj-id">DP-20260309-001</span></p>
+                            </div>
+                            <div className="commit-stats">
+                              <div className="stat-box"><div className="stat-icon">{'\uD83D\uDCD3'}</div><div className="stat-num">5</div><div className="stat-label">Notebooks</div></div>
+                              <div className="stat-box"><div className="stat-icon">{'\uD83D\uDCCA'}</div><div className="stat-num">4</div><div className="stat-label">Tables loaded</div></div>
+                            </div>
+                            <div className="file-list">
+                              <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">sap_mm_transformations.pynb</span></div>
+                              <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">data_quality_checks.pynb</span></div>
+                              <div className="file-item"><span className="file-badge mod">modified</span><span className="file-name">silver_table_writer.pynb</span></div>
+                              <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_invoice_matching.pynb</span></div>
+                              <div className="file-item"><span className="file-badge new">new</span><span className="file-name">p2p_orchestrator.pynb</span></div>
+                            </div>
+                            <div className="diff-panel">
+                              <div className="diff-header">{'\u27E8'}/{'\u27E9'} Notebook diff &nbsp;<span style={{fontWeight:400,color:'#616161'}}>data_quality_checks.pynb</span></div>
+                              <div className="diff-desc">Added 12 validation rules including mandatory field checks, amount validations, referential integrity</div>
+                              <div className="diff-view">
+                                <div className="diff-label">Before</div>
+                                <div className="diff-side">
+                                  <div className="diff-line diff-old"><span className="diff-ln">6</span>declare @vendorId varchar(5)</div>
+                                  <div className="diff-line diff-old"><span className="diff-ln">7</span>declare @DynamicSQL varchar(80</div>
+                                  <div className="diff-line diff-normal"><span className="diff-ln">8</span></div>
+                                  <div className="diff-line diff-old"><span className="diff-ln">9</span>-- Get the partition to backup</div>
+                                  <div className="diff-line diff-old"><span className="diff-ln">10</span>select @vendorId = dbo.getPart</div>
+                                </div>
+                                <div className="diff-label">After</div>
+                                <div className="diff-side">
+                                  <div className="diff-line diff-new"><span className="diff-ln">6</span>-- AutoFix: replace the partiti</div>
+                                  <div className="diff-line diff-new"><span className="diff-ln">7</span>declare @dt datetime2;</div>
+                                  <div className="diff-line diff-normal"><span className="diff-ln">8</span>declare @DynamicSQL varchar(80</div>
+                                  <div className="diff-line diff-new"><span className="diff-ln">9</span>set @dt = getdate();</div>
+                                  <div className="diff-line diff-new"><span className="diff-ln">10</span>set @DynamicSQL = 'CREATE TABL</div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="data-diff">
+                              <div className="data-diff-title">{'\uD83D\uDCCA'} Data Diffs {'\u2014'} Schema & Row Changes</div>
+                              <table className="schema-tbl">
+                                <thead><tr><th>Column</th><th>Type</th><th>Change</th></tr></thead>
+                                <tbody>
+                                  <tr className="schema-add"><td>transaction_amount_usd</td><td>DECIMAL(18,2)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
+                                  <tr className="schema-add"><td>currency_code</td><td>VARCHAR(3)</td><td style={{color:'#1a7f37',fontWeight:600}}>+ Added</td></tr>
+                                  <tr className="schema-mod"><td>vendor_name</td><td>VARCHAR(100){'\u2192'}(200)</td><td style={{color:'#c77700',fontWeight:600}}>~ Modified</td></tr>
+                                  <tr><td>vendor_id</td><td>INT</td><td style={{color:'#a0a0a0'}}>{'\u2014'}</td></tr>
+                                  <tr><td>po_number</td><td>VARCHAR(20)</td><td style={{color:'#a0a0a0'}}>{'\u2014'}</td></tr>
+                                </tbody>
+                              </table>
+                              <div className="row-counts">
+                                <div className="row-ct"><span>Vendors</span><strong>8,432</strong><small>+8,432 new</small></div>
+                                <div className="row-ct"><span>PurchaseOrders</span><strong>45,891</strong><small>+45,891 new</small></div>
+                                <div className="row-ct"><span>Invoices</span><strong>32,156</strong><small>+32,156 new</small></div>
+                                <div className="row-ct"><span>PO Lines</span><strong>187,234</strong><small>+187,234 new</small></div>
+                              </div>
+                            </div>
+                            <div className="plan-actions">
+                              <button className="btn">Request clarifications</button>
+                              <button className="btn btn-primary" onClick={approveMilestone}>Approve & Ship {'\u2192'}</button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="light-review fade">
+                            <div className="lr-header">
+                              <div className="lr-check">{'\u2713'}</div>
+                              <span className="lr-title">{MILESTONES[currentMilestone].reviewTitle}</span>
+                            </div>
+                            <div className="lr-body">
+                              <p>{MILESTONES[currentMilestone].reviewSummary}</p>
+                              <div className="lr-stats">
+                                {MILESTONES[currentMilestone].reviewStats.map((s,i)=>(
+                                  <div className="lr-stat" key={i}>
+                                    <div className="lr-stat-val">{s.value}</div>
+                                    <div className="lr-stat-label">{s.label}</div>
+                                  </div>
+                                ))}
+                              </div>
+                              <div style={{display:'flex',justifyContent:'flex-end'}}>
+                                <button className="btn btn-primary" onClick={approveMilestone}>Approve {MILESTONES[currentMilestone].shortName} {'\u2192'}</button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {step === STEPS.DONE && <FAIOIntro text="Your DataProject is complete! Here's the full execution summary." />}
+
+                    {step === STEPS.DONE && (
+                      <div className="recap fade" style={{marginTop:8}}>
+                        <div className="recap-header">
+                          <div className="recap-check">{'\u2713'}</div>
+                          <div>
+                            <div className="recap-title">Execution Summary: SAP P2P Silver Ingestion</div>
+                            <div className="recap-subtitle">Notebooks deployed and data loaded to Silver lakehouse.</div>
+                            <div className="recap-duration"><span className="dur-badge">DURATION</span> 4 hours 32 minutes</div>
+                          </div>
+                        </div>
+
+                        <div className="recap-stats">
+                          <div className="recap-stat">
+                            <div className="rs-num">{'\uD83D\uDCD3'} 5</div>
+                            <div className="rs-label">Notebooks</div>
+                            <div className="rs-sub">3 modified {'\u00B7'} 2 new</div>
+                          </div>
+                          <div className="recap-stat">
+                            <div className="rs-num">{'\uD83D\uDCCA'} 4</div>
+                            <div className="rs-label">Tables loaded</div>
+                            <div className="rs-sub">273,713 total rows</div>
+                          </div>
+                          <div className="recap-stat">
+                            <div className="rs-num" style={{color:'#1a7f37'}}>{'\u2713'} 4/4</div>
+                            <div className="rs-label">Validations passed</div>
+                            <div className="rs-sub">All reported as passing</div>
+                          </div>
+                        </div>
+
+                        <div className="ms-health-list">
+                          {MILESTONES.map((ms,i)=>(
+                            <div className="ms-health-row" key={ms.id}>
+                              <span className="ms-health-name">{ms.name}</span>
+                              <span className="ms-health-status">{'\u2713'} Shipped</span>
+                              {ms.hasMonitor && <span className="ms-health-monitor">{'\uD83D\uDFE2'} Monitor healthy</span>}
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="recap-section">
+                          <div className="recap-section-title">{'\uD83D\uDCD3'} Notebooks</div>
+                          {[
+                            {badge:'mod',name:'sap_mm_transformations.pynb',stat:'+147'},
+                            {badge:'mod',name:'data_quality_checks.pynb',stat:'+64 / -18'},
+                            {badge:'mod',name:'silver_table_writer.pynb',stat:'+23'},
+                            {badge:'new',name:'p2p_invoice_matching.pynb',stat:'+89'},
+                            {badge:'new',name:'p2p_orchestrator.pynb',stat:'+56'},
+                          ].map((f,i)=>(
+                            <div className="recap-row" key={i}>
+                              <span className={`recap-badge ${f.badge}`}>{f.badge==='mod'?'MODIFIED':'NEW'}</span>
+                              <span className="recap-row-name">{f.name}</span>
+                              <span className="recap-row-stat">{f.stat}</span>
+                              <a className="recap-row-link" title="Open">{'\u2197'}</a>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="recap-section">
+                          <div className="recap-section-title">{'\uD83D\uDCCA'} Tables</div>
+                          {[
+                            {name:'/ERP_Normalized/Vendors',rows:'8,432 rows'},
+                            {name:'/ERP_Normalized/PurchaseOrders',rows:'45,891 rows'},
+                            {name:'/ERP_Normalized/PurchaseOrderLines',rows:'187,234 rows'},
+                            {name:'/ERP_Normalized/Invoices',rows:'32,156 rows'},
+                          ].map((t,i)=>(
+                            <div className="recap-row" key={i}>
+                              <span className="recap-badge loaded">LOADED</span>
+                              <span className="recap-row-name">{t.name}</span>
+                              <span className="recap-row-stat">{t.rows}</span>
+                              <a className="recap-row-link" title="Open">{'\u2197'}</a>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="recap-section">
+                          <div className="recap-section-title">{'\u2713'} Validations</div>
+                          {[
+                            {name:'Schema Validation',extra:null},
+                            {name:'Referential Integrity',extra:null},
+                            {name:'Data Quality Checks',extra:'99.2% pass rate'},
+                            {name:'Row Count Verification',extra:null},
+                          ].map((v,i)=>(
+                            <div className="recap-row" key={i}>
+                              <span className="recap-row-name" style={{marginLeft:0}}>{v.name}</span>
+                              {v.extra && <span style={{color:'#616161',fontSize:11,marginRight:6}}>{v.extra}</span>}
+                              <span className="recap-passed">{'\u2713'} PASSED</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="resources-bar">
+                          <span>Resources</span>
+                          <div className="r-icons">
+                            <span className="r-icon">{'\uD83D\uDCCA'}</span>
+                            <span className="r-icon">{'\uD83D\uDCC8'}</span>
+                            <span className="r-icon">{'\uD83D\uDD17'}</span>
+                          </div>
+                          <span className="r-arrow">{'\u203A'}</span>
+                        </div>
+
+                        <div className="exec-feedback">
+                          <button title="Copy">{'\uD83D\uDCCB'}</button>
+                          <button title="Share">{'\u2197'}</button>
+                          <button title="Like">{'\uD83D\uDC4D'}</button>
+                          <button title="Dislike">{'\uD83D\uDC4E'}</button>
+                          <button title="More">{'\u00B7\u00B7\u00B7'}</button>
+                        </div>
+
+                        <div className="recap-actions">
+                          <button className="recap-action" onClick={()=>setStep(STEPS.START)}>Archive this DataProject</button>
+                          <button className="recap-action">Continue with improvements</button>
+                          <button className="recap-action" onClick={()=>{setStep(STEPS.START);switchMode('dp')}}>Start a new DataProject</button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Input at bottom (non-START) */}
+              {step !== STEPS.START && (
+                <div className="input-area">
+                  <div className="input-box">
+                    <textarea placeholder="Ask Copilot a follow-up..." rows={1}/>
+                    <div className="input-foot">
+                      <div className="foot-left"><button className="f-btn">+</button></div>
+                      <button className="send" disabled>{'\u2192'}</button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ── Projects Tab ── */}
+          {showProjects && (
+            <div style={{display:'flex',flexDirection:'column',flex:1,overflow:'hidden'}}>
+              <div className="pp-tabs">
+                <button className={`pp-tab ${projectsTab==='active'?'pp-active':''}`} onClick={()=>setProjectsTab('active')}>Active ({activeProjects.length})</button>
+                <button className={`pp-tab ${projectsTab==='completed'?'pp-active':''}`} onClick={()=>setProjectsTab('completed')}>Archived ({completedProjects.length})</button>
+              </div>
+              <div className="pp-body">
+                {displayedProjects.length === 0 ? (
+                  <div className="pp-empty">No {projectsTab} projects</div>
+                ) : (
+                  displayedProjects.map(p => (
+                    <div className="pp-card" key={p.id} onClick={()=>setShowProjects(false)}>
+                      <div className="pp-card-top">
+                        <div>
+                          <span className="pp-card-title">{p.name}</span>
+                          {p.projId && <div className="proj-id">{p.projId}</div>}
+                        </div>
+                        <span className={`pp-status ${p.status}`}>{p.statusLabel}</span>
+                      </div>
+                      <div className="pp-card-desc">{p.desc}</div>
+                      <div className="pp-card-meta">
+                        <span>{'\uD83D\uDD50'} {p.started}</span>
+                        <span>{'\u21BB'} {p.updated}</span>
+                        <span>{'\uD83D\uDCCC'} {p.milestones} ms</span>
+                        {p.health && p.health.length > 0 && (
+                          <span style={{display:'flex',alignItems:'center',gap:3}}>
+                            <span className="health-dots">{p.health.map((h,i)=><span key={i} className={`health-dot h-${h}`}></span>)}</span>
+                          </span>
+                        )}
+                      </div>
+                      {p.status !== 'done' && p.status !== 'queued' && (
+                        <div className="pp-card-progress">
+                          <div className="pp-card-progress-fill" style={{width:`${p.progress}%`,background:progressColors[p.status]}}></div>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Toasts inside panel */}
+          {toasts.length > 0 && (
+            <div className="toasts">
+              {toasts.map(t => (
+                <div className="toast" key={t.id}>
+                  <div className="toast-top">
+                    <div className={`toast-icon ${t.type}`}>{t.type === 'success' ? '\u2713' : '\u2139'}</div>
+                    <div className="toast-text">
+                      <div className="toast-title">{t.title}</div>
+                      <div className="toast-body">{t.body}</div>
+                    </div>
+                    <button className="toast-close" onClick={() => removeToast(t.id)}>{'\u00D7'}</button>
+                  </div>
+                  {t.actions && (
+                    <div className="toast-actions">
+                      {t.actions.map((a, i) => <button key={i} onClick={() => removeToast(t.id)}>{a}</button>)}
                     </div>
                   )}
+                  {t.source && <div className="toast-source">{t.source}</div>}
                 </div>
-              )}
-
-              {step === STEPS.DONE && <FAIOIntro text="Your DataProject is complete! Here's the full execution summary." />}
-
-              {/* Recap / Execution Summary */}
-              {step === STEPS.DONE && (
-                <div className="recap fade" style={{marginTop:16}}>
-                  <div className="recap-header">
-                    <div className="recap-check">✓</div>
-                    <div>
-                      <div className="recap-title">Execution Summary: SAP P2P Silver Ingestion</div>
-                      <div className="recap-subtitle">Notebooks deployed and data loaded to Silver lakehouse. Links to artifacts are available below.</div>
-                      <div className="recap-duration"><span className="dur-badge">DURATION</span> 4 hours 32 minutes</div>
-                    </div>
-                  </div>
-
-                  <div className="recap-stats">
-                    <div className="recap-stat">
-                      <div className="rs-num">📓 5</div>
-                      <div className="rs-label">Notebooks</div>
-                      <div className="rs-sub">3 modified · 2 new</div>
-                    </div>
-                    <div className="recap-stat">
-                      <div className="rs-num">📊 4</div>
-                      <div className="rs-label">Tables loaded</div>
-                      <div className="rs-sub">273,713 total rows</div>
-                    </div>
-                    <div className="recap-stat">
-                      <div className="rs-num" style={{color:'#1a7f37'}}>✓ 4/4</div>
-                      <div className="rs-label">Validations passed</div>
-                      <div className="rs-sub">All reported as passing</div>
-                    </div>
-                  </div>
-
-                  <div className="ms-health-list">
-                    {MILESTONES.map((ms,i)=>(
-                      <div className="ms-health-row" key={ms.id}>
-                        <span className="ms-health-name">{ms.name}</span>
-                        <span className="ms-health-status">✓ Shipped</span>
-                        {ms.hasMonitor && <span className="ms-health-monitor">🟢 Monitor healthy</span>}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="recap-section">
-                    <div className="recap-section-title">📓 Notebooks</div>
-                    {[
-                      {badge:'mod',name:'sap_mm_transformations.pynb',stat:'+147'},
-                      {badge:'mod',name:'data_quality_checks.pynb',stat:'+64 / -18'},
-                      {badge:'mod',name:'silver_table_writer.pynb',stat:'+23'},
-                      {badge:'new',name:'p2p_invoice_matching.pynb',stat:'+89'},
-                      {badge:'new',name:'p2p_orchestrator.pynb',stat:'+56'},
-                    ].map((f,i)=>(
-                      <div className="recap-row" key={i}>
-                        <span className={`recap-badge ${f.badge}`}>{f.badge==='mod'?'MODIFIED':'NEW'}</span>
-                        <span className="recap-row-name">{f.name}</span>
-                        <span className="recap-row-stat">{f.stat}</span>
-                        <a className="recap-row-link" title="Open">↗</a>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="recap-section">
-                    <div className="recap-section-title">📊 Tables</div>
-                    {[
-                      {name:'/ERP_Normalized/Vendors',rows:'8,432 rows'},
-                      {name:'/ERP_Normalized/PurchaseOrders',rows:'45,891 rows'},
-                      {name:'/ERP_Normalized/PurchaseOrderLines',rows:'187,234 rows'},
-                      {name:'/ERP_Normalized/Invoices',rows:'32,156 rows'},
-                    ].map((t,i)=>(
-                      <div className="recap-row" key={i}>
-                        <span className="recap-badge loaded">LOADED</span>
-                        <span className="recap-row-name">{t.name}</span>
-                        <span className="recap-row-stat">{t.rows}</span>
-                        <a className="recap-row-link" title="Open">↗</a>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="recap-section">
-                    <div className="recap-section-title">✓ Validations</div>
-                    {[
-                      {name:'Schema Validation',extra:null},
-                      {name:'Referential Integrity',extra:null},
-                      {name:'Data Quality Checks',extra:'99.2% pass rate'},
-                      {name:'Row Count Verification',extra:null},
-                    ].map((v,i)=>(
-                      <div className="recap-row" key={i}>
-                        <span className="recap-row-name" style={{marginLeft:0}}>{v.name}</span>
-                        {v.extra && <span style={{color:'#616161',fontSize:12,marginRight:8}}>{v.extra}</span>}
-                        <span className="recap-passed">✓ PASSED</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="resources-bar">
-                    <span>Resources</span>
-                    <div className="r-icons">
-                      <span className="r-icon">📊</span>
-                      <span className="r-icon">📈</span>
-                      <span className="r-icon">🔗</span>
-                    </div>
-                    <span className="r-arrow">›</span>
-                  </div>
-
-                  <div className="exec-feedback">
-                    <button title="Copy">📋</button>
-                    <button title="Share">↗</button>
-                    <button title="Like">👍</button>
-                    <button title="Dislike">👎</button>
-                    <button title="More">···</button>
-                  </div>
-
-                  <div className="recap-actions">
-                    <button className="recap-action" onClick={()=>setStep(STEPS.START)}>Archive this DataProject</button>
-                    <button className="recap-action">Continue with improvements</button>
-                    <button className="recap-action" onClick={()=>{setStep(STEPS.START);switchMode('dp')}}>Start a new DataProject</button>
-                  </div>
-                </div>
-              )}
+              ))}
             </div>
           )}
         </div>
-
-        {/* Input — bottom follow-up bar (hidden on START) */}
-        {step !== STEPS.START && (
-          <div className="input-area">
-            <div className="input-box">
-              <textarea placeholder="Ask Copilot a follow-up..." rows={1}/>
-              <div className="input-foot">
-                <div className="foot-left"><button className="f-btn">+</button></div>
-                <button className="send" disabled>→</button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Toasts */}
-      {toasts.length > 0 && (
-        <div className="toasts">
-          {toasts.map(t => (
-            <div className="toast" key={t.id}>
-              <div className="toast-top">
-                <div className={`toast-icon ${t.type}`}>{t.type === 'success' ? '✓' : 'ℹ'}</div>
-                <div className="toast-text">
-                  <div className="toast-title">{t.title}</div>
-                  <div className="toast-body">{t.body}</div>
-                </div>
-                <button className="toast-close" onClick={() => removeToast(t.id)}>×</button>
-              </div>
-              {t.actions && (
-                <div className="toast-actions">
-                  {t.actions.map((a, i) => <button key={i} onClick={() => removeToast(t.id)}>{a}</button>)}
-                </div>
-              )}
-              {t.source && <div className="toast-source">{t.source}</div>}
-            </div>
-          ))}
-        </div>
+      ) : (
+        <button className="cp-expand" onClick={()=>setPanelOpen(true)}>{'\u2039'} Copilot</button>
       )}
-
-      {/* Projects Panel */}
-      {showProjects && <ProjectsPanel onClose={()=>setShowProjects(false)} tab={projectsTab} setTab={setProjectsTab}/>}
     </div>
   );
 }
@@ -1215,64 +1343,6 @@ function CopilotSmall() {
 
 function CopilotLogo() {
   return <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 6L9 12.5v5.5l11 6.5 11-6.5v-5.5L20 6z" fill="#6264A7" opacity=".85"/><path d="M20 18L9 11.5V18l11 6.5V18z" fill="#E74856" opacity=".85"/><path d="M20 18l11-6.5V18l-11 6.5V18z" fill="#05A6F0" opacity=".85"/><path d="M20 6l11 6.5L20 18 9 12.5 20 6z" fill="#FFB900" opacity=".9"/><path d="M20 24.5l11-6.5v5l-11 6.5v-5z" fill="#05A6F0" opacity=".6"/><path d="M20 24.5L9 18v5l11 6.5v-5z" fill="#E74856" opacity=".6"/></svg>;
-}
-
-function ProjectsPanel({onClose, tab, setTab}) {
-  const activeProjects = SAMPLE_PROJECTS.filter(p => p.status !== 'done');
-  const completedProjects = SAMPLE_PROJECTS.filter(p => p.status === 'done');
-  const displayed = tab === 'active' ? activeProjects : completedProjects;
-
-  const statusColors = {running:'#0f6cbd',review:'#c77700',done:'#1a7f37',queued:'#616161'};
-  const progressColors = {running:'#0f6cbd',review:'#c77700',done:'#1a7f37',queued:'#d0d0d0'};
-
-  return (
-    <div className="projects-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="projects-panel">
-        <div className="pp-header">
-          <h2>My Data Projects</h2>
-          <button className="pp-close" onClick={onClose}>×</button>
-        </div>
-        <div className="pp-tabs">
-          <button className={`pp-tab ${tab==='active'?'pp-active':''}`} onClick={()=>setTab('active')}>Active ({activeProjects.length})</button>
-          <button className={`pp-tab ${tab==='completed'?'pp-active':''}`} onClick={()=>setTab('completed')}>Archived ({completedProjects.length})</button>
-        </div>
-        <div className="pp-body">
-          {displayed.length === 0 ? (
-            <div className="pp-empty">No {tab} projects</div>
-          ) : (
-            displayed.map(p => (
-              <div className="pp-card" key={p.id} onClick={onClose}>
-                <div className="pp-card-top">
-                  <div>
-                    <span className="pp-card-title">{p.name}</span>
-                    {p.projId && <div className="proj-id">{p.projId}</div>}
-                  </div>
-                  <span className={`pp-status ${p.status}`}>{p.statusLabel}</span>
-                </div>
-                <div className="pp-card-desc">{p.desc}</div>
-                <div className="pp-card-meta">
-                  <span>🕐 Started {p.started}</span>
-                  <span>↻ {p.updated}</span>
-                  <span>📌 {p.milestones} milestones</span>
-                  {p.health && p.health.length > 0 && (
-                    <span style={{display:'flex',alignItems:'center',gap:4}}>
-                      <span style={{fontSize:11}}>Health</span>
-                      <span className="health-dots">{p.health.map((h,i)=><span key={i} className={`health-dot h-${h}`}></span>)}</span>
-                    </span>
-                  )}
-                </div>
-                {p.status !== 'done' && p.status !== 'queued' && (
-                  <div className="pp-card-progress">
-                    <div className="pp-card-progress-fill" style={{width:`${p.progress}%`,background:progressColors[p.status]}}></div>
-                  </div>
-                )}
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function FAIOIntro({text}) {
