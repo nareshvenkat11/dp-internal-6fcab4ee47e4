@@ -623,10 +623,10 @@ function App() {
         <div className="sb-top">
           <button className="sb-i" style={{padding:'10px 0 8px'}}><span style={{fontSize:16,color:'#424242'}}>{'\u229E'}</span></button>
           <SB label="Home" icon={<svg viewBox="0 0 20 20"><path d="M10.45 2.15a.75.75 0 00-.9 0l-6.25 4.8A.75.75 0 003 7.6V16a1 1 0 001 1h3.25a.75.75 0 00.75-.75v-4.5a.75.75 0 01.75-.75h2.5a.75.75 0 01.75.75v4.5c0 .414.336.75.75.75H16a1 1 0 001-1V7.6a.75.75 0 00-.3-.65l-6.25-4.8z" fill="#424242"/></svg>}/>
-          <SB label="Copilot" active icon={<CopilotSmall/>}/>
+          <SB label="Copilot" icon={<CopilotSmall/>}/>
           <SB label="Create" icon={<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.5"/><path d="M10 7v6M7 10h6" stroke="#424242" strokeWidth="1.5" strokeLinecap="round"/></svg>}/>
           <SB label="Browse" icon={<svg viewBox="0 0 20 20"><path d="M2 5.5A1.5 1.5 0 013.5 4h3.59a1.5 1.5 0 011.06.44L9.56 5.85a.5.5 0 00.35.15H16.5A1.5 1.5 0 0118 7.5v7a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 012 14.5v-9z" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>}/>
-          <SB label="OneLake" icon={<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.3"/><circle cx="10" cy="10" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>}/>
+          <SB label="OneLake" active icon={<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7" fill="none" stroke="#424242" strokeWidth="1.3"/><circle cx="10" cy="10" r="3" fill="none" stroke="#424242" strokeWidth="1.3"/></svg>}/>
           <SB label="Workspaces" icon={<svg viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="12" rx="1.5" fill="none" stroke="#424242" strokeWidth="1.3"/><path d="M3 8h14" stroke="#424242" strokeWidth="1.3"/></svg>}/>
         </div>
         <div className="sb-bot">
@@ -802,11 +802,11 @@ function App() {
                             Project Mode
                           </span>
                           <div className="scope-toggle">
-                            <span className={`scope-label ${projectScope==='my'?'scope-act':''}`}>My</span>
+                            <span className={`scope-label ${projectScope==='my'?'scope-act':''}`}>My Project</span>
                             <button className={`scope-switch ${projectScope==='team'?'on':''}`} onClick={()=>setProjectScope(projectScope==='my'?'team':'my')} title={projectScope==='my'?'Switch to Team Project':'Switch to My Project'}>
                               <span className="scope-knob"></span>
                             </button>
-                            <span className={`scope-label ${projectScope==='team'?'scope-act':''}`}>Team</span>
+                            <span className={`scope-label ${projectScope==='team'?'scope-act':''}`}>Team Project</span>
                           </div>
                         </div>
                       )}
